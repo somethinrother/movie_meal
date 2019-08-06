@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2019_08_06_200340) do
   enable_extension "plpgsql"
 
   create_table "movies", force: :cascade do |t|
-    t.string "name"
+    t.string "title"
     t.string "writers"
     t.integer "year"
     t.boolean "is_scraped"
