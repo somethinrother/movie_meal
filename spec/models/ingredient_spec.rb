@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe Movie, type: :model do
+RSpec.describe Ingredient, type: :model do
   subject do
-    build(:movie)
+    build(:ingredient)
   end
 
   describe 'when saving' do
@@ -13,9 +13,9 @@ RSpec.describe Movie, type: :model do
     end
 
     context 'with invalid attributes' do
-      it 'fails when the title is not unique' do
-        movie = create(:movie, title: subject.title)
-        movie.save
+      it 'fails when the name is not unique' do
+        ingredient = create(:ingredient, name: subject.name)
+        ingredient.save
         expect(subject).to_not be_valid
       end
     end
