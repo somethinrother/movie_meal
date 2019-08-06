@@ -13,4 +13,8 @@ FactoryBot.define do
     year { 1984 }
     is_scraped { false }
   end
+
+  factory :ingredient do
+    name { generate(:name) }
+  end
 end
