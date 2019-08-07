@@ -11,7 +11,7 @@ RSpec.describe IngredientMention, type: :model do
         ingredient = Ingredient.new(name: 'Test Ingredient')
         movie = Movie.new(title: 'Test Movie')
         ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
-        expect(ingredient_mention.ingredient_id).to eq(ingredient.id)
+        expect(ingredient_mention.movie_id).to eq(movie.id)
       end
     end
     context 'with ingredients' do
@@ -19,7 +19,7 @@ RSpec.describe IngredientMention, type: :model do
         ingredient = Ingredient.new(name: 'Test Ingredient')
         movie = Movie.new(title: 'Test Movie')
         ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
-        expect(ingredient_mention.movie_id).to eq(movie.id)
+        expect(ingredient_mention.ingredient_id).to eq(ingredient.id)
       end
     end
   end
