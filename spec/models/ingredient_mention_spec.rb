@@ -15,7 +15,7 @@ RSpec.describe IngredientMention, type: :model do
       end
     end
     context 'with movies' do
-      it 'belongs to a ingredient' do
+      it 'belongs to an ingredient' do
         ingredient = Ingredient.new(name: 'Test Ingredient')
         movie = Movie.new(title: 'Test Movie')
         ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
