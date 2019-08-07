@@ -25,12 +25,8 @@ FactoryBot.define do
 
   factory :recipe do
     name { generate(:name) }
-    ingredients { generate(:ingredient) }
-    thumbnail { 'generic url' }
+    thumbnail { 'generic thumbnail' }
   end
 
-  sequence :ingredient do |n|
-    "ingredient #{n}"
-  end
 
 end
