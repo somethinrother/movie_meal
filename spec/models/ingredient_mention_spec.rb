@@ -7,15 +7,15 @@ RSpec.describe IngredientMention, type: :model do
 
   describe 'when observing relationships' do
     context 'with movies' do
-      it 'belongs to a movie' do
+      it 'belongs to a ingredient' do
         ingredient = Ingredient.new(name: 'Test Ingredient')
         movie = Movie.new(title: 'Test Movie')
         ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
         expect(ingredient_mention.movie_id).to eq(movie.id)
       end
     end
-    context 'with movies' do
-      it 'belongs to an ingredient' do
+    context 'with ingredient' do
+      it 'belongs to a movie' do
         ingredient = Ingredient.new(name: 'Test Ingredient')
         movie = Movie.new(title: 'Test Movie')
         ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
