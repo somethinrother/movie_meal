@@ -1,4 +1,8 @@
 FactoryBot.define do
+  factory :ingredient_mention do
+    
+  end
+
   sequence :movie_title do |n|
     "Movie Title #{n}"
   end
