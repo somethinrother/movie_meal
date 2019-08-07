@@ -5,19 +5,22 @@ RSpec.describe IngredientMention, type: :model do
     build(:ingredient_mention)
   end
 
-  describe 'when observing ingredient relationship' do
-    it 'belongs to movie pairing' do
-      new_ing = Ingredient.new(name: 'Test Ingredient')
-      new_movie = Movie.new(title: 'Test Movie')
-      new_pairing = create(:ingredient_mention, movie_id: new_movie.id, ingredient_id: new_ing.id)
-      expect(new_pairing.ingredient_id).to eq(new_ing.id)
+  describe 'when observing relationships' do
+    context 'with movies' do
+      it 'is valid' do
+        ingredient = Ingredient.new(name: 'Test Ingredient')
+        movie = Movie.new(title: 'Test Movie')
+        ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
+        expect(ingredient_mention.ingredient_id).to eq(ingredient.id)
+      end
     end
-
-    it 'belongs to ingredient pairing' do
-      new_ing = Ingredient.new(name: 'Test Ingredient')
-      new_movie = Movie.new(title: 'Test Movie')
-      new_pairing = create(:ingredient_mention, movie_id: new_movie.id, ingredient_id: new_ing.id)
-      expect(new_pairing.movie_id).to eq(new_movie.id)
+    context 'with ingredients' do
+      it 'is valid' do
+        ingredient = Ingredient.new(name: 'Test Ingredient')
+        movie = Movie.new(title: 'Test Movie')
+        ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
+        expect(ingredient_mention.movie_id).to eq(movie.id)
+      end
     end
   end
 end

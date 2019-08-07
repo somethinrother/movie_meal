@@ -4,8 +4,8 @@ FactoryBot.define do
   end
 
   factory :ingredient_mention do
-    movie { generate(:movie_id)}
-    ingredient { generate(:ingredient_id) }
+    movie
+    ingredient
   end
 
   sequence :movie_title do |n|

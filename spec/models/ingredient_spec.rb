@@ -20,4 +20,16 @@ RSpec.describe Ingredient, type: :model do
       end
     end
   end
+
+  describe 'has many' do
+    it 'movie mentions' do
+      ingredient = Ingredient.new(name: 'Test Ingredient 1')
+      movie = Movie.new(title: 'Test Movie')
+      movie2 = Movie.new(title: 'Test Movie 2: Test Harder')
+      ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
+      ingredient_mention2 = IngredientMention.new(movie_id: movie2.id, ingredient_id: ingredient.id)
+      expect(ingredient_mention.movie_id).to eq(ingredient_mention2.movie_id)
+    end
+  end
+
 end
