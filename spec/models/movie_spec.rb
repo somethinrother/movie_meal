@@ -20,4 +20,18 @@ RSpec.describe Movie, type: :model do
       end
     end
   end
+
+  describe 'observing relationships' do
+    context 'with ingredients' do
+      it 'has multiple movie mentions' do
+        ingredient = Ingredient.new(name: "Test Ingredient 1")
+        ingredient2 = Ingredient.new(name: 'Test Ingredient 2')
+        movie = create(:movie, title: subject.title)
+        ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
+        ingredient_mention2 = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient2.id)
+        expect(ingredient_mention.movie_id).to eq(ingredient_mention2.movie_id)
+      end
+    end
+  end
+
 end
