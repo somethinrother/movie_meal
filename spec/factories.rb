@@ -22,4 +22,15 @@ FactoryBot.define do
   sequence :name do |n|
     "name #{n}"
   end
+
+  factory :recipe do
+    name { generate(:name) }
+    ingredients { generate(:ingredient) }
+    thumbnail { 'generic url' }
+  end
+
+  sequence :ingredient do |n|
+    "ingredient #{n}"
+  end
+
 end
