@@ -5,19 +5,23 @@ class Movie < ApplicationRecord
   has_and_belongs_to_many :ingredients
   has_and_belongs_to_many :recipes
 
+  def self.create_movie_from_node(node)
+    imsdb = Utility::ImsdbParser.new
+    url = imsdb.extract_script_url_from_node(node)
+    title = attributes['title'].value
+    # TODO: Create logic to find the writers, year, etc
+    Movie.create({
+      title: title,
+      url: url
+    })
+  end
+
   def self.scrape_initial_movie_data
     imsdb = Utility::ImsdbParser.new
     movie_links = imsdb.all_movie_page_links
 
     movie_links.each do |node|
-      url = imsdb.extract_script_url_from_node(node)
-      title = attributes['title'].value
-      # TODO: Create logic to find the writers, year, etc
-      Movie.create({
-        title: title,
-        url: url
-      })
-      logger.info("Successfully saved #{title}")
+      self.create_movie_from_node(node)
     end
   end
   #
