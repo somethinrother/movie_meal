@@ -1,10 +1,6 @@
 FactoryBot.define do
   # FACTORIES
 
-  sequence :name do |n|
-    "name #{n}"
-  end
-
   factory :movie do
     title { generate(:movie_title) }
     writers { generate(:name) }
