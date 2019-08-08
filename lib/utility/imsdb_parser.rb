@@ -25,16 +25,21 @@ module Utility
 
     def extract_script_url_from_node(node)
       attributes = node.attributes
-      landing_page_href = "#{IMSBD_BASE_URL}#{attributes['href'].value}".gsub(' ', '%20')
-      links = extract_tags_from_css_at_url(LANDING_PAGE_CSS_PATH, landing_page_href)
+      href = attributes['href'].value.gsub(' ', '%20')
+      landing_page_url = imsdb_url(href)
+      links = extract_tags_from_css_at_url(LANDING_PAGE_CSS_PATH, landing_page_url)
       script_href = links[-1].attributes['href'].value
-      "#{IMSBD_BASE_URL}#{script_href}"
+      imsdb_url(script_href)
     end
 
     def extract_tags_from_css_at_url(css_path, url)
       raw_body = HTTParty.get(url).body
       body = Nokogiri::HTML(raw_body)
       body.css(css_path)
+    end
+
+    def imsdb_url(path)
+      "#{IMSBD_BASE_URL}#{path}"
     end
   end
 end
