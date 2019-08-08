@@ -22,30 +22,36 @@ RSpec.describe Movie, type: :model do
   end
 
   describe 'observing relationships' do
-    context 'with movies' do
-      it 'has multiple ingredients' do
-        movie = create(:movie)
+    context 'with ingredients' do
+      it 'can own a ingredient' do
         ingredient = create(:ingredient)
-        ingredient2 = create(:ingredient)
+        subject.ingredients << ingredient
 
+        expect(subject.ingredients.length).to eq(1)
+      end
 
-        ingredients_movie = create(:ingredients_movie, movie_id: movie.id, ingredient_id: ingredient.id)
-        ingredients_movie2 = create(:ingredients_movie, movie_id: movie.id, ingredient_id: ingredient2.id)
-        expect(movie.ingredients_movies.length).to eq(2)
+      it 'can be owned by a ingredient' do
+        ingredient = create(:ingredient)
+        ingredient.movies << subject
+
+        expect(ingredient.movies).to include(subject)
       end
     end
 
-    context 'with ingredients' do
-      it 'has multiple ingredient mentions' do
-        ingredient = create(:ingredient)
-        movie = create(:movie)
-        movie2 = create(:movie)
-        # byebug
-        ingredients_movie = create(:ingredients_movie, movie_id: movie.id, ingredient_id: ingredient.id)
-        ingredients_movie2 = create(:ingredients_movie, movie_id: movie2.id, ingredient_id: ingredient.id)
-        expect(ingredient.movies.length).to eq(2)
+    context 'with recipes' do
+      it 'can own a recipe' do
+        recipe = create(:recipe)
+        subject.recipes << recipe
+
+        expect(subject.recipes.length).to eq(1)
+      end
+
+      it 'can be owned by a recipe' do
+        recipe = create(:recipe)
+        recipe.movies << subject
+
+        expect(recipe.movies).to include(subject)
       end
     end
   end
-
 end
