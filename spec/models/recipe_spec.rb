@@ -21,38 +21,37 @@ RSpec.describe Recipe, type: :model do
     end
   end
 
-  describe  'observing relationships' do
-    context 'with recipes' do
-      it 'has ingredients' do
-        recipe = create(:recipe, name: subject.name)
-        ingredient = build(:ingredient)
-        ingredient2 = build(:ingredient)
-        ingredient_recipe = build(:ingredient_recipe, recipe_id: recipe.id, ingredient_id: ingredient.id)
-        ingredient_recipe2 = build(:ingredient_recipe, recipe_id: recipe.id, ingredient_id: ingredient2.id)
-      expect(recipe).to be_valid
+  describe 'observing relationships' do
+    context 'with movies' do
+      it 'can own a movie' do
+        movie = create(:movie)
+        subject.movies << movie
+
+        expect(subject.movies.length).to eq(1)
+      end
+
+      it 'can be owned by a movie' do
+        movie = create(:movie)
+        movie.recipes << subject
+
+        expect(movie.recipes).to include(subject)
+      end
+    end
+
+    context 'with ingredients' do
+      it 'can own a ingredient' do
+        ingredient = create(:ingredient)
+        subject.ingredients << ingredient
+
+        expect(subject.ingredients.length).to eq(1)
+      end
+
+      it 'can be owned by a ingredient' do
+        ingredient = create(:ingredient)
+        ingredient.recipes << subject
+
+        expect(ingredient.recipes).to include(subject)
       end
     end
   end
-
 end
-
-
-  # cannot write these tests until I implement the appropriate join table
-  # describe 'observing relationships' do
-  #   context 'with recipe' do
-  #     it 'can have multiple movies' do
-  #       recipe = create(:recipe, name: subject.name)
-  #       movie = Movie.new(title: "One")
-  #       movie2 = Movie.new(title: "Two")
-  #
-  #     end
-  #   end
-  #   context 'with ingredients' do
-  #     it 'can have multiple ingredients' do
-  #       ingredient = Ingredient.new(name: 'Test Ingredient')
-  #       movie = Movie.new(title: 'Test Movie')
-  #       ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
-  #       expect(ingredient_mention.ingredient_id).to eq(ingredient.id)
-  #     end
-  #   end
-  # end
