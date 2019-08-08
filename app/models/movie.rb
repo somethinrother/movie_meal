@@ -10,12 +10,11 @@ class Movie < ApplicationRecord
   end
 
   def self.create_movie_from_node(node)
-    url = self.imsdb.extract_script_url_from_node(node)
-    title = attributes['title'].value
+    attributes = self.imsdb.extract_movie_data_from_node(node)
     # TODO: Create logic to find the writers, year, etc
     Movie.create({
-      title: title,
-      url: url
+      title: attributes[:title],
+      url: attributes[:url]
     })
   end
 
