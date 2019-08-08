@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_07_131958) do
+ActiveRecord::Schema.define(version: 2019_08_07_212143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,11 +26,6 @@ ActiveRecord::Schema.define(version: 2019_08_07_131958) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "ingredients_mentions", force: :cascade do |t|
-    t.integer "movie_id"
-    t.integer "ingredient_id"
-  end
-
   create_table "movies", force: :cascade do |t|
     t.string "title"
     t.string "writers"
@@ -40,15 +35,9 @@ ActiveRecord::Schema.define(version: 2019_08_07_131958) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "recipe_ingredients", force: :cascade do |t|
-    t.integer "recipe_id"
-    t.integer "ingredient_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "recipes", force: :cascade do |t|
     t.string "name"
+    t.string "ingredients"
     t.string "thumbnail"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

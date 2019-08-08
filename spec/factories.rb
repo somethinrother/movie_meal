@@ -22,4 +22,11 @@ FactoryBot.define do
   sequence :name do |n|
     "name #{n}"
   end
+
+  factory :recipe do
+    name { generate(:name) }
+    thumbnail { 'generic thumbnail' }
+  end
+
+
 end
