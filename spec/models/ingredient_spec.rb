@@ -27,10 +27,11 @@ RSpec.describe Ingredient, type: :model do
         ingredient = create(:ingredient)
         movie = create(:movie)
         movie2 = create(:movie)
-        ingredient_mention = create(:ingredient_mention, ingredient_id: ingredient, movie_id: movie)
-        ingredient_mention2 = create(:ingredient_mention, ingredient_id: ingredient, movie_id: movie2)
 
-        expect(ingredient.ingredient_mentions.length).to eq(2)
+        ingredient_mention = create(:ingredient_mention, ingredient_id: ingredient.id, movie_id: movie.id)
+        ingredient_mention2 = create(:ingredient_mention, ingredient_id: ingredient.id, movie_id: movie2.id)
+
+        expect(ingredient.movies.length).to eq(2)
       end
     end
   end

@@ -25,10 +25,10 @@ RSpec.describe Recipe, type: :model do
     context 'with recipes' do
       it 'has ingredients' do
         recipe = create(:recipe, name: subject.name)
-        ingredient = create(:ingredient)
-        ingredient2 = create(:ingredient)
-        ingredient_recipe = create(:used_ingredient, recipe_id: recipe.id, ingredient_id: ingredient.id)
-        ingredient_recipe2 = create(:used_ingredient, recipe_id: recipe.id, ingredient_id: ingredient2.id)
+        ingredient = build(:ingredient)
+        ingredient2 = build(:ingredient)
+        ingredient_recipe = build(:ingredient_recipe, recipe_id: recipe.id, ingredient_id: ingredient.id)
+        ingredient_recipe2 = build(:ingredient_recipe, recipe_id: recipe.id, ingredient_id: ingredient2.id)
       expect(recipe).to be_valid
       end
     end

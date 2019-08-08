@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe IngredientsRecipes, type: :model do
+RSpec.describe IngredientRecipe, type: :model do
 
   subject do
     build(:ingredient_recipe)
@@ -12,8 +12,8 @@ RSpec.describe IngredientsRecipes, type: :model do
         ingredient =  create(:ingredient)
         recipe =  create(:recipe)
         recipe2 =  create(:recipe)
-        ingredient_recipe =  create(:ingredient_recipe, recipe_id: recipe.id, ingredient_id: ingredient.id)
-        ingredient_recipe =  create(:ingredient_recipe, recipe_id: recipe2.id, ingredient_id: ingredient.id)
+        ingredient_recipe =  create(:ingredient_recipe, ingredient_id: ingredient.id, recipe_id: recipe.id)
+        ingredient_recipe2 =  create(:ingredient_recipe, ingredient_id: ingredient.id, recipe_id: recipe2.id)
         expect(ingredient.recipes.length).to eq(2)
       end
     end

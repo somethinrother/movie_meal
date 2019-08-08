@@ -3,6 +3,11 @@ FactoryBot.define do
     name { generate(:name) }
   end
 
+  factory :ingredient_recipe do
+    recipe
+    ingredient
+  end
+
   factory :ingredient_mention do
     movie
     ingredient
@@ -28,9 +33,5 @@ FactoryBot.define do
     thumbnail { 'generic thumbnail' }
   end
 
-  factory :ingredient_recipe do
-    recipe
-    ingredient
-  end
 
 end
