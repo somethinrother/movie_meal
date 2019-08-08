@@ -11,16 +11,16 @@ RSpec.describe UsedIngredient, type: :model do
       it 'belongs to an ingredient' do
         ingredient = Ingredient.new(name: 'Test Ingredient')
         recipe = Recipe.new(name: 'Test Recipe')
-        ingredient_mention = UsedIngredient.new(recipe_id: recipe.id, ingredient_id: ingredient.id)
-        expect(ingredient_mention.recipe_id).to eq(recipe.id)
+        used_ingredient = UsedIngredient.new(recipe_id: recipe.id, ingredient_id: ingredient.id)
+        expect(used_ingredient.recipe_id).to eq(recipe.id)
       end
     end
     context 'with ingredients' do
        it 'belongs to an recipe' do
          ingredient = Ingredient.new(name: 'Test Ingredient')
          recipe = Recipe.new(name: 'Test Recipe')
-         ingredient_mention = UsedIngredient.new(recipe_id: recipe.id, ingredient_id: ingredient.id)
-         expect(ingredient_mention.ingredient_id).to eq(ingredient.id)
+         used_ingredient = UsedIngredient.new(recipe_id: recipe.id, ingredient_id: ingredient.id)
+         expect(used_ingredient.ingredient_id).to eq(ingredient.id)
        end
      end
   end
