@@ -22,14 +22,4 @@ FactoryBot.define do
   factory :ingredient do
     name { generate(:name) }
   end
-
-  factory :ingredients_recipe do
-    recipe
-    ingredient
-  end
-
-  factory :ingredients_movie do
-    movie
-    ingredient
-  end
 end
