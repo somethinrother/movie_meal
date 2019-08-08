@@ -59,9 +59,14 @@ module Utility
     def imsdb_url(path)
       "#{IMSBD_BASE_URL}#{path}"
     end
-  end
-end
 
-def self.imsdb
-  Utility::ImsdbParser.new
+    # def self.populate_scripts
+    #   Movie.all.each do |movie|
+    #     html_body = HTTParty.get(movie.href).body
+    #     movie.script = html_body
+    #     movie.script = ActionController::Base.helpers.strip_tags(movie.script)
+    #     movie.save
+    #   end
+    # end
+  end
 end
