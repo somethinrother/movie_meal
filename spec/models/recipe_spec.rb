@@ -20,9 +20,24 @@ RSpec.describe Recipe, type: :model do
       end
     end
   end
+
+  describe  'observing recipes relationship' do
+    context 'with ingredients' do
+      it 'has ingredients' do
+      recipe = create(:recipe, name: subject.name)
+      ingredient = Ingredient.new(name: 'Ingredient')
+      ingredient2 = Ingredient.new(name: 'Ingredient 2')
+      used_ingredient = UsedIngredient.new(recipe_id: recipe.id, ingredient_id: ingredient.id)
+      used_ingredient2 = UsedIngredient.new(recipe_id: recipe.id, ingredient_id: ingredient2.id)
+      expect(recipe).to be_valid
+      end
+    end
+  end
+
 end
 
-# cannot write these tests until I implement the appropriate join table
+
+  # cannot write these tests until I implement the appropriate join table
   # describe 'observing relationships' do
   #   context 'with recipe' do
   #     it 'can have multiple movies' do
@@ -33,11 +48,11 @@ end
   #     end
   #   end
   #   context 'with ingredients' do
-  #      it 'belongs to an ingredient' do
-  #        ingredient = Ingredient.new(name: 'Test Ingredient')
-  #        movie = Movie.new(title: 'Test Movie')
-  #        ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
-  #        expect(ingredient_mention.ingredient_id).to eq(ingredient.id)
-  #      end
-  #    end
+  #     it 'can have multiple ingredients' do
+  #       ingredient = Ingredient.new(name: 'Test Ingredient')
+  #       movie = Movie.new(title: 'Test Movie')
+  #       ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
+  #       expect(ingredient_mention.ingredient_id).to eq(ingredient.id)
+  #     end
   #   end
+  # end
