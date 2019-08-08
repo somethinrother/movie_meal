@@ -10,20 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_07_212143) do
+ActiveRecord::Schema.define(version: 2019_08_08_194918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "ingredient_mentions", force: :cascade do |t|
-    t.integer "movie_id"
-    t.integer "ingredient_id"
-  end
 
   create_table "ingredients", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "ingredients_movies", id: false, force: :cascade do |t|
+    t.bigint "ingredient_id"
+    t.bigint "movie_id"
+    t.index ["ingredient_id"], name: "index_ingredients_movies_on_ingredient_id"
+    t.index ["movie_id"], name: "index_ingredients_movies_on_movie_id"
+  end
+
+  create_table "ingredients_recipes", id: false, force: :cascade do |t|
+    t.bigint "ingredient_id"
+    t.bigint "recipe_id"
+    t.index ["ingredient_id"], name: "index_ingredients_recipes_on_ingredient_id"
+    t.index ["recipe_id"], name: "index_ingredients_recipes_on_recipe_id"
   end
 
   create_table "movies", force: :cascade do |t|
@@ -35,9 +44,15 @@ ActiveRecord::Schema.define(version: 2019_08_07_212143) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "movies_recipes", id: false, force: :cascade do |t|
+    t.bigint "movie_id"
+    t.bigint "recipe_id"
+    t.index ["movie_id"], name: "index_movies_recipes_on_movie_id"
+    t.index ["recipe_id"], name: "index_movies_recipes_on_recipe_id"
+  end
+
   create_table "recipes", force: :cascade do |t|
     t.string "name"
-    t.string "ingredients"
     t.string "thumbnail"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
