@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe IngredientRecipe, type: :model do
+RSpec.describe IngredientsRecipe, type: :model do
   subject do
-    build(:ingredient_recipe)
+    build(:ingredients_recipe)
   end
 
   describe 'when observing relationships' do
@@ -12,8 +12,8 @@ RSpec.describe IngredientRecipe, type: :model do
         recipe =  create(:recipe)
         recipe2 =  create(:recipe)
 
-        ingredient_recipe =  create(:ingredient_recipe, ingredient_id: ingredient.id, recipe_id: recipe.id)
-        ingredient_recipe2 =  create(:ingredient_recipe, ingredient_id: ingredient.id, recipe_id: recipe2.id)
+        ingredients_recipe =  create(:ingredients_recipe, ingredient_id: ingredient.id, recipe_id: recipe.id)
+        ingredients_recipe2 =  create(:ingredients_recipe, ingredient_id: ingredient.id, recipe_id: recipe2.id)
         expect(ingredient.recipes.length).to eq(2)
       end
     end
@@ -22,8 +22,8 @@ RSpec.describe IngredientRecipe, type: :model do
         ingredient =  create(:ingredient)
         ingredient =  create(:ingredient)
         recipe =  create(:recipe)
-        ingredient_recipe =  create(:ingredient_recipe, recipe_id: recipe.id, ingredient_id: ingredient.id)
-        ingredient_recipe2 =  create(:ingredient_recipe, recipe_id: recipe.id, ingredient_id: ingredient2.id)
+        ingredients_recipe =  create(:ingredients_recipe, recipe_id: recipe.id, ingredient_id: ingredient.id)
+        ingredients_recipe2 =  create(:ingredients_recipe, recipe_id: recipe.id, ingredient_id: ingredient2.id)
         expect(recipe.ingredients.length).to eq(2)
        end
      end

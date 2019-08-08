@@ -29,9 +29,9 @@ RSpec.describe Movie, type: :model do
         ingredient2 = create(:ingredient)
 
 
-        ingredient_mention = create(:ingredient_mention, movie_id: movie.id, ingredient_id: ingredient.id)
-        ingredient_mention2 = create(:ingredient_mention, movie_id: movie.id, ingredient_id: ingredient2.id)
-        expect(movie.ingredient_mentions.length).to eq(2)
+        ingredients_movie = create(:ingredients_movie, movie_id: movie.id, ingredient_id: ingredient.id)
+        ingredients_movie2 = create(:ingredients_movie, movie_id: movie.id, ingredient_id: ingredient2.id)
+        expect(movie.ingredients_movies.length).to eq(2)
       end
     end
 
@@ -40,9 +40,9 @@ RSpec.describe Movie, type: :model do
         ingredient = create(:ingredient)
         movie = create(:movie)
         movie2 = create(:movie)
-        byebug
-        ingredient_mention = create(:ingredient_mention, movie_id: movie.id, ingredient_id: ingredient.id)
-        ingredient_mention2 = create(:ingredient_mention, movie_id: movie2.id, ingredient_id: ingredient.id)
+        # byebug
+        ingredients_movie = create(:ingredients_movie, movie_id: movie.id, ingredient_id: ingredient.id)
+        ingredients_movie2 = create(:ingredients_movie, movie_id: movie2.id, ingredient_id: ingredient.id)
         expect(ingredient.movies.length).to eq(2)
       end
     end

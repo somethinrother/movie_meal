@@ -28,8 +28,8 @@ RSpec.describe Ingredient, type: :model do
         movie = create(:movie)
         movie2 = create(:movie)
 
-        ingredient_mention = create(:ingredient_mention, ingredient_id: subject.id, movie_id: movie.id)
-        ingredient_mention2 = create(:ingredient_mention, ingredient_id: subject.id, movie_id: movie2.id)
+        ingredients_movie = create(:ingredients_movie, ingredient_id: subject.id, movie_id: movie.id)
+        ingredients_movie2 = create(:ingredients_movie, ingredient_id: subject.id, movie_id: movie2.id)
 
         expect(subject.movies.length).to eq(2)
       end

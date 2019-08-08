@@ -27,8 +27,8 @@ RSpec.describe Recipe, type: :model do
         recipe = create(:recipe, name: subject.name)
         ingredient = build(:ingredient)
         ingredient2 = build(:ingredient)
-        ingredient_recipe = build(:ingredient_recipe, recipe_id: recipe.id, ingredient_id: ingredient.id)
-        ingredient_recipe2 = build(:ingredient_recipe, recipe_id: recipe.id, ingredient_id: ingredient2.id)
+        ingredients_recipe = build(:ingredients_recipe, recipe_id: recipe.id, ingredient_id: ingredient.id)
+        ingredients_recipe2 = build(:ingredients_recipe, recipe_id: recipe.id, ingredient_id: ingredient2.id)
       expect(recipe).to be_valid
       end
     end
@@ -51,8 +51,8 @@ end
   #     it 'can have multiple ingredients' do
   #       ingredient = Ingredient.new(name: 'Test Ingredient')
   #       movie = Movie.new(title: 'Test Movie')
-  #       ingredient_mention = IngredientMention.new(movie_id: movie.id, ingredient_id: ingredient.id)
-  #       expect(ingredient_mention.ingredient_id).to eq(ingredient.id)
+  #       ingredients_movie = IngredientsMovie.new(movie_id: movie.id, ingredient_id: ingredient.id)
+  #       expect(ingredients_movie.ingredient_id).to eq(ingredient.id)
   #     end
   #   end
   # end
