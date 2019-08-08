@@ -15,7 +15,8 @@ RSpec.describe Recipe, type: :model do
     context 'with invalid attributes' do
       it 'fails when the name is not unique' do
         recipe = create(:recipe, name: "same")
-        expect(Recipe.new(name: "same")).to_not be_valid
+        subject.name = "same"
+        expect(subject).to_not be_valid
       end
     end
   end
