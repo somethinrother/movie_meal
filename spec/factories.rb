@@ -1,5 +1,4 @@
 FactoryBot.define do
-
   factory :ingredient do
     name { generate(:name) }
   end

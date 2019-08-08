@@ -24,11 +24,11 @@ RSpec.describe Recipe, type: :model do
   describe  'observing recipes relationship' do
     context 'with ingredients' do
       it 'has ingredients' do
-      recipe = create(:recipe, name: subject.name)
-      ingredient = Ingredient.new(name: 'Ingredient')
-      ingredient2 = Ingredient.new(name: 'Ingredient 2')
-      ingredient_recipe = UsedIngredient.new(recipe_id: recipe.id, ingredient_id: ingredient.id)
-      ingredient_recipe2 = UsedIngredient.new(recipe_id: recipe.id, ingredient_id: ingredient2.id)
+        recipe = create(:recipe, name: subject.name)
+        ingredient = Ingredient.new(name: 'Ingredient')
+        ingredient2 = Ingredient.new(name: 'Ingredient 2')
+        ingredient_recipe = UsedIngredient.new(recipe_id: recipe.id, ingredient_id: ingredient.id)
+        ingredient_recipe2 = UsedIngredient.new(recipe_id: recipe.id, ingredient_id: ingredient2.id)
       expect(recipe).to be_valid
       end
     end
