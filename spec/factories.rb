@@ -1,7 +1,5 @@
 FactoryBot.define do
-  sequence :movie_title do |n|
-    "Movie Title #{n}"
-  end
+  # FACTORIES
 
   sequence :name do |n|
     "name #{n}"
@@ -14,12 +12,27 @@ FactoryBot.define do
     is_scraped { false }
   end
 
+  factory :ingredient do
+    name { generate(:name) }
+  end
+
+  factory :ingredient_mention do
+    movie
+    ingredient
+  end
+
   factory :recipe do
     name { generate(:name) }
     thumbnail { 'generic thumbnail' }
   end
 
-  factory :ingredient do
-    name { generate(:name) }
+  # SEQUENCES
+
+  sequence :movie_title do |n|
+    "Movie Title #{n}"
+  end
+
+  sequence :name do |n|
+    "name #{n}"
   end
 end
