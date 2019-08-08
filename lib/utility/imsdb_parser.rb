@@ -16,6 +16,8 @@ module Utility
       }
     end
 
+    private
+
     def extract_title_from_node(node)
       attributes = node.attributes
       attributes['title'].value
