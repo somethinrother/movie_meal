@@ -27,7 +27,7 @@ RSpec.describe Movie, type: :model do
         movie = create(:movie)
         ingredient = create(:ingredient)
         ingredient2 = create(:ingredient)
-    
+
 
         ingredient_mention = create(:ingredient_mention, movie_id: movie.id, ingredient_id: ingredient.id)
         ingredient_mention2 = create(:ingredient_mention, movie_id: movie.id, ingredient_id: ingredient2.id)
@@ -36,12 +36,13 @@ RSpec.describe Movie, type: :model do
     end
 
     context 'with ingredients' do
-      it 'has multiple movie mentions' do
-        ingredient = (:ingredient)
-        movie = build(:movie)
-        movie2 = build(:movie)
-        ingredient_mention = build(:ingredient_mention, movie_id: movie.id, ingredient_id: ingredient.id)
-        ingredient_mention2 = build(:ingredient_mention, movie_id: movie2.id, ingredient_id: ingredient.id)
+      it 'has multiple ingredient mentions' do
+        ingredient = create(:ingredient)
+        movie = create(:movie)
+        movie2 = create(:movie)
+        byebug
+        ingredient_mention = create(:ingredient_mention, movie_id: movie.id, ingredient_id: ingredient.id)
+        ingredient_mention2 = create(:ingredient_mention, movie_id: movie2.id, ingredient_id: ingredient.id)
         expect(ingredient.movies.length).to eq(2)
       end
     end

@@ -22,16 +22,16 @@ RSpec.describe Ingredient, type: :model do
   end
 
   describe 'observing relationships' do
-    context 'with ingredients' do
+    context 'with movies' do
       it 'has multiple movies' do
-        ingredient = create(:ingredient)
+
         movie = create(:movie)
         movie2 = create(:movie)
 
-        ingredient_mention = create(:ingredient_mention, ingredient_id: ingredient.id, movie_id: movie.id)
-        ingredient_mention2 = create(:ingredient_mention, ingredient_id: ingredient.id, movie_id: movie2.id)
+        ingredient_mention = create(:ingredient_mention, ingredient_id: subject.id, movie_id: movie.id)
+        ingredient_mention2 = create(:ingredient_mention, ingredient_id: subject.id, movie_id: movie2.id)
 
-        expect(ingredient.movies.length).to eq(2)
+        expect(subject.movies.length).to eq(2)
       end
     end
   end

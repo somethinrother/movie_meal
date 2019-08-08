@@ -4,13 +4,13 @@ FactoryBot.define do
   end
 
   factory :ingredient_recipe do
-    recipe
-    ingredient
+    recipe { '' }
+    ingredient { '' }
   end
 
   factory :ingredient_mention do
-    movie
-    ingredient
+    movie { '' }
+    ingredient { '' }
   end
 
   sequence :movie_title do |n|
