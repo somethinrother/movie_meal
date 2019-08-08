@@ -7,27 +7,24 @@ RSpec.describe IngredientsRecipes, type: :model do
   end
 
   describe 'when observing relationships' do
-    context 'with recipes' do
-      it 'belongs to an ingredient' do
-        ingredient = Ingredient.new(name: 'Test Ingredient')
-        recipe = Recipe.new(name: 'Test Recipe')
-        ingredient_recipe = IngredientsRecipes.new(recipe_id: recipe.id, ingredient_id: ingredient.id)
-        expect(ingredient_recipe.recipe_id).to eq(recipe.id)
+    context 'with ingredients' do
+      it 'has many recipes' do
+        ingredient =  create(:ingredient)
+        recipe =  create(:recipe)
+        recipe2 =  create(:recipe)
+        ingredient_recipe =  create(:ingredient_recipe, recipe_id: recipe.id, ingredient_id: ingredient.id)
+        ingredient_recipe =  create(:ingredient_recipe, recipe_id: recipe2.id, ingredient_id: ingredient.id)
+        expect(ingredient.recipes.length).to eq(2)
       end
     end
-    context 'with ingredients' do
-       it 'belongs to an recipe' do
-         ingredient = Ingredient.new(name: 'Test Ingredient')
-         ingredient2 = Ingredient.new(name: 'Test Ingredient')
-         recipe = Recipe.new(name: 'Test Recipe')
-         ingredient_recipe2 = IngredientsRecipes.new(recipe_id: recipe.id, ingredient_id: ingredient2.id)
-         ingredient_recipe = IngredientsRecipes.new(recipe_id: recipe.id, ingredient_id: ingredient.id)
-         ingredient.save
-         ingredient2.save
-         recipe.save
-         ingredient_recipe.save
-         ingredient_recipe2.save
-         expect(recipe.ingredients.length).to eq(2)
+    context 'with recipes' do
+      it 'has many ingredients' do
+        ingredient =  create(:ingredient)
+        ingredient =  create(:ingredient)
+        recipe =  create(:recipe)
+        ingredient_recipe =  create(:ingredient_recipe, recipe_id: recipe.id, ingredient_id: ingredient.id)
+        ingredient_recipe2 =  create(:ingredient_recipe, recipe_id: recipe.id, ingredient_id: ingredient2.id)
+        expect(recipe.ingredients.length).to eq(2)
        end
      end
   end
