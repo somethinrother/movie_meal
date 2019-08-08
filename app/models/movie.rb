@@ -7,20 +7,16 @@ class Movie < ApplicationRecord
 
   def self.scrape_initial_movie_data
     imsdb = Utility::ImsdbParser.new
-    # extract tags from url & css path
-    movie_tags = imsdb.extract_tags_from_css_at_url('table td p a', 'https://www.imsdb.com/all%20scripts/')
-    # Iterate over those tags
-    movie_data = movie_tags.map do |node|
+    movie_links = imsdb.all_movie_page_links
+
+    movie_links.each do |node|
       url = imsdb.extract_script_url_from_node(node)
-      # Extract the title from the node attributes
       title = attributes['title'].value
       # TODO: Create logic to find the writers, year, etc
-      # Create a movie with the title and href
       Movie.create({
         title: title,
         url: url
       })
-      # Log success message
       logger.info("Successfully saved #{title}")
     end
   end
