@@ -1,4 +1,5 @@
 FactoryBot.define do
+
   factory :ingredient do
     name { generate(:name) }
   end
@@ -28,5 +29,9 @@ FactoryBot.define do
     thumbnail { 'generic thumbnail' }
   end
 
+  factory :used_ingredient do
+    recipe
+    ingredient
+  end
 
 end
