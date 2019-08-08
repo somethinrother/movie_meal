@@ -7,5 +7,13 @@ module Utility
       body = Nokogiri::HTML(html)
       body.css(css_path)
     end
+
+    def extract_script_url_from_node(node)
+      attributes = node.attributes
+      landing_page_href = "https://www.imsdb.com#{attributes['href'].value}".gsub(' ', '%20')
+      links = imsdb.extract_tags_from_css_at_url('.script-details td a', landing_page_href)
+      script_href = links[-1].attributes['href'].value
+      "https://www.imsdb.com#{script_href}"
+    end
   end
 end

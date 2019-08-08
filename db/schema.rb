@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2019_08_08_194918) do
 
   create_table "movies", force: :cascade do |t|
     t.string "title"
-    t.string "href"
+    t.string "url"
     t.string "writers"
     t.integer "year"
     t.boolean "is_scraped"
