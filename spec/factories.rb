@@ -29,7 +29,7 @@ FactoryBot.define do
     thumbnail { 'generic thumbnail' }
   end
 
-  factory :used_ingredient do
+  factory :ingredient_recipe do
     recipe
     ingredient
   end
