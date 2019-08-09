@@ -5,32 +5,29 @@ module Utility
     SCRIPT_LINK_CSS_PATH='table td p a'.freeze
     LANDING_PAGE_CSS_PATH='.script-details td a'.freeze
 
-    def scrape_initial_movie_data
-      movie_links = all_movie_page_links
-      movie_links.each do |node|
-        create_movie_from_node(node)
-      end
-
-      # Log an error if anything other than 1205 movies exist in the DB
-    end
-
-    private
-
-    def create_movie_from_node(node)
-      attributes = extract_movie_data_from_node(node)
-      # TODO: Create logic to find the writers, year, etc
-      movie = Movie.new({
-        title: attributes[:title],
-        url: attributes[:url],
-        is_scraped: false
-      })
-
-      if movie.valid?
-        movie.save
-      else
-        # TODO: error reporting
-      end
-    end
+    # def scrape_initial_movie_data
+    #   movie_links = all_movie_page_links
+    #
+    #   movie_links.each do |node|
+    #     create_movie_from_node(node)
+    #   end
+    # end
+    #
+    # def create_movie_from_node(node)
+    #   attributes = extract_movie_data_from_node(node)
+    #   # TODO: Create logic to find the writers, year, etc
+    #   movie = Movie.new({
+    #     title: attributes[:title],
+    #     url: attributes[:url],
+    #     is_scraped: false
+    #   })
+    #
+    #   begin
+    #     movie.save
+    #   rescue
+    #     raise movie.errors.full_messages
+    #   end
+    # end
 
     def all_movie_page_links
       extract_tags_from_css_at_url(SCRIPT_LINK_CSS_PATH, ALL_SCRIPT_URL)
@@ -68,7 +65,7 @@ module Utility
     end
 
     def imsdb_url(path)
-      "#{IMSBD_BASE_URL}#{path}"
+      "#{IMSDB_BASE_URL}#{path}"
     end
 
     # def self.populate_scripts
