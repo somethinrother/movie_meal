@@ -1,16 +1,17 @@
 module Utility
   class ImsdbParser
-    IMSBD_BASE_URL='https://www.imsdb.com'.freeze
-    ALL_SCRIPT_URL = "#{IMSBD_BASE_URL}/all%20scripts/".freeze
+    IMSDB_BASE_URL='https://www.imsdb.com'.freeze
+    ALL_SCRIPT_URL = "#{IMSDB_BASE_URL}/all%20scripts/".freeze
     SCRIPT_LINK_CSS_PATH='table td p a'.freeze
     LANDING_PAGE_CSS_PATH='.script-details td a'.freeze
 
     def scrape_initial_movie_data
       movie_links = all_movie_page_links
-
       movie_links.each do |node|
         create_movie_from_node(node)
       end
+
+      # Log an error if anything other than 1205 movies exist in the DB
     end
 
     private
@@ -18,10 +19,17 @@ module Utility
     def create_movie_from_node(node)
       attributes = extract_movie_data_from_node(node)
       # TODO: Create logic to find the writers, year, etc
-      Movie.create({
+      movie = Movie.new({
         title: attributes[:title],
-        url: attributes[:url]
+        url: attributes[:url],
+        is_scraped: false
       })
+
+      if movie.valid?
+        movie.save
+      else
+        # TODO: error reporting
+      end
     end
 
     def all_movie_page_links
@@ -38,7 +46,10 @@ module Utility
 
     def extract_title_from_node(node)
       attributes = node.attributes
-      attributes['title'].value
+      title = attributes['title'].value
+      # Regex to remove final word (Script)
+      byebug if title.split(' ').length == 1
+      title[/(.*)\s/,1]
     end
 
     def extract_script_url_from_node(node)
