@@ -21,7 +21,6 @@ module Utility
       attributes = node.attributes
       title = attributes['title'].value
       # Regex to remove final word (Script)
-      byebug if title.split(' ').length == 1
       title[/(.*)\s/,1]
     end
 
