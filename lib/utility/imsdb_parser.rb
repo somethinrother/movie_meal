@@ -45,13 +45,15 @@ module Utility
 
     def populate_script(movie)
       script = HTTParty.get(movie.url).body
-      script = process_raw_script(script)
-      movie.script = script
+      movie.assign_attributes(
+        script: process_raw_script(script),
+        is_scraped: true
+      )
       movie.save
     end
 
     def process_raw_script(script)
-      ActionController::Base.helpers.strip_tags(body)
+      ActionController::Base.helpers.strip_tags(script)
         .gsub(/[^a-zA-Z]/, ' ')
         .squish
         .downcase
