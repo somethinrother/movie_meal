@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 2019_08_08_194918) do
     t.string "url"
     t.string "writers"
     t.integer "year"
+    t.text "script"
     t.boolean "is_scraped"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

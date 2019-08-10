@@ -43,6 +43,20 @@ module Utility
       "#{IMSDB_BASE_URL}#{path}"
     end
 
+    def populate_script(movie)
+      script = HTTParty.get(movie.url).body
+      script = process_raw_script(script)
+      movie.script = script
+      movie.save
+    end
+
+    def process_raw_script(script)
+      ActionController::Base.helpers.strip_tags(body)
+        .gsub(/[^a-zA-Z]/, ' ')
+        .squish
+        .downcase
+    end
+
     # def self.populate_scripts
     #   Movie.all.each do |movie|
     #     html_body = HTTParty.get(movie.href).body

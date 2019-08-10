@@ -5,6 +5,7 @@ class CreateMovies < ActiveRecord::Migration[5.2]
       t.string :url
       t.string :writers
       t.integer :year
+      t.text :script
       t.boolean :is_scraped
 
       t.timestamps
