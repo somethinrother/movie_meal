@@ -40,25 +40,49 @@ module Utility
       end
     end
 
-    def get_one_recipe(*ingredient)
-      begin
-        ing_search = ingredient.join('').gsub(/\s+/, "")
-        recipes = {}
-        response = HTTParty.get("#{ALL_INGREDIENT_RECIPES_URL}?i=#{ing_search}&p=1")
+    # def get_one_recipe(*ingredient)
+    #   begin
+    #     ing_search = ingredient.join('').gsub(/\s+/, "")
+    #     response = HTTParty.get("#{ALL_INGREDIENT_RECIPES_URL}?i=#{ing_search}&p=1")
+    #     if response.success?
+    #       parsed = JSON.parse(response)
+    #       recipe = response[parsed["results"].first["title"]] = parsed["results"].first["ingredients"]
+    #     return recipe
+    #   end
+    #   rescue JSON::ParserError
+    #     puts "JSON::ParserError // API call failed"
+    #   rescue ActiveRecord::RecordInvalid
+    #     puts "Validation failed"
+    #   end
+    # end
+
+  def save_all_recipes_to_database
+    begin
+      100.times do |page|
+        response = HTTParty.get("#{ALL_INGREDIENT_RECIPES_URL}?q=&p=#{page + 1}")
         if response.success?
           parsed = JSON.parse(response)
-          recipes[parsed["results"].first["title"]] = parsed["results"].first["ingredients"]
-        return recipes
-      end
-      rescue JSON::ParserError
-        puts "JSON::ParserError // API call failed"
-        return recipesrecipe
+          parsed["results"].each do |recipe|
+  	        new_recipe = Recipe.create({ name: recipe["title"], thumbnail: recipe["thumbnail"]}) if recipe
+            puts "Extracting from #{page + 1}"
+            ingredient_array = recipe["ingredients"].split(', ')
+            ingredient_array.each do |ingredient|
+              new_ingredient = Ingredient.create({ name: ingredient })
+              new_recipe.ingredients.push(new_ingredient) if new_ingredient
+            end
+          end
+        end
       end
     end
-
+    rescue JSON::ParserError
+      puts "JSON::ParserError // API call failed"
+    rescue ActiveRecord::RecordInvalid
+      puts "Validation failed"
+  end
 
   end
 end
-# Recipe.recipe_parser.get_one_recipe
+
+# Recipe.recipe_parser.save_all_recipes_to_database
 # Recipe.recipe_parser.scrape_all_recipes
 # Recipe.recipe_parser.scrape_all_recipes_for("garlic, onions")

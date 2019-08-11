@@ -9,5 +9,4 @@ class Recipe < ApplicationRecord
     Utility::RecipePuppyParser.new
   end
 
-
 end
