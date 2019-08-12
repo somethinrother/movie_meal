@@ -1,4 +1,4 @@
-require 'utility/recipe_puppy_parser.rb'
+require 'utility/recipe_puppy_parser'
 
 class Recipe < ApplicationRecord
 	validates :name, uniqueness: true
