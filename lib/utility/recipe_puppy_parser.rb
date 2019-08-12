@@ -2,7 +2,7 @@ module Utility
   class RecipePuppyParser
     ALL_RECIPES_URL = 'http://www.recipepuppy.com/api/?q=&p='.freeze
     BASE_URL = 'http://www.recipepuppy.com/api/'.freeze
-# fix
+# fix / update
     def query_all_recipes
       begin
         recipes = {}
@@ -19,7 +19,7 @@ module Utility
         return recipes
       end
     end
-# fix
+# fix / update
     def query_all_recipes_for(*ingredient)
       begin
         ing_search = ingredient.join('').gsub(/\s+/, "")
@@ -45,7 +45,7 @@ module Utility
         puts "Validation failed"
       end
     end
-# fix
+# fix / update
     def get_first_recipe(*ingredient)
       begin
         recipe = {}
@@ -77,60 +77,42 @@ module Utility
       end
     end
 
+
+
+# refactor
     def save_all_recipes_to_database
-      begin
-        100.times do |page|
-          response = HTTParty.get("#{ALL_RECIPES_URL}#{page + 1}")
-          if response.success?
-            parsed = JSON.parse(response)
-            parsed["results"].each do |recipe|
-              new_recipe = Recipe.new({ name: recipe["title"], thumbnail: recipe["thumbnail"]})
-# NEW RECIPE METHOD
-              if new_recipe.valid?
-                new_recipe.save
-                ingredient_array = recipe["ingredients"].split(', ')
-                ingredient_array.each do |ingredient|
-                  new_ingredient = Ingredient.new({ name: ingredient })
-                  if new_ingredient.valid?
-                    new_ingredient.save
-                    new_recipe.ingredients << new_ingredient
-                    puts "new ingredient attached to a new recipe"
-                  elsif new_ingredient.invalid?
-                    new_recipe.ingredients << Ingredient.find_by(name: new_ingredient.name)
-                    puts "existing ingredient attached to a new recipe"
-                  end
-                end
-# EXISTING RECIPE METHOD
-                elsif new_recipe.invalid?
-                old_recipe = Recipe.find_by(name: new_recipe.name)
-                ingredient_array = recipe["ingredients"].split(', ')
-                ingredient_array.each do |ingredient|
-                  new_ingredient = Ingredient.new({ name: ingredient })
-    # INGREDIENT VALIDATION, checking db, creating recipe/ingredient link
-                  if new_ingredient.valid?
-                    new_ingredient.save
-                    old_recipe.ingredients << new_ingredient
-                    puts "recipe exists in the database with no ingredients, new ingredient attached to that recipe"
-                  elsif new_ingredient.invalid?
-                    unless old_recipe.ingredients.find_by(name: new_ingredient.name)
-                    old_recipe.ingredients << Ingredient.find_by(name: new_ingredient.name)
-                    puts "recipe exists in the database with no ingredients, existing ingredient attached to that recipe"
-                    end
-                  end
-                end
-# EXISTING RECIPE FULLY COMPLETE
-              elsif new_recipe.invalid?
-                puts "recipe exists in the database, has ingredients"
-              end
-            end
-          end
-        end
-      end
-      rescue JSON::ParserError
-        puts "JSON::ParserError // API call failed"
-      rescue ActiveRecord::RecordInvalid
-        puts "Validation failed"
+    		100.times do |page|
+    			response = HTTParty.get("#{ALL_RECIPES_URL}#{page + 1}")
+    			if response.success?
+    				parsed = JSON.parse(response)
+    				parsed["results"].each do |recipe|
+    					old_recipe = Recipe.find_by(name: recipe["title"])
+    					recipe_ingredients = recipe["ingredients"].split(', ')
+    # CHECKING OLD RECIPE FOR MISSING INGREDIENTS
+    					if old_recipe
+    						recipe_ingredients.each do |ingredient|
+    							unless old_recipe.ingredients.find_by(name: ingredient)
+    								old_recipe.ingredients << Ingredient.create({ name: ingredient })
+    							end
+    						end
+    # CREATING NEW RECIPE AND CHECKING FOR OLD INGREDIENTS
+    					else
+    						new_recipe = Recipe.create({ name: recipe["title"], thumbnail: recipe["thumbnail"]})
+    						recipe_ingredients.each do |ingredient|
+    							old_ingredient = Ingredient.find_by(name: ingredient)
+    							if old_ingredient
+    								new_recipe.ingredients << old_ingredient
+    							elsif !(old_ingredient)
+    								new_recipe.ingredients << Ingredient.create({ name: ingredient })
+    							end
+    						end
+    					end
+    				end
+    			end
+    		end
     end
+
+
 
   end
 end
