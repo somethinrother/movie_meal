@@ -86,16 +86,19 @@ module Utility
     			if response.success?
     				parsed = JSON.parse(response)
     				parsed["results"].each do |recipe|
+              recipe_ingredients = recipe["ingredients"].split(', ')
+# CHECKING OLD RECIPE FOR MISSING INGREDIENTS
     					old_recipe = Recipe.find_by(name: recipe["title"])
-    					recipe_ingredients = recipe["ingredients"].split(', ')
-    # CHECKING OLD RECIPE FOR MISSING INGREDIENTS
     					if old_recipe
     						recipe_ingredients.each do |ingredient|
-    							unless old_recipe.ingredients.find_by(name: ingredient)
+                  new_ingredient = Ingredient.find_by(name: ingredient )
+                  if new_ingredient
+                    old_recipe.ingredients << new_ingredient
+                  else
     								old_recipe.ingredients << Ingredient.create({ name: ingredient })
-    							end
-    						end
-    # CREATING NEW RECIPE AND CHECKING FOR OLD INGREDIENTS
+      						end
+                end
+# CREATING NEW RECIPE AND CHECKING FOR OLD INGREDIENTS
     					else
     						new_recipe = Recipe.create({ name: recipe["title"], thumbnail: recipe["thumbnail"]})
     						recipe_ingredients.each do |ingredient|
