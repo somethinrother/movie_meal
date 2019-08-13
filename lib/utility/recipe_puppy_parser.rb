@@ -3,22 +3,21 @@ module Utility
     ALL_RECIPES_URL = 'http://www.recipepuppy.com/api/?q=&p='.freeze
     BASE_URL = 'http://www.recipepuppy.com/api/'.freeze
 
-# Database query, quick and dirty
-    def get_first_recipe_one_ingredient(ingredient)
-      ingredient_with_recipes = Ingredient.find_by(name: ingredient )
-      ingredient_with_recipes.recipes.first
-    end
-
-# API query, not a database query, need to add ingredient-recipe varification
+# API/db scrape/validation PARENT 1
     def query_all_recipes_for(*ingredients)
-      ingredient_query = ingredients.join('').gsub(/\s+/, "")
+      ingredient_query_syntax = ingredients.join('').gsub(/\s+/, "")
+      contact_recipe_api(ingredient_query_syntax)
+    end
+# CHILD 1
+    def contact_recipe_api(ingredient_query)
       recipes = []
       100.times do |page|
         searched_url = "#{BASE_URL}?i=#{ingredient_query}&p=#{page + 1}"
         get_recipes(recipes, searched_url)
       end
+      return recipes
     end
-
+# CHILD 1
     def get_recipes(recipe_array, url)
       response = HTTParty.get(url)
       if response.success?
@@ -35,7 +34,7 @@ module Utility
       return recipe_array
     end
 
-# Complete Scrape PARENT
+# Complete Scrape PARENT 2
     def save_all_recipes_to_database
       recipes = []
   		100.times do |page|
@@ -43,7 +42,7 @@ module Utility
         get_recipes_to_save(recipes, url)
     	end
     end
-# CHILD
+# CHILD 2 I could probably refactor this a bit more
     def get_recipes_to_save(recipe_array, url)
       response = HTTParty.get(url)
       if response.success?
@@ -52,34 +51,21 @@ module Utility
           recipe_ingredients = recipe["ingredients"].split(', ')
           check_recipes = Recipe.find_by(name: recipe["title"])
           if check_recipes
-            process_ingredients_for_existing(check_recipes, recipe_ingredients)
+            process_ingredients_for(check_recipes, recipe_ingredients)
           else
             new_recipe = Recipe.create({name: recipe["title"], thumbnail: recipe["thumbnail"]})
-            process_ingredients_for_new(new_recipe, recipe_ingredients)
+            process_ingredients_for(new_recipe, recipe_ingredients)
           end
         end
       end
     end
-# CHILD
-    def process_ingredients_for_existing(recipe, ingredients)
+# CHILD 2
+    def process_ingredients_for(recipe, ingredients)
       ingredients.each do |ingredient|
         old_ingredient = Ingredient.find_by(name: ingredient )
-        if old_ingredient
-          recipe.ingredients << old_ingredient
-        else
-          recipe.ingredients << Ingredient.create({ name: ingredient })
-        end
-      end
-    end
-# CHILD
-    def process_ingredients_for_new(recipe, ingredients)
-      ingredients.each do |ingredient|
-        old_ingredient = Ingredient.find_by(name: ingredient)
-        if old_ingredient
-          recipe.ingredients << old_ingredient
-        elsif !(old_ingredient)
-          recipe.ingredients << Ingredient.create({ name: ingredient })
-        end
+        new_ingredient = Ingredient.create({ name: ingredient })
+        recipe.ingredients << old_ingredient if old_ingredient
+        recipe.ingredients << new_ingredient if new_ingredient.valid?
       end
     end
 # # # # # # # # # # # #
