@@ -39,7 +39,7 @@ module Utility
 # Complete Scrape PARENT
     def save_all_recipes_to_database
       recipes = []
-  		100.times do |page|
+  	   100.times do |page|
         url = "#{ALL_RECIPES_URL}#{page + 1}"
         get_recipes_to_save(recipes, url)
     	end
