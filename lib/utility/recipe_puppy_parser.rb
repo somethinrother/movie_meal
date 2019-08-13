@@ -45,39 +45,13 @@ module Utility
         puts "Validation failed"
       end
     end
-# fix / update
-    def get_first_recipe(*ingredient)
-      begin
-        recipe = {}
-        ing_search = ingredient.join('').gsub(/\s+/, "")
-        response = HTTParty.get("#{BASE_URL}?i=#{ing_search}&p=1")
-        if response.success?
-          parsed = JSON.parse(response)
-          recipe = parsed["results"].first
-          new_recipe = Recipe.create({ name: recipe["title"], thumbnail: recipe["thumbnail"]}) if recipe
-          ingredient_array = recipe["ingredients"].split(', ')
-            ingredient_array.each do |ingredient|
-              new_ingredient = Ingredient.new({ name: ingredient })
-              if new_ingredient.valid?
-                new_ingredient.save
-                new_recipe.ingredients << new_ingredient
-              else
-                all_ingredients = Ingredient.all
-                old_ingredient = all_ingredients.find_by_sql("SELECT * FROM ingredients WHERE name = '#{new_ingredient.name}'")
-                new_recipe.ingredients << old_ingredient
-                puts "existing ingredient attached to new recipe"
-              end
-            end
-        end
-        return recipe
-      rescue ActiveRecord::RecordInvalid
-        puts "Validation failed"
-      rescue JSON::ParserError
-        puts "JSON::ParserError // API call failed"
-      end
+
+
+
+    def get_first_recipe_one_ingredient(ingredient)
+      ingredient_with_recipes = Ingredient.find_by(name: ingredient )
+  	  ingredient_with_recipes.recipes.first
     end
-
-
 
 # refactor
     def save_all_recipes_to_database
@@ -91,9 +65,9 @@ module Utility
     					old_recipe = Recipe.find_by(name: recipe["title"])
     					if old_recipe
     						recipe_ingredients.each do |ingredient|
-                  new_ingredient = Ingredient.find_by(name: ingredient )
-                  if new_ingredient
-                    old_recipe.ingredients << new_ingredient
+                  old_ingredient = Ingredient.find_by(name: ingredient )
+                  if old_ingredient
+                    old_recipe.ingredients << old_ingredient
                   else
     								old_recipe.ingredients << Ingredient.create({ name: ingredient })
       						end
@@ -134,5 +108,5 @@ end
 # Have to find the original ingredient ID
 # TODO: Clean up recipe titles with regex, get rid of all \n\t\r
 # Recipe.recipe_parser.save_all_recipes_to_database
-# Recipe.recipe_parser.get_first_recipe("garlic")
+# Recipe.recipe_parser.get_first_recipe_one_ingredient("garlic")
 # Recipe.recipe_parser.query_all_recipes_for("garlic, onions")
