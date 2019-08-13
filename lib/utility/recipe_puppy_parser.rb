@@ -3,76 +3,93 @@ module Utility
     ALL_RECIPES_URL = 'http://www.recipepuppy.com/api/?q=&p='.freeze
     BASE_URL = 'http://www.recipepuppy.com/api/'.freeze
 
-# API query, not a database query
-    def query_all_recipes_for(*ingredients)
-      begin
-        ing_search = ingredients.join('').gsub(/\s+/, "")
-        recipes = []
-        100.times do |page|
-          response = HTTParty.get("#{BASE_URL}?i=#{ing_search}&p=#{page + 1}")
-          if response.success?
-            parsed = JSON.parse(response)
-            parsed["results"].each do |recipe|
-              searched_recipe = Recipe.find_by(name: recipe["title"])
-              if searched_recipe
-                recipes << searched_recipe
-              end
-            end
-          end
-        end
-        recipes.each do |r|
-          puts "Recipe: #{r.name}"
-        end
-      end
-      rescue JSON::ParserError
-        puts "JSON::ParserError // API call failed"
-    end
-# Database query
+# Database query, quick and dirty
     def get_first_recipe_one_ingredient(ingredient)
       ingredient_with_recipes = Ingredient.find_by(name: ingredient )
-  	  ingredient_with_recipes.recipes.first
+      ingredient_with_recipes.recipes.first
     end
-# Complete Scrape
+
+# API query, not a database query, need to add ingredient-recipe varification
+    def query_all_recipes_for(*ingredients)
+      ingredient_query = ingredients.join('').gsub(/\s+/, "")
+      recipes = []
+      100.times do |page|
+        searched_url = "#{BASE_URL}?i=#{ingredient_query}&p=#{page + 1}"
+        get_recipes(recipes, searched_url)
+      end
+    end
+
+    def get_recipes(recipe_array, url)
+      response = HTTParty.get(url)
+      if response.success?
+        parsed = JSON.parse(response)
+        parsed["results"].each do |recipe|
+          searched_recipe = Recipe.find_by(name: recipe["title"])
+           if searched_recipe
+            recipe_array << searched_recipe
+          else
+            recipe_array << Recipe.create(name: recipe["title"])
+          end
+        end
+      end
+      return recipe_array
+    end
+
+# Complete Scrape PARENT
     def save_all_recipes_to_database
-    		100.times do |page|
-    			response = HTTParty.get("#{ALL_RECIPES_URL}#{page + 1}")
-    			if response.success?
-    				parsed = JSON.parse(response)
-    				parsed["results"].each do |recipe|
-              recipe_ingredients = recipe["ingredients"].split(', ')
-# CHECKING OLD RECIPE FOR MISSING INGREDIENTS
-    					old_recipe = Recipe.find_by(name: recipe["title"])
-    					if old_recipe
-    						recipe_ingredients.each do |ingredient|
-                  old_ingredient = Ingredient.find_by(name: ingredient )
-                  if old_ingredient
-                    old_recipe.ingredients << old_ingredient
-                  else
-    								old_recipe.ingredients << Ingredient.create({ name: ingredient })
-      						end
-                end
-# CREATING NEW RECIPE AND CHECKING FOR OLD INGREDIENTS
-    					else
-    						new_recipe = Recipe.create({ name: recipe["title"], thumbnail: recipe["thumbnail"]})
-    						recipe_ingredients.each do |ingredient|
-    							old_ingredient = Ingredient.find_by(name: ingredient)
-    							if old_ingredient
-    								new_recipe.ingredients << old_ingredient
-    							elsif !(old_ingredient)
-    								new_recipe.ingredients << Ingredient.create({ name: ingredient })
-    							end
-    						end
-    					end
-    				end
-    			end
-    		end
+      recipes = []
+  		100.times do |page|
+        url = "#{ALL_RECIPES_URL}#{page + 1}"
+        get_recipes_to_save(recipes, url)
+    	end
     end
-
-
+# CHILD
+    def get_recipes_to_save(recipe_array, url)
+      response = HTTParty.get(url)
+      if response.success?
+        parsed = JSON.parse(response)
+        parsed["results"].each do |recipe|
+          recipe_ingredients = recipe["ingredients"].split(', ')
+          check_recipes = Recipe.find_by(name: recipe["title"])
+          if check_recipes
+            process_ingredients_for_existing(check_recipes, recipe_ingredients)
+          else
+            new_recipe = Recipe.create({name: recipe["title"], thumbnail: recipe["thumbnail"]})
+            process_ingredients_for_new(new_recipe, recipe_ingredients)
+          end
+        end
+      end
+    end
+# CHILD
+    def process_ingredients_for_existing(recipe, ingredients)
+      ingredients.each do |ingredient|
+        old_ingredient = Ingredient.find_by(name: ingredient )
+        if old_ingredient
+          recipe.ingredients << old_ingredient
+        else
+          recipe.ingredients << Ingredient.create({ name: ingredient })
+        end
+      end
+    end
+# CHILD
+    def process_ingredients_for_new(recipe, ingredients)
+      ingredients.each do |ingredient|
+        old_ingredient = Ingredient.find_by(name: ingredient)
+        if old_ingredient
+          recipe.ingredients << old_ingredient
+        elsif !(old_ingredient)
+          recipe.ingredients << Ingredient.create({ name: ingredient })
+        end
+      end
+    end
+# # # # # # # # # # # #
 
   end
 end
 
+
+
+# TODO: Clean up recipe titles with regex, get rid of all \n\t\r
 
 # def query_by_recipe(recipe)
 #   begin
@@ -84,8 +101,9 @@ end
 # end
 
 
-# Have to find the original ingredient ID
-# TODO: Clean up recipe titles with regex, get rid of all \n\t\r
+
+# QUICK LINKS FOR TESTING
+# Recipe.recipe_parser.query_similar_recipes("Ginger Champagne")
 # Recipe.recipe_parser.save_all_recipes_to_database
 # Recipe.recipe_parser.get_first_recipe_one_ingredient("garlic")
 # Recipe.recipe_parser.query_all_recipes_for("garlic, onions")
