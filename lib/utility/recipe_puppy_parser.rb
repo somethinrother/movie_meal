@@ -30,9 +30,11 @@ module Utility
 
     def organise_new_vs_old_recipes(results_recipe)
       recipe_ingredients = results_recipe["ingredients"].split(', ')
-      check_recipes = Recipe.find_by(name: results_recipe["title"])
+      # FIX, dont want to get rid of whitespace
+      recipe_name_no_special_characters = results_recipe["title"].gsub!(/[^0-9A-Za-z]/, '')
+      check_recipes = Recipe.find_by(name: recipe_name_no_special_characters)
         process_ingredients_for(check_recipes, recipe_ingredients) if check_recipes
-      new_recipe = Recipe.create({name: results_recipe["title"], thumbnail: results_recipe["thumbnail"]})
+      new_recipe = Recipe.create({name: recipe_name_no_special_characters, thumbnail: results_recipe["thumbnail"]})
         process_ingredients_for(new_recipe, recipe_ingredients) if new_recipe
     end
 
