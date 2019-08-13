@@ -25,7 +25,7 @@ module Utility
         parsed["results"].each do |recipe|
           organise_new_vs_old_recipes(recipe)
       end
-      return recipe_array
+      recipe_array
     end
 
     def organise_new_vs_old_recipes(results_recipe)
