@@ -2,58 +2,37 @@ module Utility
   class RecipePuppyParser
     ALL_RECIPES_URL = 'http://www.recipepuppy.com/api/?q=&p='.freeze
     BASE_URL = 'http://www.recipepuppy.com/api/'.freeze
-# fix / update
-    def query_all_recipes
+
+# API query, not a database query
+    def query_all_recipes_for(*ingredients)
       begin
-        recipes = {}
-        99.times do |page|
-          response = HTTParty.get("#{ALL_RECIPES_URL}#{page + 1}")
-          parsed = JSON.parse(response) if response.success?
-          parsed["results"].each do |recipe|
-            recipes[recipe["title"]] = recipe["ingredients"]
-          end
-        end
-        return recipes
-      rescue JSON::ParserError
-        puts "JSON::ParserError // API call failed"
-        return recipes
-      end
-    end
-# fix / update
-    def query_all_recipes_for(*ingredient)
-      begin
-        ing_search = ingredient.join('').gsub(/\s+/, "")
-        recipes = {}
+        ing_search = ingredients.join('').gsub(/\s+/, "")
+        recipes = []
         100.times do |page|
           response = HTTParty.get("#{BASE_URL}?i=#{ing_search}&p=#{page + 1}")
           if response.success?
             parsed = JSON.parse(response)
             parsed["results"].each do |recipe|
-    	        new_recipe = Recipe.create({ name: recipe["title"], thumbnail: recipe["thumbnail"]}) if recipe
-              ingredient_array = recipe["ingredients"].split(', ')
-              ingredient_array.each do |ingredient|
-                new_ingredient = Ingredient.create({ name: ingredient })
-                new_recipe.ingredients << new_ingredient if new_ingredient
+              searched_recipe = Recipe.find_by(name: recipe["title"])
+              if searched_recipe
+                recipes << searched_recipe
               end
             end
           end
         end
-        return recipes
+        recipes.each do |r|
+          puts "Recipe: #{r.name}"
+        end
+      end
       rescue JSON::ParserError
         puts "JSON::ParserError // API call failed"
-      rescue ActiveRecord::RecordInvalid
-        puts "Validation failed"
-      end
     end
-
-
-
+# Database query
     def get_first_recipe_one_ingredient(ingredient)
       ingredient_with_recipes = Ingredient.find_by(name: ingredient )
   	  ingredient_with_recipes.recipes.first
     end
-
-# refactor
+# Complete Scrape
     def save_all_recipes_to_database
     		100.times do |page|
     			response = HTTParty.get("#{ALL_RECIPES_URL}#{page + 1}")
