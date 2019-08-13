@@ -50,25 +50,24 @@ module Utility
         parsed["results"].each do |recipe|
           recipe_ingredients = recipe["ingredients"].split(', ')
           check_recipes = Recipe.find_by(name: recipe["title"])
-          if check_recipes
-            process_ingredients_for(check_recipes, recipe_ingredients)
-          else
-            new_recipe = Recipe.create({name: recipe["title"], thumbnail: recipe["thumbnail"]})
-            process_ingredients_for(new_recipe, recipe_ingredients)
+          process_ingredients_for(check_recipes, recipe_ingredients) if check_recipes
+          next if check_recipes
+          new_recipe = Recipe.create({name: recipe["title"], thumbnail: recipe["thumbnail"]})
+          process_ingredients_for(new_recipe, recipe_ingredients) if new_recipe
           end
-        end
       end
     end
 # CHILD 2
     def process_ingredients_for(recipe, ingredients)
       ingredients.each do |ingredient|
-        old_ingredient = Ingredient.find_by(name: ingredient )
-        new_ingredient = Ingredient.create({ name: ingredient })
-        recipe.ingredients << old_ingredient if old_ingredient
-        recipe.ingredients << new_ingredient if new_ingredient.valid?
+        if Ingredient.find_by(name: ingredient ) && !(recipe.ingredients.find_by(name: ingredient ))
+          recipe.ingredients << Ingredient.find_by(name: ingredient )
+        elsif !(Ingredient.find_by(name: ingredient ))
+          new_ingredient = Ingredient.create({ name: ingredient })
+          recipe.ingredients << new_ingredient
+        end
       end
     end
-# # # # # # # # # # # #
 
   end
 end
