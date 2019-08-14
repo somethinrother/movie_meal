@@ -19,7 +19,8 @@ module Utility
 
     def get_recipes_to_query(recipe_array, url)
       response = HTTParty.get(url)
-      return error unless response.success?
+      return JSON::ParserError 767 unless response.success?
+      
       parsed = JSON.parse(response)
       parsed["results"].each do |recipe|
         organise_new_vs_old_recipes(recipe)
@@ -33,13 +34,10 @@ module Utility
       recipe_name = results_recipe["title"]
       recipe_name.gsub!(/&quot/, '').gsub!(/[^0-9A-Za-z]/, ' ')
       check_recipes = Recipe.find_by(name: recipe_name)
-        process_ingredients_for(check_recipes, ingredients) if check_recipes
+      process_ingredients_for(check_recipes, ingredients) if check_recipes
 
-      new_recipe = Recipe.create({
-        name: recipe_name,
-        thumbnail: results_recipe["thumbnail"]
-        })
-        process_ingredients_for(new_recipe, ingredients) if new_recipe
+      new_recipe_created = Recipe.create({name: recipe_name, thumbnail: results_recipe["thumbnail"]})
+      process_ingredients_for(new_recipe_created, ingredients) if new_recipe_created
     end
 
     def process_ingredients_for(recipe, ingredients)
@@ -62,8 +60,8 @@ module Utility
 
     def get_recipes_to_save(recipe_array, url)
       response = HTTParty.get(url)
-      return error unless response.success?
-      
+      return JSON::ParserError 767 unless response.success?
+
       parsed = JSON.parse(response)
       parsed["results"].each do |recipe|
         organise_new_vs_old_recipes(recipe)
