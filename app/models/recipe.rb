@@ -5,6 +5,6 @@ class Recipe < ApplicationRecord
 	has_and_belongs_to_many :movies
 	has_and_belongs_to_many :ingredients
 	def self.recipe_parser
-    Utility::RecipePuppyParser.new
+		Utility::RecipePuppyParser.new
   end
 end
