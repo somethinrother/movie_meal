@@ -20,7 +20,7 @@ module Utility
     def get_recipes_to_query(recipe_array, url)
       response = HTTParty.get(url)
       return JSON::ParserError 767 unless response.success?
-      
+
       parsed = JSON.parse(response)
       parsed["results"].each do |recipe|
         organise_new_vs_old_recipes(recipe)
@@ -54,7 +54,7 @@ module Utility
     def save_all_recipes_to_database
       100.times do |page|
         url = "#{ALL_RECIPES_URL}#{page + 1}"
-        get_recipes_to_save(recipes, url)
+        get_recipes_to_save(url)
     	end
     end
 
