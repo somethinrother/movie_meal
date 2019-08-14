@@ -30,9 +30,10 @@ module Utility
 
     def organise_new_vs_old_recipes(results_recipe)
       ingredients = results_recipe["ingredients"].split(', ')
+      byebug
       # Double check REGEX is working
       recipe_name = results_recipe["title"]
-      recipe_name.gsub!(/&quot/, '').gsub!(/[^0-9A-Za-z]/, ' ')
+      recipe_name.gsub!(/[^0-9A-Za-z]/, ' ')
       check_recipes = Recipe.find_by(name: recipe_name)
       process_ingredients_for(check_recipes, ingredients) if check_recipes
 
@@ -58,7 +59,7 @@ module Utility
     	end
     end
 
-    def get_recipes_to_save(recipe_array, url)
+    def get_recipes_to_save(url)
       response = HTTParty.get(url)
       return JSON::ParserError 767 unless response.success?
 
