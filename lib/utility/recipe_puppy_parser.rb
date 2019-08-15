@@ -72,13 +72,6 @@ module Utility
       end
     end
 
-# IDENTIFYING A RECIPE FROM INGREDIENTS
-    def check_database_for(query)
-      if test
-# IN PROGRESS RIGHT NOW JAMES
-      end
-    end
-
   end
 end
 
