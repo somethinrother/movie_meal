@@ -43,20 +43,14 @@ module Utility
       # Double check REGEX is working
       recipe_name = results_recipe["title"]
       recipe_name.gsub!(/[^0-9A-Za-z]/, ' ')
-      check_recipes = Recipe.find_by(name: recipe_name)
+      check_recipes = Recipe.find_or_create_by(name: recipe_name, thumbnail: results_recipe["thumbnail"])
       process_ingredients_for(check_recipes, ingredients) if check_recipes
-
-      new_recipe_created = Recipe.create({name: recipe_name, thumbnail: results_recipe["thumbnail"]})
-      process_ingredients_for(new_recipe_created, ingredients) if new_recipe_created
     end
 
     def process_ingredients_for(recipe, ingredients)
       ingredients.each do |ingredient|
         if Ingredient.find_by(name: ingredient ) && !(recipe.ingredients.find_by(name: ingredient ))
-          recipe.ingredients << Ingredient.find_by(name: ingredient )
-        elsif !(Ingredient.find_by(name: ingredient ))
-          new_ingredient = Ingredient.create({ name: ingredient })
-          recipe.ingredients << new_ingredient
+          recipe.ingredients << Ingredient.find_or_create_by(name: ingredient )
         end
       end
     end
@@ -78,6 +72,12 @@ module Utility
       end
     end
 
+# IDENTIFYING A RECIPE FROM INGREDIENTS
+    def check_database_for(query)
+      if test
+# IN PROGRESS RIGHT NOW JAMES
+      end
+    end
 
   end
 end
