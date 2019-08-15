@@ -30,10 +30,8 @@ RSpec.configure do |config|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
-
-  # WebMock.disable_net_connect!(allow_localhost: true)
-
   config.before(:each) do
+    WebMock.disable_net_connect!(allow_localhost: true)
     stub_request(:get, /www.recipepuppy.com\/api/).to_return(status: 200, headers: {})
   end
 
