@@ -5,11 +5,11 @@ module Utility
 
 		def populate_all_scripts
 			Movie.all.each do |movie|
-				get_script_and_scan(movie.title)
+				scan_script(movie.title)
 			end
 		end
 
-		def get_scripts(movie)
+		def get_script(movie)
 		  movie = Movie.find_by(title: movie)
 			return NoMovieExists unless movie
 
@@ -17,9 +17,10 @@ module Utility
 			parser.populate_script(movie)
 		end
 
-		def	scan_scripts(movie)
+		def	scan_script(movie)
+			movie = Movie.find_by(title: movie)
 			return NoMovieScript if movie.script.nil?
-			
+
 			words = movie.script.split(' ')
 			words.each do |word|
 				movie.ingredients << Ingredient.find_by(name: word) unless Ingredient.find_by(name: word).nil?
@@ -27,5 +28,16 @@ module Utility
 				movie.recipes << Recipe.find_by(name: word) if !(Recipe.find_by(name: word).nil?)
 			end
 		end
+
+# For error finding
+		def check_for_all_scripts
+			movies = Movie.all
+			movies.each do |movie|
+				puts "#{movie.title} has a script" if movie.script
+				puts "#{movie.title} ... NO script" if movie.script.nil?
+			end
+		end
+
+
 	end
 end
