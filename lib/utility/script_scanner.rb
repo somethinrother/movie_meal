@@ -26,60 +26,61 @@ module Utility
 
 				movie.recipes << Recipe.find_by(name: word) if !(Recipe.find_by(name: word).nil?)
 			end
-			if movie.ingredients.first
-				movie.ingredients.each do |ingredient|
-					ingredient
-				end
-			end
-			if movie.recipes.first
-				movie.recipes.each do |recipe|
-					recipe
-				end
-			end
 		end
 
-# METHODS FOR FINDING ERRORS AND INFORMATION
-		def check_for_all_scripts
-			movies = Movie.all
-			movies.each do |movie|
-				puts "#{movie.title} has a script" if movie.script
-				puts "#{movie.title} ... NO script" if movie.script == nil?
-			end
-		end
-
-# need to fix the out put of these methods so its not array return
-# 	movie = Movie.find_by(title: movie)
-
-# need to fix the out put of these methods so its not array return
-		def check_for_food_loop(number)
+# can alter return data type, right now is an array for proof of concept
+		def movies_check_for_food(number)
 			counter = 0
 			Movie.all.each do |movie|
-				if movie.is_scraped && counter < number
-					scan_script(movie)
-					if has_any_food(movie)
+				if movie.is_scraped && has_any_food(movie) && counter < number
+						scan_script(movie)
+						# display_recipes(movie)
 						counter += 1
-						check_for_ingredient_mentions(movie)
-					end
+						display_ingredients(movie)
 				end
 			end
 		end
 
 		def has_any_food(movie)
-			return true	if movie.ingredients.all || movie.recipes.all
+			movie.ingredients.all || movie.recipes.all
 		end
 
-		def check_for_ingredient_mentions(movie)
-			if has_any_food(movie)
-				ingredients = []
-				movie.ingredients.all.each do |ingredient|
-					ingredients << ingredient.name unless ingredients.include?(ingredient)
-				end
-				movie.recipes.all.each do |recipe|
-					ingredients << recipe.name
-				end
-				return ingredients
+		def display_recipes(movie)
+			unique_recipes = []
+			movie.recipes.all.each do |recipe|
+				unique_recipes << recipe.name
+			end
+			puts "#{movie.title} contains: #{unique_recipes.to_s}"
+		end
+
+		def display_ingredients(movie)
+			unique_ingredients = []
+			movie.ingredients.all.each do |ingredient|
+				unique_ingredients << ingredient.name unless unique_ingredients.include?(ingredient.name)
+			end
+			puts "#{movie.title} contains: #{unique_ingredients.to_s}"
+		end
+
+# METHODS FOR FINDING ERRORS AND INFORMATION
+		def display_all_movies_with_script
+			movies = Movie.all
+			movies.each do |movie|
+				check_for_script(movie)
 			end
 		end
+
+		def check_for_script(movie)
+			puts "#{movie.title} has a script"	if movie.script
+			puts "#{movie.title} does not have a script" if movie.script == nil?
+		end
+
+		# def all_movies_display_all_food
+		# 	Movie.all.each do |movie|
+		# 		if has_any_food(movie)
+		# 			display_ingredients(movie)
+		# 		end
+		# 	end
+		# end
 
 	end
 end
