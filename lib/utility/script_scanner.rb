@@ -22,24 +22,23 @@ module Utility
 			words = movie.script.split(' ')
 			words.each do |word|
 				movie.ingredients << Ingredient.find_by(name: word) unless Ingredient.find_by(name: word).nil?
-				# commented out for speed in testing
-				# movie.recipes << Recipe.find_by(name: word) unless Recipe.find_by(name: word).nil?
+				movie.recipes << Recipe.find_by(name: word) unless Recipe.find_by(name: word).nil?
 			end
 		end
 
-# can alter return data type, right now is an array for proof of concept
-		def check_all_for_food(number)
-			counter = 0
-			if counter < number
-				Movie.all.each do |movie|
-					if movie.is_scraped && movie.ingredients.all
-						counter += 1
-						scan_script(movie)
-						display_ingredients(movie)
-					end
-				end
-			end
-		end
+# Goes on forever
+		# def check_all_for_food(number)
+		# 	counter = 0
+		# 	 if counter < number
+		# 		Movie.all.each do |movie|
+		# 			if movie.ingredients.all && movie.is_scraped
+		# 				counter += 1
+		# 				scan_script(movie)
+		# 				display_ingredients(movie)
+		# 			end
+		# 		end
+		# 	end
+		# end
 
 		def display_food(movie_title)
 			movie = Movie.find_by(title: movie_title)
