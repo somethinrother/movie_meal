@@ -44,6 +44,8 @@ module Utility
     end
 
     def populate_script(movie)
+      url_components = movie.url.split('.')
+      return if url_components.include?('pdf')
       script = HTTParty.get(movie.url).body
       movie.assign_attributes(
         script: process_raw_script(script),
@@ -53,10 +55,10 @@ module Utility
     end
 
     def process_raw_script(script)
-      ActionController::Base.helpers.strip_tags(script)
-        .gsub(/[^a-zA-Z]/, ' ')
-        .squish
-        .downcase
+        ActionController::Base.helpers.strip_tags(script)
+          .gsub(/[^a-zA-Z]/, ' ')
+          .squish
+          .downcase
     end
   end
 end

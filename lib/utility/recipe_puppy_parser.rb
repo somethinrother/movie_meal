@@ -72,10 +72,3 @@ module Utility
 
   end
 end
-
-# QUICK LINKS FOR TESTING
-# Recipe.recipe_parser.query_for("Ginger Champagne")
-# Recipe.recipe_parser.query_similar_recipes("Ginger Champagne")
-# Recipe.recipe_parser.save_all_recipes_to_database
-# Recipe.recipe_parser.get_first_recipe_one_ingredient("garlic")
-# Recipe.recipe_parser.query_all_recipes_for("garlic, onions")
