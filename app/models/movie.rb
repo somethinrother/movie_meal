@@ -1,4 +1,5 @@
 require 'utility/imsdb_parser'
+require 'utility/script_scanner'
 
 class Movie < ApplicationRecord
   validates :title, uniqueness: true, presence: true
@@ -20,5 +21,9 @@ class Movie < ApplicationRecord
     else
       puts "#{movie.title} could not be saved: #{movie.errors.full_messages}"
     end
+  end
+
+  def self.script_scanner
+    Utility::ScriptScanner.new
   end
 end

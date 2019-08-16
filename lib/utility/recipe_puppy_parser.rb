@@ -27,7 +27,7 @@ module Utility
       recipes
     end
 
-    def get_recipes_to_query(recipe_array, url)
+    def get_recipes_to_query(recipes_array, url)
       response = HTTParty.get(url)
       return JSON::ParserError unless response.success?
 
@@ -35,7 +35,7 @@ module Utility
       parsed["results"].each do |recipe|
         organise_new_vs_old_recipes(recipe)
       end
-      recipe_array
+      recipes_array
     end
 
     def organise_new_vs_old_recipes(results_recipe)
@@ -49,9 +49,7 @@ module Utility
 
     def process_ingredients_for(recipe, ingredients)
       ingredients.each do |ingredient|
-        if Ingredient.find_by(name: ingredient ) && !(recipe.ingredients.find_by(name: ingredient ))
-          recipe.ingredients << Ingredient.find_or_create_by(name: ingredient )
-        end
+          recipe.ingredients << Ingredient.find_or_create_by(name: ingredient ) if !(recipe.ingredients.include?(Ingredient.find_by(name: ingredient)))
       end
     end
 
