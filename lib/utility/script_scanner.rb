@@ -26,20 +26,6 @@ module Utility
 			end
 		end
 
-# Goes on forever
-		# def check_all_for_food(number)
-		# 	counter = 0
-		# 	 if counter < number
-		# 		Movie.all.each do |movie|
-		# 			if movie.ingredients.all && movie.is_scraped
-		# 				counter += 1
-		# 				scan_script(movie)
-		# 				display_ingredients(movie)
-		# 			end
-		# 		end
-		# 	end
-		# end
-
 		def display_food(movie_title)
 			movie = Movie.find_by(title: movie_title)
 			scan_script(movie)
