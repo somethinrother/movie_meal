@@ -48,7 +48,8 @@ module Utility
 			end
 			puts "#{movie.title} contains: #{unique_ingredients.to_s}"
 		end
-
+		
+# for error checking
 		def display_all_movies_with_script
 			movies = Movie.all
 			movies.each do |movie|
