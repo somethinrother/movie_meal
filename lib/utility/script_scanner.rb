@@ -9,21 +9,21 @@ module Utility
 			end
 		end
 
-		def get_script(movie)
-			return NoMovieExists unless movie
-
-			parser = Utility::ImsdbParser.new
-			parser.populate_script(movie)
-		end
-
 		def	scan_script(movie)
 			get_script(movie) if movie.is_scraped == false
 
 			words = movie.script.split(' ')
 			words.each do |word|
-				movie.ingredients << Ingredient.find_by(name: word) unless Ingredient.find_by(name: word).nil?
-				movie.recipes << Recipe.find_by(name: word) unless Recipe.find_by(name: word).nil?
+				ingredient = Ingredient.find_by(name: word)
+				recipe = Recipe.find_by(name: word)
+				movie.ingredients << ingredient unless ingredient.nil?
+				movie.recipes << recipe unless recipe.nil?
 			end
+		end
+
+		def get_script(movie)
+			parser = Utility::ImsdbParser.new
+			parser.populate_script(movie)
 		end
 
 		def display_food(movie_title)
@@ -34,21 +34,17 @@ module Utility
 		end
 
 		def display_recipes(movie)
-			unique_recipes = []
 			movie.recipes.all.each do |recipe|
-				unique_recipes << recipe.name
+				recipe.name
 			end
-			puts "#{movie.title} contains: #{unique_recipes.to_s}"
 		end
 
 		def display_ingredients(movie)
-			unique_ingredients = []
 			movie.ingredients.all.each do |ingredient|
-				unique_ingredients << ingredient.name unless unique_ingredients.include?(ingredient.name)
+				ingredient.name
 			end
-			puts "#{movie.title} contains: #{unique_ingredients.to_s}"
 		end
-		
+
 # for error checking
 		def display_all_movies_with_script
 			movies = Movie.all
