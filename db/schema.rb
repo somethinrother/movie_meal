@@ -10,10 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_08_194918) do
+ActiveRecord::Schema.define(version: 2019_08_19_164102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cocktails", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cocktails_ingredients", id: false, force: :cascade do |t|
+    t.bigint "cocktails_id"
+    t.bigint "ingredients_id"
+    t.index ["cocktails_id"], name: "index_cocktails_ingredients_on_cocktails_id"
+    t.index ["ingredients_id"], name: "index_cocktails_ingredients_on_ingredients_id"
+  end
+
+  create_table "cocktails_movies", id: false, force: :cascade do |t|
+    t.bigint "cocktails_id"
+    t.bigint "movies_id"
+    t.index ["cocktails_id"], name: "index_cocktails_movies_on_cocktails_id"
+    t.index ["movies_id"], name: "index_cocktails_movies_on_movies_id"
+  end
 
   create_table "ingredients", force: :cascade do |t|
     t.string "name"

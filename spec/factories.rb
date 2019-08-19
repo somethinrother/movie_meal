@@ -1,4 +1,8 @@
 FactoryBot.define do
+  factory :cocktail do
+    
+  end
+
   # FACTORIES
 
   factory :movie do
