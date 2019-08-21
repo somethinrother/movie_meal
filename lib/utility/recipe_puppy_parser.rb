@@ -4,8 +4,10 @@ module Utility
     ALL_RECIPES_URL = 'http://www.recipepuppy.com/api/?q=&p='.freeze
     RECIPE_QUERY_BASE = 'http://www.recipepuppy.com/api/?q='.freeze
     MAX_PAGES = 100.freeze
-
-    @recipes = []
+    
+    def initialize
+      @recipes = []
+    end
 
     def query_for(recipe, number)
       recipe.gsub!(/\s/, '+')
