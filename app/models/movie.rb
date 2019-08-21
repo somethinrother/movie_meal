@@ -1,5 +1,4 @@
 require 'utility/imsdb_parser'
-require 'utility/script_scanner'
 
 class Movie < ApplicationRecord
   validates :title, uniqueness: true, presence: true
