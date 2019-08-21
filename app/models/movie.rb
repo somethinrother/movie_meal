@@ -22,8 +22,4 @@ class Movie < ApplicationRecord
       puts "#{movie.title} could not be saved: #{movie.errors.full_messages}"
     end
   end
-
-  def self.script_scanner
-    Utility::ScriptScanner.new
-  end
 end
