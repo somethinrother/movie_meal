@@ -10,21 +10,30 @@ module Utility
 				cocktail = Cocktail.find_or_create_by(name: drink[:strDrink])
 				ingredients = INGREDIENT_KEYS.map { |key| drink[key] }.reject { |ingredient| ingredient.nil? }
 				ingredients.each do |ingredient|
-					new_ingredient = Ingredient.find_or_create_by(name: ingredient)
+					new_ingredient = Ingredient.find_or_create_by(name: ingredient.downcase!)
 					cocktail.ingredients << new_ingredient if !cocktail.ingredients.include?(new_ingredient)
 				end
 			end
 		end
 
+		def find_cocktail_by(*ingredient_search)
+			ingredients = ingredient_search.split(' ')
+			cocktail_objects = []
+			ingredients.each do |ingredient|
+				found_ingredient = Ingredient.find_by(name: ingredient)
+				cocktail_objects << found_ingredient.cocktails if found_ingredient
+			end
+			cocktail_objects.uniq
+		end
+
+		def show_ingredients_of(cocktail)
+			found_cocktail = find_cocktail(cocktail)
+			found_cocktail.ingredients
+		end
+
 		def find_cocktail(name)
 			Cocktail.find_by(name: name)
 		end
-# cannot do this without has_and_belongs_to_many association
-		# def find_cocktail_by(*ingredients)
-		# 	ingredients.each do |ingredient|
-		# 		Ingredient.find_by(name: ingredient)
-		# 	end
-		# end
 
 	end
 end
