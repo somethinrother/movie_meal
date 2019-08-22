@@ -1,4 +1,5 @@
 FactoryBot.define do
+
   # FACTORIES
 
   factory :movie do

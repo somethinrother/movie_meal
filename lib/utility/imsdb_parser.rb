@@ -4,6 +4,7 @@ module Utility
     ALL_SCRIPT_URL = "#{IMSDB_BASE_URL}/all%20scripts/".freeze
     SCRIPT_LINK_CSS_PATH='table td p a'.freeze
     LANDING_PAGE_CSS_PATH='.script-details td a'.freeze
+    BLACKLISTED_EXTENSIONS = ['pdf'].freeze
 
     def all_movie_page_links
       extract_tags_from_css_at_url(SCRIPT_LINK_CSS_PATH, ALL_SCRIPT_URL)
@@ -15,7 +16,6 @@ module Utility
         url: extract_script_url_from_node(node)
       }
     end
-
 
     def extract_title_from_node(node)
       attributes = node.attributes
@@ -44,6 +44,8 @@ module Utility
     end
 
     def populate_script(movie)
+      url_components = movie.url.split('.')
+      return if BLACKLISTED_EXTENSIONS.any? {|extension| url_components.include?(extension) }
       script = HTTParty.get(movie.url).body
       movie.assign_attributes(
         script: process_raw_script(script),
