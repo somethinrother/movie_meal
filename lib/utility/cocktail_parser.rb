@@ -15,9 +15,5 @@ module Utility
 				# end
 			end
 		end
-
-
-
-
 	end
 end
