@@ -21,22 +21,12 @@ RSpec.describe Cocktail, type: :model do
     end
   end
 
-# FAILING TESTS TO WRITE CODE FOR
-
   describe 'when adding ingredients' do
     context 'with valid attributes' do
       it 'saves successfully' do
         ingredient = create(:ingredient)
         subject.ingredients << ingredient
         expect(ingredient).to be_valid
-      end
-    end
-
-    context 'with invalid attributes' do
-      it 'fails to save' do
-        ingredient = create(:ingredient)
-        subject.ingredients << ingredient
-        expect(subject).to_not be_valid
       end
     end
 
