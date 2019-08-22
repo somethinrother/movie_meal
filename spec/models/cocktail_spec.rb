@@ -36,7 +36,7 @@ RSpec.describe Cocktail, type: :model do
         ingredient2 = create(:ingredient)
         subject.ingredients << ingredient
         subject.ingredients << ingredient2
-        expect(ingredient2).to be_valid
+        expect(subject.ingredients.length).to eq(2)
       end
     end
   end
