@@ -8,11 +8,11 @@ module Utility
 		def save_cocktails
 			DRINKS.each do |drink|
 				cocktail = Cocktail.find_or_create_by(name: drink[:strDrink])
-				# ingredients = INGREDIENT_KEYS.map { |key| drink[key] }.reject { |ingredient| ingredient.nil? }
-				# ingredients.each do |ingredient|
-				# 	new_ingredient = Ingredient.find_or_create_by(name: ingredient)
-				# 	cocktail.ingredients << new_ingredient if new_ingredient.valid?
-				# end
+				ingredients = INGREDIENT_KEYS.map { |key| drink[key] }.reject { |ingredient| ingredient.nil? }
+				ingredients.each do |ingredient|
+					new_ingredient = Ingredient.find_or_create_by(name: ingredient)
+					cocktail.ingredients << new_ingredient if !cocktail.ingredients.include?(new_ingredient)
+				end
 			end
 		end
 	end

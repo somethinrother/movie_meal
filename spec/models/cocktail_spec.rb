@@ -15,7 +15,6 @@ RSpec.describe Cocktail, type: :model do
     context 'with invalid attributes' do
       it 'fails when the name is not unique' do
         cocktail = create(:cocktail, name: subject.name)
-        cocktail.save
         expect(subject).to_not be_valid
       end
     end
@@ -26,7 +25,7 @@ RSpec.describe Cocktail, type: :model do
       it 'saves successfully' do
         ingredient = create(:ingredient)
         subject.ingredients << ingredient
-        expect(ingredient).to be_valid
+        expect(subject.ingredients.length).to eq(1)
       end
     end
 
