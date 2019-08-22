@@ -15,5 +15,16 @@ module Utility
 				end
 			end
 		end
+
+		def find_cocktail(name)
+			Cocktail.find_by(name: name)
+		end
+# cannot do this without has_and_belongs_to_many association
+		# def find_cocktail_by(*ingredients)
+		# 	ingredients.each do |ingredient|
+		# 		Ingredient.find_by(name: ingredient)
+		# 	end
+		# end
+
 	end
 end

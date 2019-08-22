@@ -29,29 +29,34 @@ RSpec.describe Ingredient, type: :model do
 
         expect(subject.movies.length).to eq(1)
       end
-
+    end
+    context 'with movies' do
       it 'can be owned by a movie' do
         movie = create(:movie)
         movie.ingredients << subject
-
         expect(movie.ingredients).to include(subject)
       end
     end
+  end
 
-    context 'with recipes' do
-      it 'can own a recipe' do
-        recipe = create(:recipe)
-        subject.recipes << recipe
-
-        expect(subject.recipes.length).to eq(1)
+  describe 'observing relationships' do
+    context 'with cocktails' do
+      it 'can have a cocktail' do
+        cocktail = create(:cocktail)
+        subject.cocktails << cocktail
+        expect(subject.cocktails.length).to eq(1)
       end
+    end
 
-      it 'can be owned by a recipe' do
-        recipe = create(:recipe)
-        recipe.ingredients << subject
-
-        expect(recipe.ingredients).to include(subject)
+    context 'with cocktails' do
+      it 'can have multiple cocktails' do
+        cocktail = create(:cocktail)
+        cocktail2 = create(:cocktail)
+        subject.cocktails << cocktail
+        subject.cocktails << cocktail2
+        expect(subject.cocktails.length).to eq(2)
       end
     end
   end
+
 end
