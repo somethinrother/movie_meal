@@ -10,6 +10,13 @@ module Utility
       @recipes = []
     end
 
+    def save_all_recipes_to_database
+      MAX_PAGES.times do |page|
+        url = "#{ALL_RECIPES_URL}#{page + 1}"
+        get_recipes_to_save(url)
+    	end
+    end
+
     def query_for(recipe, number)
       recipe.gsub!(/\s/, '+')
       search(number).times do |page|
@@ -55,13 +62,6 @@ module Utility
         processing_ingredient = Ingredient.find_or_create_by(name: ingredient )
         recipe.ingredients << processing_ingredient if !(processing_ingredient)
       end
-    end
-
-    def save_all_recipes_to_database
-      MAX_PAGES.times do |page|
-        url = "#{ALL_RECIPES_URL}#{page + 1}"
-        get_recipes_to_save(url)
-    	end
     end
 
     def get_recipes_to_save(url)
