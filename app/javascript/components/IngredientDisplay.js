@@ -3,12 +3,24 @@ import PropTypes from "prop-types"
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST'
+const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
+const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 
 function getIngredients() {
-  console.log('getIngredients() Action!!');
+  console.log('get ingredients function started!');
+  return dispatch => {
+    dispatch({ type: GET_INGREDIENTS_REQUEST });
+    return fetch(`v1/ingredients`)
+      .then(response => response.json())
+      .then(json => dispatch(getIngredientsSuccess(json)))
+      .catch(error => console.log(error));
+  }
+}
+
+export function getIngredientsSuccess(json) {
   return {
-    type: GET_INGREDIENTS_REQUEST
+    type: GET_INGREDIENTS_SUCCESS,
+    json
   }
 }
 

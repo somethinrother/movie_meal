@@ -1,31 +1,23 @@
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import thunk from 'redux-thunk'
 
 const initialState = {
-  ingredients: [
-    {
-      id: 1,
-      name: 'apple'
-    },
-    {
-      id: 2,
-      name: 'cheese'
-    },
-    {
-      id: 3,
-      name: 'wine'
-    }
-  ]
+  ingredients: []
 };
 
 function rootInducer(state, action) {
-  console.log(action.type);
   switch (action.type) {
-    default:
-      return state
+    case "GET_INGREDIENTS_SUCCESS":
+      return { ingredients: action.json.ingredients }
   }
+  return state;
 }
 
 export default function configureStore() {
-  const store = createStore(rootInducer, initialState);
+  const store = createStore(
+    rootInducer,
+    initialState,
+    applyMiddleware(thunk)
+  );
   return store;
 }
