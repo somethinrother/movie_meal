@@ -5,9 +5,9 @@ import { createStructuredSelector } from 'reselect';
 
 const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
+const HIDE_INGREDIENTS = 'HIDE_INGREDIENTS';
 
 function getIngredients() {
-  console.log('get ingredients function started!');
   return dispatch => {
     dispatch({ type: GET_INGREDIENTS_REQUEST });
     return fetch(`v1/ingredients`)
@@ -24,6 +24,12 @@ export function getIngredientsSuccess(json) {
   }
 }
 
+function hideIngredients() {
+  return dispatch => {
+    dispatch({ type: HIDE_INGREDIENTS });
+  }
+}
+
 class IngredientDisplay extends React.Component {
   render () {
     const { ingredients } = this.props;
@@ -35,7 +41,7 @@ class IngredientDisplay extends React.Component {
       <React.Fragment>
         <div>
           <button className="button" onClick={() => this.props.getIngredients()}>Get Ingredients</button>
-          <button className="button">Hide Ingredients</button>
+          <button className="button" onClick={() => this.props.hideIngredients()}>Hide Ingredients</button>
         </div>
 
         <ul>{ ingredientsList }</ul>
@@ -48,6 +54,6 @@ const structuredSelector = createStructuredSelector({
   ingredients: state => state.ingredients
 });
 
-const mapDispatchToProps = { getIngredients };
+const mapDispatchToProps = { getIngredients, hideIngredients };
 
 export default connect(structuredSelector, mapDispatchToProps)(IngredientDisplay);

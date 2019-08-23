@@ -7,9 +7,15 @@ const initialState = {
 };
 
 function rootInducer(state, action) {
+  console.log(action.type);
   switch (action.type) {
     case "GET_INGREDIENTS_SUCCESS":
       return { ingredients: action.json.ingredients }
+    case "GET_INGREDIENTS_REQUEST":
+      console.log('Ingredients request received')
+    case "HIDE_INGREDIENTS":
+      console.log('Ingredients are being hidden')
+      return { ingredients: [] }
   }
   return state;
 }
