@@ -18,12 +18,10 @@ module Utility
 
 		def find_cocktail_by(*ingredient_search)
 			ingredients = ingredient_search.split(' ')
-			cocktail_objects = []
-			ingredients.each do |ingredient|
-				found_ingredient = Ingredient.find_by(name: ingredient)
-				cocktail_objects << found_ingredient.cocktails if found_ingredient
-			end
-			cocktail_objects.uniq
+			ingredients.each_with_object([]) do |ingredient_name, ingredients_for_cocktail|
+			  ingredient = Ingredient.find_by(name: ingredient_name)
+			  ingredients_for_cocktail << ingredient.cocktails if ingredient
+			end.uniq
 		end
 
 		def show_ingredients_of(cocktail)

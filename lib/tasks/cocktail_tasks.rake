@@ -4,6 +4,7 @@ require 'utility/cocktail_parser'
 namespace :cocktail do
   desc "Scrape cocktails from cocktail_information assets"
   task :save_all do
-    cocktails = Utility::CocktailParser.new.save_cocktails
+    parser = Utility::CocktailParser.new
+    parser.save_cocktails
   end
 end
