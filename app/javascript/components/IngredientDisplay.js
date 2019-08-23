@@ -33,10 +33,9 @@ class IngredientDisplay extends React.Component {
 
     return (
       <React.Fragment>
-        <div>Hi there</div>
-
         <div>
           <button className="button" onClick={() => this.props.getIngredients()}>Get Ingredients</button>
+          <button className="button">Hide Ingredients</button>
         </div>
 
         <ul>{ ingredientsList }</ul>
