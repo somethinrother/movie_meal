@@ -5,4 +5,11 @@ class V1::IngredientsController < ApplicationController
       ingredients: ingredients
     }.to_json
   end
+
+  def show
+    ingredient = Ingredient.find(params['id'])
+    render json: {
+      ingredient: ingredient
+    }.to_json
+  end
 end
