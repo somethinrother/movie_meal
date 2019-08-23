@@ -13,6 +13,7 @@ function rootInducer(state, action) {
       return { ingredients: action.json.ingredients }
     case "GET_INGREDIENTS_REQUEST":
       console.log('Ingredients request received')
+      return
     case "HIDE_INGREDIENTS":
       console.log('Ingredients are being hidden')
       return { ingredients: [] }
