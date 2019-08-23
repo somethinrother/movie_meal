@@ -1,7 +1,20 @@
 import { createStore } from "redux";
 
 const initialState = {
-  ingredients: []
+  ingredients: [
+    {
+      id: 1,
+      name: 'apple'
+    },
+    {
+      id: 2,
+      name: 'cheese'
+    },
+    {
+      id: 3,
+      name: 'wine'
+    }
+  ]
 };
 
 function rootInducer(state, action) {

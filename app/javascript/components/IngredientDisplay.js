@@ -14,11 +14,20 @@ function getIngredients() {
 
 class IngredientDisplay extends React.Component {
   render () {
+    const { ingredients } = this.props;
+    const ingredientsList = ingredients.map((ingredient) => {
+      return <li key={ingredient.id}>{ingredient.id}. {ingredient.name}</li>
+    })
+
     return (
       <React.Fragment>
         <div>Hi there</div>
 
-        <button className="button" onClick={() => this.props.getIngredients()}>Get Ingredients</button>
+        <div>
+          <button className="button" onClick={() => this.props.getIngredients()}>Get Ingredients</button>
+        </div>
+
+        <ul>{ ingredientsList }</ul>
       </React.Fragment>
     );
   }
