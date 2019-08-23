@@ -2,6 +2,10 @@ FactoryBot.define do
 
   # FACTORIES
 
+  factory :cocktail do
+    name { generate(:name)}
+  end
+
   factory :movie do
     title { generate(:movie_title) }
     writers { generate(:name) }
