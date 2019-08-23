@@ -1,7 +1,8 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+# Scrape all movies from IMSDB, without the scripts
+imsdb_parser = Utility::ImsdbParser.new
+imsdb_parser.scrape_all
+
+# Save a large number of recipes and ingredients from Recipe Puppy
+recipe_puppy_parser = Utility::RecipePuppyParser.new
+recipe_puppy_parser.save_all_recipes_to_database
+puts "All recipes and ingredients saved successfully"

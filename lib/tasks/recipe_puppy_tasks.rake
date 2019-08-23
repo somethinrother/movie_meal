@@ -4,6 +4,7 @@ require 'utility/recipe_puppy_parser'
 namespace :recipe_parser do
   desc "Scrape all recipes and ingredients from recipe puppy"
   task :scrape_all do
-    Utility::RecipePuppyParser.new.save_all_recipes_to_database
+    parser = Utility::RecipePuppyParser.new
+    parser.save_all_recipes_to_database
   end
 end
