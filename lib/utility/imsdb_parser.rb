@@ -6,6 +6,17 @@ module Utility
     LANDING_PAGE_CSS_PATH='.script-details td a'.freeze
     BLACKLISTED_EXTENSIONS = ['pdf'].freeze
 
+    def scrape_all
+      parser = Utility::ImsdbParser.new
+      movie_links = parser.all_movie_page_links
+
+      movie_links.each do |node|
+        Movie.save_movie_from_imsdb_node(node)
+      end
+    end
+
+    private
+
     def all_movie_page_links
       extract_tags_from_css_at_url(SCRIPT_LINK_CSS_PATH, ALL_SCRIPT_URL)
     end
