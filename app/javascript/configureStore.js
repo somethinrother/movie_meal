@@ -16,7 +16,7 @@ function rootInducer(state = initialState, action) {
       return
     case "HIDE_INGREDIENTS":
       console.log('Ingredients are being hidden')
-      return { ingredients: [] }
+      return { ...state, ingredients: [] }
     case "GET_INGREDIENT_REQUEST":
       console.log('One Ingredient request received', "id:", action.id)
       return
