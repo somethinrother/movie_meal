@@ -6,19 +6,25 @@ const initialState = {
   ingredients: []
 };
 
-function rootInducer(state, action) {
+function rootInducer(state = initialState, action) {
   console.log(action.type);
   switch (action.type) {
     case "GET_INGREDIENTS_SUCCESS":
-      return { ingredients: action.json.ingredients }
+      return { ...state, ingredients: action.json.ingredients }
     case "GET_INGREDIENTS_REQUEST":
       console.log('Ingredients request received')
       return
     case "HIDE_INGREDIENTS":
       console.log('Ingredients are being hidden')
       return { ingredients: [] }
+    case "GET_INGREDIENT_REQUEST":
+      console.log('One Ingredient request received', "id:", action.id)
+      return
+    case "GET_INGREDIENT_SUCCESS":
+      return { ...state, ingredients: action.json.ingredients }
+    default:
+      return state
   }
-  return state;
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -26,7 +32,6 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export default function configureStore() {
   const store = createStore(
     rootInducer,
-    initialState,
     composeEnhancers(applyMiddleware(thunk))
   );
   return store;
