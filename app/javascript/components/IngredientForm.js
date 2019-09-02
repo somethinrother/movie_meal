@@ -1,44 +1,37 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { getIngredient } from "../actions";
 
-// defined function which takes product id as an argument
-const GET_INGREDIENT_REQUEST = 'GET_INGREDIENT_REQUEST';
-const GET_INGREDIENT_SUCCESS = 'GET_INGREDIENT_SUCCESS';
-
-function getIngredient(id) {
-  return dispatch => {
-    dispatch({ type: GET_INGREDIENT_REQUEST, id: id });
-    return fetch(`v1/ingredients`)
-      .then(response => response.json())
-      .then(json => dispatch(getIngredientSuccess(json)))
-      .catch(error => console.log(error));
+class IngredientForm extends React.Component {
+  render() {
+    const { ingredients } = this.props;
+    return (
+      <React.Fragment>
+        <form onSubmit={(id) => getIngredient(id)}>
+          <label value="Find Ingredient">
+            <input type="text" placeholder="Search By Id" />
+          </label>
+          <input type="submit" value="Find Ingredient" />
+        </form>
+        { ingredients }
+      </React.Fragment>
+    );
   }
 }
 
-class IngredientForm extends React.Component {
-	render() {
-		const { ingredients } = this.props;
-		const ingredientsList = ingredients.map((ingredient) => {
-      return <h2 key={ingredient.id}>{ingredient.id}. {ingredient.name}</h2>
+// make a selector function, put it in the mapStateToProps
+// const mapStateToProps = (state, id) => ({
+// 	state.ingredients.filter(id => id === ingredient.id)
+// });
 
-		return (
-			<React.Fragment>
-			<form onSubmit={console.log(getIngredient(this.value));}>
-				<label value="Find Ingredient">
-					<input type="text" value="name" placeholder="Search By Id" />
-				</label>
-					<input type="submit" value="Find Ingredient" />
-			</form>
-			{ ingredientsList }
-			</React.Fragment>
-		);
-	}
-}
+// const mapDispatchToProps = { getIngredient }
 
-const mapStateToProps = (state, id) => ({
-	state.find( ingredients.map(ingredient => ingredient.id === id))
-});
+const mapStateToProps = (state, props) => {
+  const id = props.id;
+  return {
+    ingredients: state.ingredients.filter(ingredient => ingredient.id === id)
+  };
+};
 
-const mapDispatchToProps = { getIngredient }
-
-export default connect(mapStateToProps, mapDispatchToProps)(IngredientForm);
+export default connect(mapStateToProps)(IngredientForm);
