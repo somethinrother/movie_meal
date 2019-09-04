@@ -7,13 +7,16 @@ import { getIngredients, hideIngredients } from "../actions";
 class IngredientList extends React.Component {
   render() {
     const { ingredients } = this.props;
-    const ingredientsList = ingredients.map(ingredient => {
-      return (
-        <li key={ingredient.id}>
-          {ingredient.id}. {ingredient.name}
-        </li>
-      );
-    });
+    const ingredientsList =
+      ingredients != null
+        ? ingredients.map(ingredient => {
+            return (
+              <li key={ingredient.id}>
+                {ingredient.id}. {ingredient.name}
+              </li>
+            );
+          })
+        : [];
 
     return (
       <React.Fragment>

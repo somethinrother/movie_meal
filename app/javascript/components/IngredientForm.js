@@ -44,7 +44,7 @@ const mapStateToProps = (state, ownProps) => {
   const id = ownProps.id;
   console.log(state);
   return {
-    ingredients: state.ingredients.filter(ingredient => ingredient.id === id)
+    ingredients: state.ingredients.filter(ingredient => ingredient.id.toString() === id)
   };
 };
 
