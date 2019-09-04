@@ -4,34 +4,51 @@ import { connect } from "react-redux";
 import { getIngredient } from "../actions";
 
 class IngredientForm extends React.Component {
+  state = {
+    id: ""
+  };
+
+  handleInputChange = event => {
+    this.setState({ id: event.target.value });
+  };
+
   render() {
     const { ingredients } = this.props;
     return (
       <React.Fragment>
-        <form onSubmit={(id) => getIngredient(id)}>
+        <form
+          onSubmit={event => {
+            event.preventDefault();
+            this.props.getIngredient(this.state.id);
+          }}
+        >
           <label value="Find Ingredient">
-            <input type="text" placeholder="Search By Id" />
+            <input
+              type="text"
+              placeholder="Search By Id"
+              onChange={this.handleInputChange}
+              value={this.state.id}
+            />
           </label>
           <input type="submit" value="Find Ingredient" />
         </form>
-        { ingredients }
+        {ingredients}
       </React.Fragment>
     );
   }
 }
 
-// make a selector function, put it in the mapStateToProps
-// const mapStateToProps = (state, id) => ({
-// 	state.ingredients.filter(id => id === ingredient.id)
-// });
+const mapDispatchToProps = { getIngredient };
 
-// const mapDispatchToProps = { getIngredient }
-
-const mapStateToProps = (state, props) => {
-  const id = props.id;
+const mapStateToProps = (state, ownProps) => {
+  const id = ownProps.id;
+  console.log(state);
   return {
     ingredients: state.ingredients.filter(ingredient => ingredient.id === id)
   };
 };
 
-export default connect(mapStateToProps)(IngredientForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(IngredientForm);

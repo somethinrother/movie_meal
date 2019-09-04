@@ -17,10 +17,13 @@ function rootReducer(state = initialState, action) {
       console.log('One Ingredient request received:', "id:", action.id)
       return
     case "GET_INGREDIENT_SUCCESS":
-    console.log('GET_INGREDIENT_SUCCESS')
+      console.log('GET_INGREDIENT_SUCCESS')
+      const ingredients = action.json.ingredients;
+      const id = action.id;
+
       return {
 				...state,
-				ingredients: action.json.ingredients.filter(i => i.id)
+				ingredients: ingredients.filter(ingredient => ingredient.id.toString() === id)
 			}
     default:
       return state

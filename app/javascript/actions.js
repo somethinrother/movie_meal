@@ -12,8 +12,9 @@ export function getIngredientRequest(id) {
   }
 }
 
-export function getIngredientSuccess(json) {
+export function getIngredientSuccess(json, id) {
   return {
+    id,
     type: GET_INGREDIENT_SUCCESS,
     json
   }
@@ -50,12 +51,11 @@ export function getIngredients() {
 
 export function getIngredient(id) {
   return dispatch => {
-		console.log("trying to get id to show up =>", id)
     dispatch(getIngredientRequest(id));
     return fetch(`v1/ingredients`)
       .catch(error => console.log(error))
       .then(response => response.json())
-      .then(json => dispatch(getIngredientSuccess(json)))
+      .then(json => dispatch(getIngredientSuccess(json, id)))
       .catch(error => console.log(error));
   }
 }
