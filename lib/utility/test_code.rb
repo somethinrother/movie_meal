@@ -1,60 +1,65 @@
-# Dave's idea number 1
+require 'utility/script_scanner'
 
-recipes_mentioned = []
+module Utility
+  class RecipeRanker
 
-Movie.ingredients.all.each do |ingredient|
-  Recipes.all.each do |recipe|
-    if (recipe.ingredients.find_by(name: ingredient) && recipes_mentioned.find_by(name: recipe.name)) {
-      [recipe.name][ingredients_mentioned] = ingredient
-    elsif recipe.ingredients.find_by(name: ingredient) 
-      recipe.name = { 
-        name: recipe.name,
-        id: recipe.id,
-        ingredients_mentioned: [ ingredient ]
-      }
-      recipes_mentioned.push([recipe.name])
+  movie_ingredients = Movie.ingredients.all
+  all_recipes = Recipes.all
+    
+  # Dave's idea #2
+  # If recipe is found for first ingredient, take that recipe and iterate over all the movie ingredients to see how many movie.ingredients that recipe contains, validating recipe for uniqueness
+
+  def query_search_for_movie(search_string)
+    movie = Movie.all.find_by(name: search_string.to_s)
+    if movie
+      rank_recipes_by_ingredient_mentions(movie)
+    else
+      puts "There is no movie by those search terms"
     end
   end
-end
 
-# Dave's idea #2
+  # in movie, out ranked recipes array with ingredient mentions
+  def rank_recipes_by_ingredient_mentions(movie)
+    recipes_mentioned = []
 
-all_recipes = Recipes.all
-movie_ingredients = Movie.ingredients.all
-recipes_mentioned = []
+    get_script(movie) if !movie[:is_scraped]
+    scan_script(movie)
 
-movie_ingredients.all.each do |ingredient|
-  all_recipes.each do |recipe|
-    if (recipe.ingredients.find_by(name: ingredient)
-      [recipe.name] = { 
-        name: recipe.name,
-        id: recipe.id,
-        ingredients_mentioned: [ ingredient ]
-      }
-      movie_ingredients.all.each do |movie_ing|
-        found_ingredient = recipe.ingredients.find_by(name: movie_ing.name)
-        if found_ingredient
-          [recipe.name][ingredients_mentioned] = found_ingredient 
-          recipes_mentioned << [recipe.name]
+    movie_ingredients = movie_ingredients.all
+    movie_ingredients.each do |ingredient|
+      all_recipes.each do |recipe|
+        recipe_name = recipe.name.to_s
+        # if recipe matches, iterate all movie.ing to check
+        if recipe.ingredients.find_by(name: ingredient) && !recipes_mentioned.include(recipe_name)
+          recipe_name = { 
+            name: recipe.name,
+            ingredients_mentioned: [ ingredient ]
+            match_percentage: nil
+          }
+          movie_ingredients.each do |movie_ing|
+            found_ingredient = recipe.ingredients.find_by(name: movie_ing.name)
+            recipe_name[:ingredients_mentioned].shift(found_ingredient) if found_ingredient
+          end
+          recipes_mentioned << recipe_name
+          calculate_percentage_of_recipe_ingredients_to_movie_ingredients(recipe_name)
         end
       end
     end
+    recipes_mentioned.sort_by { |recipe| recipe[:match_percentage] }
+    recipes_mentioned.reverse
+    puts recipes_mentioned
+  end
+
+  def calculate_percentage_of_recipe_ingredients_to_movie_ingredients(recipe)
+    all_movie_ingredients = movie_ingredients.length
+    ingredients_mentioned = recipe[:ingredients_mentioned].length
+    percentage = (ingredients_mentioned / all_movie_ingredients) * 100
+    recipe[:match_percentage] = percentage
+  end
+  
   end
 end
-
-
-# James' code for calculating percentage of ingredients that appear in recipe, etc
-movie_ingredients = Movie.ingredients.all
-searched_ingredients = params(ingredients)
-
-original_length = movie_ingredients.length
-unmatched_ingredients = Movie.ingredients.all.to_a - searched_ingredients
-
-num_of_matched = original_length - unmatched_ingredients.length
-match_percentage = (num_of_matched / original_length) * 100
-
-
-
+  
 # make dispatch action
 
 # 1. Query rails api for v1/movies that match input, and return the match

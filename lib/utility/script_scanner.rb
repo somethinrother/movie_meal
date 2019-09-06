@@ -10,7 +10,7 @@ module Utility
 		end
 
 		def	scan_script(movie)
-			get_script(movie) if movie.is_scraped == false
+			get_script(movie) if !movie.is_scraped
 
 			words = movie.script.split(' ')
 			words.each do |word|
@@ -26,27 +26,8 @@ module Utility
 			parser.populate_script(movie)
 		end
 
-		def display_food(movie_title)
-			movie = Movie.find_by(title: movie_title)
-			scan_script(movie)
-			display_recipes(movie)
-			display_ingredients(movie)
-		end
-
-		def display_recipes(movie)
-			movie.recipes.all.each do |recipe|
-				recipe.name
-			end
-		end
-
-		def display_ingredients(movie)
-			movie.ingredients.all.each do |ingredient|
-				ingredient.name
-			end
-		end
-
 # for error checking
-		def display_all_movies_with_script
+		def display_all_movies_with_scripts
 			movies = Movie.all
 			movies.each do |movie|
 				check_for_script(movie)
