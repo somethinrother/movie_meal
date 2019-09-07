@@ -2,14 +2,12 @@ require 'utility/script_scanner'
 
 module Utility
   class RecipeRanker
-
-  @movie_ingredients = Movie.ingredients.all
-  @all_recipes = Recipes.all
     
+  # utility = Utility::RecipeRanker.query_search_for("Godfather")
   # If recipe is found for first ingredient, take that recipe and iterate over all the movie ingredients to see how many movie.ingredients that recipe contains, validating recipe for uniqueness
   # super inefficient algorithm
-  def query_search_for_movie(search_string)
-    movie = Movie.all.find_by(name: search_string.to_s)
+  def search(movie_search)
+    movie = Movie.all.find_by(title: movie_search)
     if movie
       rank_recipes_by_ingredient_mentions(movie)
     else
@@ -23,7 +21,7 @@ module Utility
     recipes_array = []
 
     movie.ingredients.all.each do |ingredient|
-      @all_recipes.each do |recipe|
+      Recipes.all.each do |recipe|
         check_recipe_for_all_ingredient_mentions(recipes_array, recipe, movie)
       end
     end
@@ -37,7 +35,7 @@ module Utility
       recipe_name = recipe.name.to_s
       recipe_name = { 
         name: recipe.name,
-        ingredients_mentioned: [ ingredient ]
+        ingredients_mentioned: [ ingredient ],
         match_percentage: nil
       }
       movie_ingredients.all.each do |movie_ing|
@@ -64,6 +62,9 @@ module Utility
   end
 end
   
+# new = Utility::RecipeRanker.new
+# new.search("Godfather")
+
 # make dispatch action
 
 # 1. Query rails api for v1/movies that match input, and return the match
