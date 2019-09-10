@@ -60,7 +60,9 @@ module Utility
     def process_ingredients_for(recipe, ingredients)
       ingredients.each do |ingredient|
         processing_ingredient = Ingredient.find_or_create_by(name: ingredient )
-        recipe.ingredients << processing_ingredient if !(processing_ingredient)
+        if !recipe.ingredients.include?(processing_ingredient)
+          recipe.ingredients << processing_ingredient
+        end
       end
     end
 
