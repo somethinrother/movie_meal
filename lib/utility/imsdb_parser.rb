@@ -21,6 +21,17 @@ module Utility
       }
     end
 
+    def populate_script(movie)
+      url_components = movie.url.split('.')
+      return if BLACKLISTED_EXTENSIONS.any? {|extension| url_components.include?(extension) }
+      script = HTTParty.get(movie.url).body
+      movie.assign_attributes(
+        script: process_raw_script(script),
+        is_scraped: true
+      )
+      movie.save
+    end
+
     private
 
     def all_movie_page_links
@@ -51,17 +62,6 @@ module Utility
 
     def imsdb_url(path)
       "#{IMSDB_BASE_URL}#{path}"
-    end
-
-    def populate_script(movie)
-      url_components = movie.url.split('.')
-      return if BLACKLISTED_EXTENSIONS.any? {|extension| url_components.include?(extension) }
-      script = HTTParty.get(movie.url).body
-      movie.assign_attributes(
-        script: process_raw_script(script),
-        is_scraped: true
-      )
-      movie.save
     end
 
     def process_raw_script(script)
