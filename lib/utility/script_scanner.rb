@@ -2,7 +2,6 @@ require 'utility/imsdb_parser'
 
 module Utility
 	class ScriptScanner
-
 		def populate_all_scripts
 			Movie.all.each do |movie|
 				scan_script(movie.title)
@@ -26,7 +25,7 @@ module Utility
 			parser.populate_script(movie)
 		end
 
-# for error checking
+		# for error checking
 		def display_all_movies_with_scripts
 			movies = Movie.all
 			movies.each do |movie|
