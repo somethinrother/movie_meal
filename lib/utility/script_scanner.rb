@@ -14,9 +14,7 @@ module Utility
 			words = movie.script.split(' ')
 			words.each do |word|
 				ingredient = Ingredient.find_by(name: word)
-				recipe = Recipe.find_by(name: word)
 				movie.ingredients << ingredient unless ingredient.nil?
-				movie.recipes << recipe unless recipe.nil?
 			end
 		end
 
