@@ -1,6 +1,5 @@
 module Utility
   class RecipePuppyParser
-    BASE_URL = 'http://www.recipepuppy.com/api/'.freeze
     ALL_RECIPES_URL = 'http://www.recipepuppy.com/api/?q=&p='.freeze
     RECIPE_QUERY_BASE = 'http://www.recipepuppy.com/api/?q='.freeze
     MAX_PAGES = 100.freeze
