@@ -1,24 +1,7 @@
 const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
 const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
-const HIDE_INGREDIENTS = "HIDE_INGREDIENTS";
-
-const GET_INGREDIENT_REQUEST = "GET_INGREDIENT_REQUEST";
-const GET_INGREDIENT_SUCCESS = "GET_INGREDIENT_SUCCESS";
-
-export function getIngredientRequest(id) {
-  return {
-    type: GET_INGREDIENT_REQUEST,
-    id
-  };
-}
-
-export function getIngredientSuccess(json, id) {
-  return {
-    id,
-    type: GET_INGREDIENT_SUCCESS,
-    json
-  };
-}
+const GET_RECIPES_REQUEST = "GET_RECIPES_REQUEST";
+const GET_RECIPES_SUCCESS = "GET_RECIPES_SUCCESS";
 
 export function getIngredientsRequest() {
   return {
@@ -33,9 +16,30 @@ export function getIngredientsSuccess(json) {
   };
 }
 
-export function hideIngredients() {
-  return dispatch => {
-    dispatch({ type: HIDE_INGREDIENTS });
+export function getRecipesRequest() {
+  return {
+    type: GET_RECIPES_REQUEST
+  };
+}
+
+export function getRecipesSuccess(json) {
+  return {
+    type: GET_RECIPES_SUCCESS,
+    json
+  };
+}
+
+export function getMovieRequest(title) {
+  return {
+    type: GET_MOVIE_REQUEST,
+    title
+  };
+}
+
+export function getMovieSuccess(json) {
+  return {
+    type: GET_MOVIE_SUCCESS,
+    json
   };
 }
 
@@ -49,13 +53,22 @@ export function getIngredients() {
   };
 }
 
-export function getIngredient(id) {
+export function getRecipes() {
   return dispatch => {
-    dispatch(getIngredientRequest(id));
-    return fetch(`v1/ingredients`)
-      .catch(error => console.log(error))
+    dispatch(getRecipesRequest());
+    return fetch(`v1/recipes`)
       .then(response => response.json())
-      .then(json => dispatch(getIngredientSuccess(json, id)))
+      .then(json => dispatch(getRecipesSuccess(json)))
+      .catch(error => console.log(error));
+  };
+}
+
+export function getMovie(title) {
+  return dispatch => {
+    dispatch(getMovieRequest(title));
+    return fetch(`v1/movies`)
+      .then(response => response.json())
+      .then(json => dispatch(getMovieSuccess(json)))
       .catch(error => console.log(error));
   };
 }

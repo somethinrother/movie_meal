@@ -1,8 +1,27 @@
+import { combineReducers } from "redux";
+
 const initialState = {
-  ingredients: []
+  ingredients: [],
+  recipes: []
 };
 
-function rootReducer(state = initialState, action) {
+function recipeReducer(state = initialState, action) {
+  console.log(action.type);
+  switch (action.type) {
+    case "GET_RECIPES_SUCCESS":
+      console.log("action.json.recipes:", action.json.recipes);
+      return { ...state, recipes: action.json.recipes };
+    case "GET_RECIPES_REQUEST":
+      console.log("Recipes request received");
+      return state;
+    default:
+      return state;
+  }
+}
+
+// NOW YOU HAVE TO FILTER THE INGREDIENTS IN REDUCER METHOD SO ITS ONLY FROM THAT ONE MOVIE
+
+function ingredientReducer(state = initialState, action) {
   console.log(action.type);
   switch (action.type) {
     case "GET_INGREDIENTS_SUCCESS":
@@ -11,26 +30,10 @@ function rootReducer(state = initialState, action) {
     case "GET_INGREDIENTS_REQUEST":
       console.log("Ingredients request received");
       return state;
-    case "HIDE_INGREDIENTS":
-      console.log("Ingredients are being hidden");
-      return { ...state, ingredients: [] };
-    case "GET_INGREDIENT_REQUEST":
-      console.log("One Ingredient request received:", "id:", action.id);
-      return state;
-    case "GET_INGREDIENT_SUCCESS":
-      console.log("GET_INGREDIENT_SUCCESS");
-      const ingredients = action.json.ingredients;
-      const id = action.id;
-
-      return {
-        ...state,
-        ingredients: ingredients.filter(
-          ingredient => ingredient.id.toString() === id
-        )
-      };
     default:
       return state;
   }
 }
 
+rootReducer = combineReducers(ingredientReducer, recipeReducer);
 export default rootReducer;

@@ -31,10 +31,5 @@ module Utility
 			end
 		end
 
-		def check_for_script(movie)
-			puts "#{movie.title} has a script"	if movie.script
-			puts "#{movie.title} does not have a script" if movie.script == nil?
-		end
-
 	end
 end

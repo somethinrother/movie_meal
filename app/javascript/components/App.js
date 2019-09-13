@@ -1,9 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-import IngredientDisplay from "./IngredientDisplay";
 import { store } from "../store";
+import MovieSearch from "./MovieSearch";
 
 class App extends React.Component {
   render() {
@@ -11,8 +10,7 @@ class App extends React.Component {
       <Provider store={store}>
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" render={() => "Home!"} />
-            <Route path="/ingredients" render={() => <IngredientDisplay />} />
+            <Route exact path="/" render={() => <MovieSearch />} />
           </Switch>
         </BrowserRouter>
       </Provider>
