@@ -1,8 +1,10 @@
 import React from "react";
+
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "../store";
-import MovieSearch from "./MovieSearch";
+
+import MovieForm from "./MovieForm";
 
 class App extends React.Component {
   render() {
@@ -10,7 +12,7 @@ class App extends React.Component {
       <Provider store={store}>
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" render={() => <MovieSearch />} />
+            <Route exact path="/" component={MovieForm} />
           </Switch>
         </BrowserRouter>
       </Provider>

@@ -2,6 +2,8 @@ const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
 const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
 const GET_RECIPES_REQUEST = "GET_RECIPES_REQUEST";
 const GET_RECIPES_SUCCESS = "GET_RECIPES_SUCCESS";
+const GET_MOVIE_REQUEST = "GET_MOVIE_REQUEST";
+const GET_MOVIE_SUCCESS = "GET_MOVIE_SUCCESS";
 
 export function getIngredientsRequest() {
   return {
@@ -64,6 +66,7 @@ export function getRecipes() {
 }
 
 export function getMovie(title) {
+  console.log(" in getMovie", title);
   return dispatch => {
     dispatch(getMovieRequest(title));
     return fetch(`v1/movies`)
