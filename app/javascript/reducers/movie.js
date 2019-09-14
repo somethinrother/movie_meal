@@ -5,11 +5,20 @@ const initialState = {
 function movieReducer(state = initialState, action) {
   switch (action.type) {
     case "GET_MOVIE_SUCCESS":
-      console.log("action.json.recipes:", action.json.recipes);
-      return { ...state, recipes: action.json.recipes };
+      console.log("action.json.movies:", action);
+      return {
+        ...state,
+        movie: action.json.movies.map((movie, title) => {
+          movie.title === title;
+        })
+      };
     case "GET_MOVIE_REQUEST":
-      console.log("Movie request received");
-      return state;
+      console.log("GET_MOVIE_REQUEST", action);
+      return {
+        ...state,
+        title: action.title
+      };
+
     default:
       return state;
   }

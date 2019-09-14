@@ -5,4 +5,5 @@ class V1::MoviesController < ApplicationController
       movies: movies
     }.to_json
   end
+
 end

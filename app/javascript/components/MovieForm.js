@@ -12,13 +12,13 @@ class MovieSearch extends React.Component {
   };
 
   render() {
-    const { Movie } = this.props;
+    const { Movie } = this.state;
     return (
       <React.Fragment>
         <form
           onSubmit={event => {
             event.preventDefault();
-            getMovie(this.state.movie);
+            this.props.getMovie(this.state.movie);
           }}
         >
           <label value="Find Movie">
@@ -26,7 +26,6 @@ class MovieSearch extends React.Component {
               type="text"
               placeholder="Search By Movie Title"
               onChange={this.handleInputChange}
-              value={this.state.title}
             />
           </label>
           <input type="submit" value="Find Movie" />
@@ -38,7 +37,7 @@ class MovieSearch extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
+  console.log("state in mapState:", state.movie);
   return {
     movie: state.movie
   };

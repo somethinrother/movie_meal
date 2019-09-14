@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :v1, defaults: { format: 'json' } do
     resources :ingredients, only: [:index]
-    resources :recipes, only: [:index]
+    resources :recipes, only: [:index, :show]
     resources :movies, only: [:index]
   end
 
