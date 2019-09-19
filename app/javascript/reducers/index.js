@@ -1,36 +1,31 @@
 import produce from "immer";
-
-export const GET_MOVIES_REQUEST = "GET_MOVIES_REQUEST";
-export const GET_MOVIE_SUCCESS = "GET_MOVIE_SUCCESS";
-
-export function getMoviesRequest() {
-  return {
-    type: GET_MOVIES_REQUEST
-  };
-}
-
-export function getMoviesSuccess(json) {
-  return {
-    type: GET_MOVIE_SUCCESS,
-    json
-  };
-}
+import {
+  GET_MOVIES_REQUEST,
+  GET_MOVIES_SUCCESS,
+  GET_MOVIES_ERROR
+} from "../actions";
 
 const initialState = {
   movies: [],
-  loading: false
+  loading: false,
+  error: null
 };
 const reducer = produce((draft, action) => {
   switch (action.type) {
-    case "GET_MOVIES_REQUEST":
+    case GET_MOVIES_REQUEST:
       console.log("GET_MOVIES_REQUEST");
       draft.loading = true;
       return;
-    case "GET_MOVIES_SUCCESS":
+    case GET_MOVIES_SUCCESS:
       console.log("GET_MOVIES_SUCCESS");
       draft.movies = action.json.movies;
       draft.loading = false;
       return;
+    case GET_MOVIES_ERROR:
+      console.log("GET_MOVIES_ERROR");
+      draft.error = action.error;
+      return;
   }
 }, initialState);
+
 export default reducer;
