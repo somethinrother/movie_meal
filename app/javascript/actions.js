@@ -24,15 +24,27 @@ export function getMoviesError(error) {
 
 export function getMovies() {
   return dispatch => {
-    dispatch(
-      getMoviesRequest()
-        .then(fetch(`v1/movies`))
-        .then(res => res.json())
-        .then(json => dispatch(getMoviesSuccess(json, title)))
-        .catch(error => dispatch(getMoviesError(error)))
-    );
+    dispatch({
+      type: GET_MOVIES_REQUEST
+    });
+    fetch(`v1/movies`)
+      .then(res => res.json())
+      .then(json =>
+        dispatch({
+          type: GET_MOVIES_SUCCESS,
+          json
+        })
+      )
+      .catch(error =>
+        dispatch({
+          type: GET_MOVIES_ERROR,
+          error
+        })
+      );
   };
 }
+
+// SELECTOR
 
 // export function getMovie(title) {
 //   return dispatch => {
