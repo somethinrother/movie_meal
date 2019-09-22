@@ -2,6 +2,22 @@ export const GET_MOVIES_REQUEST = "GET_MOVIES_REQUEST";
 export const GET_MOVIES_SUCCESS = "GET_MOVIES_SUCCESS";
 export const GET_MOVIES_ERROR = "GET_MOVIES_ERROR";
 export const GET_MOVIE_REQUEST = "GET_MOVIE_REQUEST";
+export const GET_MOVIE_SUCCESS = "GET_MOVIE_SUCCESS";
+export const GET_MOVIE_ERROR = "GET_MOVIE_ERROR";
+
+export function getMovieRequest(title) {
+  return {
+    type: GET_MOVIE_REQUEST,
+    title
+  };
+}
+
+export function getMovieSuccess(title) {
+  return {
+    type: GET_MOVIE_SUCCESS,
+    title
+  };
+}
 
 export function getMoviesRequest() {
   return {
@@ -24,6 +40,7 @@ export function getMoviesError(error) {
 }
 
 export function getMovies() {
+  console.log("getMovies()");
   return dispatch => {
     dispatch({
       type: GET_MOVIES_REQUEST
@@ -46,5 +63,8 @@ export function getMovies() {
 }
 
 export function getMovie(title) {
-  // get title, get all movies array
+  return dispatch => {
+    dispatch(getMovieRequest(title));
+    dispatch(getMovieSuccess(title));
+  };
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import MovieList from "./MovieList";
+import MovieForm from "./MovieForm";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import reducer from "../reducers/index";
@@ -9,7 +9,7 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <MovieList />
+        <MovieForm />
       </Provider>
     );
   }
