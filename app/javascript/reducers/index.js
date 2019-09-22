@@ -15,6 +15,7 @@ const reducer = produce((draft, action) => {
     case GET_MOVIES_REQUEST:
       console.log("GET_MOVIES_REQUEST");
       draft.loading = true;
+      draft.error = action.error;
       return;
     case GET_MOVIES_SUCCESS:
       console.log("GET_MOVIES_SUCCESS");
@@ -23,6 +24,7 @@ const reducer = produce((draft, action) => {
       return;
     case GET_MOVIES_ERROR:
       console.log("GET_MOVIES_ERROR");
+      draft.loading = false;
       draft.error = action.error;
       return;
   }

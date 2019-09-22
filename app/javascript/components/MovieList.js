@@ -14,16 +14,12 @@ const MovieList = ({ dispatch, loading, error, movies }) => {
     return dispatch(getMovies());
   };
 
-  const hideIngredients = e => {
-    return;
-  };
+  if (error) {
+    return <div>ERROR!! {error.message}</div>;
+  }
 
   if (loading) {
     return <h1>LOADING!</h1>;
-  }
-
-  if (error) {
-    return <div>{moviesError.message}</div>;
   }
 
   return (
