@@ -8,7 +8,6 @@ const MovieForm = ({ getMovie, getMovies, loading, error, selectedMovie }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log("handleSubmit");
     getMovie(movieTitle);
   };
 
@@ -24,9 +23,35 @@ const MovieForm = ({ getMovie, getMovies, loading, error, selectedMovie }) => {
   if (loading) {
     return <h1>Loading...</h1>;
   }
+  if (!selectedMovie) {
+    getMovies();
+  }
+  if (selectedMovie.length > 0) {
+    return (
+      <div>
+        <form onSubmit={handleSubmit}>
+          <label>Find A Movie</label>
+          <div>
+            <input
+              type="text"
+              placeholder="Input Movie Title"
+              value={movieTitle}
+              onChange={e => setMovieTitle(e.target.value)}
+            />
+            <button type="submit">Search</button>
+          </div>
+        </form>
+        <br />
+        <h1>{selectedMovie[0].title}</h1>
+        <span>Id: {selectedMovie[0].id}</span>
+        <div>
+          <button type="submit">Movie Ingredients</button>
+          <button type="submit">Movie Recipes</button>
+        </div>
+      </div>
 
-  if (selectedMovie.length) {
-    return <div>{selectedMovie[0].id}</div>;
+      // MAKE A FETCH METHOD TO GET THE APPROPRIATE DISPLAY INGREDIENTS // and RECIPES
+    );
   }
 
   return (
@@ -46,11 +71,6 @@ const MovieForm = ({ getMovie, getMovies, loading, error, selectedMovie }) => {
       <button type="submit" onClick={handleClick}>
         Load All Movies
       </button>
-      <button type="submit">Movie Ingredients</button>
-      <button type="submit">Movie Recipes</button>
-      <div>
-        <MovieDisplay />
-      </div>
     </div>
   );
 };
