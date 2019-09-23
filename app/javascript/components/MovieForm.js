@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { getMovie, getMovies } from "../actions";
+import { getMovie, getMovies, getMovieIngredients } from "../actions";
 import MovieDisplay from "./MovieDisplay";
 
 const MovieForm = ({ getMovie, getMovies, loading, error, selectedMovie }) => {
   const [movieTitle, setMovieTitle] = useState("");
+  const [movieIngredients, setMovieIngredients] = useState("");
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -14,6 +15,13 @@ const MovieForm = ({ getMovie, getMovies, loading, error, selectedMovie }) => {
   const handleClick = e => {
     console.log("handleClick");
     getMovies();
+  };
+
+  const handleMovieIngredients = e => {
+    getMovieIngredients(id);
+    // fetch call to get movie's ingredients
+    // provide the id for the title (got from getMovies)
+    // call to database for movie.ingredient
   };
 
   if (error) {
@@ -26,28 +34,28 @@ const MovieForm = ({ getMovie, getMovies, loading, error, selectedMovie }) => {
   if (!selectedMovie) {
     getMovies();
   }
+
   if (selectedMovie.length > 0) {
     return (
       <div>
         <form onSubmit={handleSubmit}>
-          <label>Find A Movie</label>
-          <div>
-            <input
-              type="text"
-              placeholder="Input Movie Title"
-              value={movieTitle}
-              onChange={e => setMovieTitle(e.target.value)}
-            />
-            <button type="submit">Search</button>
-          </div>
+          <label>Searched Movie: </label>
+          <input
+            type="text"
+            placeholder="Input Movie Title"
+            value={movieTitle}
+            onChange={e => setMovieTitle(e.target.value)}
+          />
+          <button type="submit">Search Again</button>
         </form>
-        <br />
-        <h1>{selectedMovie[0].title}</h1>
-        <span>Id: {selectedMovie[0].id}</span>
-        <div>
-          <button type="submit">Movie Ingredients</button>
-          <button type="submit">Movie Recipes</button>
-        </div>
+        <button
+          type="submit"
+          onClick={e => setMovieIngredients(e.target.value)}
+        >
+          Movie Ingredients
+        </button>
+        <button type="submit">Movie Recipes</button>
+        <MovieDisplay />
       </div>
 
       // MAKE A FETCH METHOD TO GET THE APPROPRIATE DISPLAY INGREDIENTS // and RECIPES
@@ -57,8 +65,8 @@ const MovieForm = ({ getMovie, getMovies, loading, error, selectedMovie }) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label>Find A Movie</label>
         <div>
+          <label>Find A Movie: </label>
           <input
             type="text"
             placeholder="Input Movie Title"
@@ -71,6 +79,7 @@ const MovieForm = ({ getMovie, getMovies, loading, error, selectedMovie }) => {
       <button type="submit" onClick={handleClick}>
         Load All Movies
       </button>
+      <MovieDisplay />
     </div>
   );
 };

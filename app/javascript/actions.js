@@ -68,3 +68,7 @@ export function getMovie(title) {
     dispatch(getMovieSuccess(title));
   };
 }
+
+export function getMovieIngredients() {
+  console.log("getMovieIngredients");
+}
