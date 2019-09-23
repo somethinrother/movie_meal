@@ -18,10 +18,8 @@ const MovieList = ({ selectedMovie, movies, loading, error }) => {
         {movies &&
           movies.map(movie => (
             <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`}>
-                <i>Id: </i>
-                {movie.id}, <i>Title:</i> {movie.title}
-              </Link>
+              <i>Id: </i>
+              {movie.id}, <i>Title:</i> {movie.title}
             </li>
           ))}
       </div>

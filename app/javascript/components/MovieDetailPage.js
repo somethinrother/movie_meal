@@ -1,32 +1,31 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "@reach/router";
-// import { getMovieById } from "../selectors";
 
-const MovieDetailPage = ({ movieId, selectedMovie, loading }) => {
+const MovieDetailPage = ({ movieId, movie, loading }) => {
   if (loading) {
     return <div>Loading Movie Detail Page, id: {movieId}</div>;
   }
 
-  if (!selectedMovie) {
-    return <div>No Movie Selected</div>;
-  }
-
   return (
     <div>
-      <button>
-        <Link to={`/movies`}>Go Back</Link>
-      </button>
+      <h2>Viewing</h2>
+      Movie Id: <i>{movieId}</i>
       <br />
-      Viewing Movie Id: <i>{movieId}</i>
+      <i>{movie ? "Title:  " + movie["title"] : []}</i>
       <br />
-      <i>{selectedMovie ? selectedMovie["title"] : []}</i>
-      <br />
-      {selectedMovie && selectedMovie["script"] ? (
-        <div>selectedMovie.script</div>
+      {movie && movie["script"] ? (
+        <div>movie.script</div>
       ) : (
         "There is no Movie Script Scraped Yet"
       )}
+      <br />
+      <button>
+        <Link to={`/movies`}>Go Back</Link>
+      </button>
+      <button>
+        <Link to={`/movies/${movieId}/ingredients`}>Movie Ingredients</Link>
+      </button>
     </div>
   );
 };
@@ -35,7 +34,7 @@ const mapState = (state, ownProps) => {
   return {
     loading: state.loading,
     movies: state.movies,
-    selectedMovie: state.movies.find(
+    movie: state.movies.find(
       movie => movie.id === parseInt(ownProps.movieId, 10)
     )
   };

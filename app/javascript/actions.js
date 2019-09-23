@@ -111,7 +111,7 @@ export const getMovieById = id => {
 export function getMovieIngredients(id) {
   return dispatch => {
     dispatch(getMovieIngredientsRequest(id));
-    fetch(`v1/movies/${id}/ingredients`)
+    fetch(`/ingredients`)
       .catch(error => console.log(error))
       .then(res => res.json())
       .then(json => dispatch(getMovieIngredientsSuccess(json)))

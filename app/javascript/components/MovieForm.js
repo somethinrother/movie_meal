@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { getMovie, getMovies, getMovieIngredients } from "../actions";
 import MovieList from "./MovieList";
+import MovieDetailPage from "./MovieDetailPage";
 
 const MovieForm = ({
   movies,
   getMovie,
-  getMovieIngredients,
   getMovies,
   loading,
   error,
@@ -90,14 +90,24 @@ const MovieForm = ({
 
 export const SelectedMovieDisplay = ({ selectedMovie }) => {
   if (selectedMovie && selectedMovie.length > 0) {
+    const movie = selectedMovie[0];
     return (
       <div>
+        <h2>Viewing</h2>
+
         <h3>
           <i>Movie Title: </i>
           {selectedMovie[0].title}
           <br />
           <i>Id:</i> {selectedMovie[0].id}
         </h3>
+        <span>
+          {selectedMovie && movie["script"] ? (
+            <div>movie.script</div>
+          ) : (
+            "There is no Movie Script Scraped Yet"
+          )}
+        </span>
       </div>
     );
   } else {
