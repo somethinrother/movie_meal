@@ -6,6 +6,7 @@ import thunk from "redux-thunk";
 import MovieForm from "./MovieForm";
 import { Router, Redirect } from "@reach/router";
 import MovieDetailPage from "./MovieDetailPage";
+import { getMovies } from "../actions";
 
 class App extends React.Component {
   render() {

@@ -7,9 +7,9 @@ class V1::MoviesController < ApplicationController
   end
 
   def show
-    selectedMovie = Movie.find(id)
+    movies = Movie.all
     render json: {
-      selectedMovie: selectedMovie
+      movie: movies.find(movieId)
   }.to_json
   end
 

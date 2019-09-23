@@ -4,8 +4,9 @@ import { getMovie, getMovies, getMovieIngredients } from "../actions";
 import MovieList from "./MovieList";
 
 const MovieForm = ({
-  getMovieIngredients,
+  movies,
   getMovie,
+  getMovieIngredients,
   getMovies,
   loading,
   error,
@@ -25,7 +26,7 @@ const MovieForm = ({
 
   const handleMovieIngredients = id => {
     console.log("handleMovieIngredients");
-    getMovieIngredients(id);
+    // getMovieIngredients(id);
     // call to database for movie.ingredients
   };
 
@@ -36,7 +37,7 @@ const MovieForm = ({
   if (loading) {
     return <h1>Loading...</h1>;
   }
-  if (!selectedMovie) {
+  if (movies && movies.length === 0) {
     getMovies();
   }
 
@@ -60,6 +61,7 @@ const MovieForm = ({
           Movie Ingredients
         </button>
         <button type="submit">Movie Recipes</button>
+        <SelectedMovieDisplay selectedMovie={selectedMovie} />
         <MovieList />
       </div>
 
@@ -80,16 +82,30 @@ const MovieForm = ({
             <button type="submit">Search</button>
           </div>
         </form>
-        <button type="submit" onClick={handleClick}>
-          Load All Movies
-        </button>
         <MovieList />
       </div>
     );
   }
 };
 
-const mapState = (state, ownProps) => {
+export const SelectedMovieDisplay = ({ selectedMovie }) => {
+  if (selectedMovie && selectedMovie.length > 0) {
+    return (
+      <div>
+        <h3>
+          <i>Movie Title: </i>
+          {selectedMovie[0].title}
+          <br />
+          <i>Id:</i> {selectedMovie[0].id}
+        </h3>
+      </div>
+    );
+  } else {
+    return null;
+  }
+};
+
+const mapState = state => {
   return {
     selectedMovie: state.selectedMovie,
     movies: state.movies,

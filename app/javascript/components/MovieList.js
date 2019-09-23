@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "@reach/router";
 
 const MovieList = ({ selectedMovie, movies, loading, error }) => {
   if (error) {
@@ -10,37 +11,17 @@ const MovieList = ({ selectedMovie, movies, loading, error }) => {
     return <h1>Loading...</h1>;
   }
 
-  if (selectedMovie.length > 0) {
-    return (
-      <div>
-        <h3>
-          <i>Movie Title: </i>
-          {selectedMovie[0].title}
-          <br />
-          <i>Id:</i> {selectedMovie[0].id}
-        </h3>
-        <div className="title">
-          <h3>List of Movies Found</h3>
-          {movies &&
-            movies.map(movie => (
-              <li key={movie.id}>
-                <i>Id: </i>
-                {movie.id}, <i>Title:</i> {movie.title}
-              </li>
-            ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (movies && selectedMovie.length === 0) {
+  if (movies) {
     return (
       <div className="title">
+        {movies.length > 0 && <h3>List of Movies Found</h3>}
         {movies &&
           movies.map(movie => (
             <li key={movie.id}>
-              <i>Id: </i>
-              {movie.id}, <i>Title:</i> {movie.title}
+              <Link to={`/movies/${movie.id}`}>
+                <i>Id: </i>
+                {movie.id}, <i>Title:</i> {movie.title}
+              </Link>
             </li>
           ))}
       </div>

@@ -6,6 +6,8 @@ export const GET_MOVIE_SUCCESS = "GET_MOVIE_SUCCESS";
 export const GET_MOVIE_ERROR = "GET_MOVIE_ERROR";
 export const GET_MOVIE_INGREDIENTS = "GET_MOVIE_INGREDIENTS";
 export const GET_MOVIE_INGREDIENTS_SUCCESS = "GET_MOVIE_INGREDIENTS_SUCCESS";
+export const GET_MOVIE_BY_ID_REQUEST = "GET_MOVIE_BY_ID_REQUEST";
+export const GET_MOVIE_BY_ID_SUCCESS = "GET_MOVIE_BY_ID_SUCCESS";
 
 export function getMovieRequest(title) {
   return {
@@ -38,6 +40,20 @@ export function getMoviesError(error) {
   return {
     type: GET_MOVIES_ERROR,
     error
+  };
+}
+
+export function getMovieByIdRequest(id) {
+  return {
+    type: GET_MOVIE_BY_ID_REQUEST,
+    id
+  };
+}
+
+export function getMovieByIdSuccess(json) {
+  return {
+    type: GET_MOVIE_BY_ID_SUCCESS,
+    json
   };
 }
 
@@ -84,6 +100,13 @@ export function getMovie(title) {
     dispatch(getMovieSuccess(title));
   };
 }
+
+export const getMovieById = id => {
+  return dispatch => {
+    dispatch(getMovieByIdRequest(id));
+    dispatch(getMovieByIdSuccess(id));
+  };
+};
 
 export function getMovieIngredients(id) {
   return dispatch => {
