@@ -4,18 +4,16 @@ import { createStore, applyMiddleware, compose } from "redux";
 import reducer from "../reducers/index";
 import thunk from "redux-thunk";
 import MovieForm from "./MovieForm";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Router, Redirect } from "@reach/router";
 
 class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path="/" render={() => "Home!"} />
-            <Route path="/movies" render={() => <MovieForm />} />
-          </Switch>
-        </BrowserRouter>
+        <Router>
+          <Redirect noThrow from="/" to="/movies" />
+          <MovieForm path="/movies" />
+        </Router>
       </Provider>
     );
   }
