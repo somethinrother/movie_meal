@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-const MovieDisplay = ({ selectedMovie, movies, loading, error }) => {
+const MovieList = ({ selectedMovie, movies, loading, error }) => {
   if (error) {
     return <h2>Error: {error.message}</h2>;
   }
@@ -57,4 +57,4 @@ const mapStateToProps = state => ({
   loading: state.loading
 });
 
-export default connect(mapStateToProps)(MovieDisplay);
+export default connect(mapStateToProps)(MovieList);

@@ -4,10 +4,12 @@ import {
   GET_MOVIES_SUCCESS,
   GET_MOVIES_ERROR,
   GET_MOVIE_REQUEST,
-  GET_MOVIE_SUCCESS
+  GET_MOVIE_SUCCESS,
+  GET_MOVIE_INGREDIENTS
 } from "../actions";
 
 const initialState = {
+  movieIngredients: [],
   selectedMovie: [],
   movies: [],
   loading: false,
@@ -40,7 +42,9 @@ const reducer = produce((draft, action) => {
       draft.selectedMovie = draft.movies.filter(movie => {
         return action.title === movie.title;
       });
-
+      return;
+    case GET_MOVIE_INGREDIENTS:
+      console.log("GET_MOVIE_INGREDIENTS");
       return;
   }
 }, initialState);

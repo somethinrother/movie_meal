@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { getMovie, getMovies, getMovieIngredients } from "../actions";
-import MovieDisplay from "./MovieDisplay";
+import MovieList from "./MovieList";
 
-const MovieForm = ({ getMovie, getMovies, loading, error, selectedMovie }) => {
+const MovieForm = ({
+  getMovieIngredients,
+  getMovie,
+  getMovies,
+  loading,
+  error,
+  selectedMovie
+}) => {
   const [movieTitle, setMovieTitle] = useState("");
-  const [movieIngredients, setMovieIngredients] = useState("");
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -17,11 +23,10 @@ const MovieForm = ({ getMovie, getMovies, loading, error, selectedMovie }) => {
     getMovies();
   };
 
-  const handleMovieIngredients = e => {
+  const handleMovieIngredients = id => {
+    console.log("handleMovieIngredients");
     getMovieIngredients(id);
-    // fetch call to get movie's ingredients
-    // provide the id for the title (got from getMovies)
-    // call to database for movie.ingredient
+    // call to database for movie.ingredients
   };
 
   if (error) {
@@ -50,41 +55,41 @@ const MovieForm = ({ getMovie, getMovies, loading, error, selectedMovie }) => {
         </form>
         <button
           type="submit"
-          onClick={e => setMovieIngredients(e.target.value)}
+          onClick={e => handleMovieIngredients(selectedMovie[0].id)}
         >
           Movie Ingredients
         </button>
         <button type="submit">Movie Recipes</button>
-        <MovieDisplay />
+        <MovieList />
       </div>
 
       // MAKE A FETCH METHOD TO GET THE APPROPRIATE DISPLAY INGREDIENTS // and RECIPES
     );
+  } else {
+    return (
+      <div>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Find A Movie: </label>
+            <input
+              type="text"
+              placeholder="Input Movie Title"
+              value={movieTitle}
+              onChange={e => setMovieTitle(e.target.value)}
+            />
+            <button type="submit">Search</button>
+          </div>
+        </form>
+        <button type="submit" onClick={handleClick}>
+          Load All Movies
+        </button>
+        <MovieList />
+      </div>
+    );
   }
-
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Find A Movie: </label>
-          <input
-            type="text"
-            placeholder="Input Movie Title"
-            value={movieTitle}
-            onChange={e => setMovieTitle(e.target.value)}
-          />
-          <button type="submit">Search</button>
-        </div>
-      </form>
-      <button type="submit" onClick={handleClick}>
-        Load All Movies
-      </button>
-      <MovieDisplay />
-    </div>
-  );
 };
 
-const mapState = state => {
+const mapState = (state, ownProps) => {
   return {
     selectedMovie: state.selectedMovie,
     movies: state.movies,
@@ -95,5 +100,5 @@ const mapState = state => {
 
 export default connect(
   mapState,
-  { getMovies, getMovie }
+  { getMovies, getMovie, getMovieIngredients }
 )(MovieForm);

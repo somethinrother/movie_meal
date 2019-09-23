@@ -1,15 +1,21 @@
 import React from "react";
-import MovieForm from "./MovieForm";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import reducer from "../reducers/index";
 import thunk from "redux-thunk";
+import MovieForm from "./MovieForm";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <MovieForm />
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" render={() => "Home!"} />
+            <Route path="/movies" render={() => <MovieForm />} />
+          </Switch>
+        </BrowserRouter>
       </Provider>
     );
   }
