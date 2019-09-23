@@ -1,2 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
+
+const MovieDetailPage = ({ movieId }) => {
+  return <div>Viewing Movie ID {movieId}</div>;
+};
+
+export default MovieDetailPage;
