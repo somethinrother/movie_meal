@@ -10,6 +10,7 @@ module Utility
       @recipes = nil
     end
 
+    # too intensive to do all at once
     def associate_all_recipes
       find_all_recipes_for_movie
 
@@ -18,6 +19,7 @@ module Utility
       end
     end
 
+    # step 1, get all recipes with one ingredient mention in the movie
     def find_all_recipes_for_movie
       all_recipes = Recipe.all
 
@@ -27,22 +29,46 @@ module Utility
         
         recipes << all_recipes.select do |recipe|
           recipe_ingredients = recipe.ingredients.map { |ingredient| ingredient.name }
-          
+    
           recipe_ingredients.include?(ingredient_name)
         end
       end.flatten.uniq
+      # creates the association
+      @recipes.each do |recipe|
+        @movie.recipes << recipe if !@movie.recipes.find_by(id: recipe.id)
+      end
     end
     
-    def calculate_percentage_of_recipe_ingredients_in_movie_ingredients(recipe, movie)
-      byebug
-      movie_ingredients = @movie.ingredients
+    def rank_recipes_by_ingredient_mentions
+      find_all_recipes_for_movie if @movie.recipes.length
 
-      recipe_ingredients = recipe.ingredients.map {|ingredient| 
-      ingredient if movie_ingredients.find_by(name: ingredient.name) 
-      }
-      percentage = (recipe_ingredients.length.to_f / movie_ingredients.length.to_f) * 100
-      percentage
+      movie_ingredients = @movie.ingredients
+      movie_recipes = @movie.recipes
+      recipe_ranking = []
+
+      movie_recipes.each do |recipe|
+        ingredient_store = []
+        recipe.ingredients.each do |ingredient|
+          ingredient_store << ingredient.name if @movie.ingredients.find_by(name: ingredient.name)
+        end
+        recipe_ranking << { ingredient_mentions: ingredient_store.length, name: recipe.name, ingredients: ingredient_store, id: recipe.id, per_ing_to_movie_ing: (( ingredient_store.length.to_f / movie_ingredients.length.to_f) * 100).to_f }
+      end
+      vetted_recipes = recipe_ranking.select do |recipe| 
+        recipe[:ingredient_mentions] > 1
+      end
+      sorted_recipes = vetted_recipes.sort_by {|recipe| recipe[:ingredient_mentions]}.reverse
+      sorted_recipes
     end
+
+    # def calculate_percentage_of_recipe_ingredients_in_movie_ingredients(recipe)
+    #   movie_ingredients = @movie.ingredients
+
+    #   recipe_ingredients = recipe.ingredients.map {|ingredient| 
+    #   ingredient if movie_ingredients.find_by(name: ingredient.name) 
+    #   }
+    #   percentage = (recipe_ingredients.length.to_f / movie_ingredients.length.to_f) * 100
+    #   percentage
+    # end
 
   end
 end
