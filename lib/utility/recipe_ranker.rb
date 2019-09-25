@@ -60,6 +60,14 @@ module Utility
       sorted_recipes
     end
 
+    def ranking_ingredients_by_ingredient_mentions
+      movie_ingredients = @movie.ingredients
+
+      ranked_ingredients_list = movie_ingredients.each_with_object(Hash.new(0)){ |m,h| h[m] += 1 }.sort_by{ |key,value| -value }
+
+      ranked_ingredients_list
+    end
+
     # def calculate_percentage_of_recipe_ingredients_in_movie_ingredients(recipe)
     #   movie_ingredients = @movie.ingredients
 
