@@ -3,8 +3,8 @@ import {
   GET_MOVIES_REQUEST,
   GET_MOVIES_SUCCESS,
   GET_MOVIES_ERROR,
-  GET_MOVIE_REQUEST,
-  GET_MOVIE_SUCCESS,
+  GET_MOVIE_BY_ID_REQUEST,
+  GET_MOVIE_BY_ID_SUCCESS,
   GET_MOVIE_INGREDIENTS
 } from "../actions";
 
@@ -32,16 +32,13 @@ const reducer = produce((draft, action) => {
       draft.loading = false;
       draft.error = action.error;
       return;
-    case GET_MOVIE_REQUEST:
-      console.log("GET_MOVIE_REQUEST");
+    case GET_MOVIE_BY_ID_REQUEST:
+      console.log("GET_MOVIE_BY_ID_REQUEST");
       draft.loading = true;
       return;
-    case GET_MOVIE_SUCCESS:
+    case GET_MOVIE_BY_ID_SUCCESS:
       console.log("GET_MOVIE_SUCCESS");
       draft.loading = false;
-      draft.selectedMovie = draft.movies.filter(movie => {
-        return action.title === movie.title;
-      });
       return;
     case GET_MOVIE_INGREDIENTS:
       console.log("GET_MOVIE_INGREDIENTS");

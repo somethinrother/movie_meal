@@ -5,6 +5,7 @@ import reducer from "../reducers/index";
 import thunk from "redux-thunk";
 import MovieForm from "./MovieForm";
 import { Router, Redirect } from "@reach/router";
+import MovieDetailPage from "./MovieDetailPage";
 
 class App extends React.Component {
   render() {
@@ -13,6 +14,7 @@ class App extends React.Component {
         <Router>
           <Redirect noThrow from="/" to="/movies" />
           <MovieForm path="/movies" />
+          <MovieDetailPage path="/movies/:movieId" />
         </Router>
       </Provider>
     );

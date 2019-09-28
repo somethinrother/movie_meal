@@ -22,8 +22,8 @@ module Utility
     # step 1, get all recipes with one ingredient mention in the movie
     def find_all_recipes_for_movie
       all_recipes = Recipe.all
-
       ingredients = @movie.ingredients
+
       @recipes = ingredients.each_with_object([]) do |ingredient, recipes|
         ingredient_name = ingredient.name
         
@@ -38,7 +38,7 @@ module Utility
         @movie.recipes << recipe if !@movie.recipes.find_by(id: recipe.id)
       end
     end
-    
+
     def rank_recipes_by_ingredient_mentions
       find_all_recipes_for_movie if @movie.recipes.length
 

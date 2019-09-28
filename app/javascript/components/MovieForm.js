@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { getMovie, getMovies, getMovieIngredients } from "../actions";
 import MovieList from "./MovieList";
-import MovieDetailPage from "./MovieDetailPage";
 
 const MovieForm = ({
   movies,
@@ -17,17 +16,6 @@ const MovieForm = ({
   const handleSubmit = e => {
     e.preventDefault();
     getMovie(movieTitle);
-  };
-
-  const handleClick = e => {
-    console.log("handleClick");
-    getMovies();
-  };
-
-  const handleMovieIngredients = id => {
-    console.log("handleMovieIngredients");
-    // getMovieIngredients(id);
-    // call to database for movie.ingredients
   };
 
   if (error) {
@@ -54,18 +42,9 @@ const MovieForm = ({
           />
           <button type="submit">Search Again</button>
         </form>
-        <button
-          type="submit"
-          onClick={e => handleMovieIngredients(selectedMovie[0].id)}
-        >
-          Movie Ingredients
-        </button>
-        <button type="submit">Movie Recipes</button>
         <SelectedMovieDisplay selectedMovie={selectedMovie} />
         <MovieList />
       </div>
-
-      // MAKE A FETCH METHOD TO GET THE APPROPRIATE DISPLAY INGREDIENTS // and RECIPES
     );
   } else {
     return (

@@ -104,7 +104,10 @@ export function getMovie(title) {
 export const getMovieById = id => {
   return dispatch => {
     dispatch(getMovieByIdRequest(id));
-    dispatch(getMovieByIdSuccess(id));
+    fetch(`/${id}`)
+      .then(res => res.json())
+      .then(json => getMovieByIdSuccess(json));
+    dispatch(getMovieByIdSuccess(json)).catch(error => console.log(error));
   };
 };
 

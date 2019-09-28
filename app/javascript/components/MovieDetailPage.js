@@ -1,8 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "@reach/router";
+import { getMovieById } from "../actions";
 
-const MovieDetailPage = ({ movieId, movie, loading }) => {
+const MovieDetailPage = ({ getMovieById, movieId, movie, loading }) => {
+  const handleMovieIngredients = () => {
+    getMovieById(movieId);
+  };
+
   if (loading) {
     return <div>Loading Movie Detail Page, id: {movieId}</div>;
   }
@@ -23,8 +28,8 @@ const MovieDetailPage = ({ movieId, movie, loading }) => {
       <button>
         <Link to={`/movies`}>Go Back</Link>
       </button>
-      <button>
-        <Link to={`/movies/${movieId}/ingredients`}>Movie Ingredients</Link>
+      <button type="submit" onClick={handleMovieIngredients}>
+        Movie Ingredients
       </button>
     </div>
   );
@@ -39,4 +44,7 @@ const mapState = (state, ownProps) => {
     )
   };
 };
-export default connect(mapState)(MovieDetailPage);
+export default connect(
+  mapState,
+  { getMovieById }
+)(MovieDetailPage);
