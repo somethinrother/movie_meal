@@ -61,7 +61,7 @@ export function getMovies() {
     dispatch({
       type: GET_MOVIES_REQUEST
     });
-    fetch(`v1/movies`)
+    fetch(`/v1/movies`)
       .then(res => res.json())
       .then(json =>
         dispatch({
@@ -88,9 +88,8 @@ export function getMovie(title) {
 export const getMovieById = id => {
   return dispatch => {
     dispatch(getMovieByIdRequest(id));
-    fetch(`/${id}`)
+    const json = fetch(`/v1/movies/${id}`)
       .then(res => res.json())
-      .then(json => getMovieByIdSuccess(json));
-    dispatch(getMovieByIdSuccess(json)).catch(error => console.log(error));
+      .then(json => dispatch(getMovieByIdSuccess(json)));
   };
 };

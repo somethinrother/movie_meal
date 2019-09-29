@@ -6,10 +6,6 @@ import { getMovieById } from "../actions";
 const MovieDetailPage = ({ getMovieById, movieId, movie, loading }) => {
   getMovieById(movieId);
 
-  if (loading) {
-    return <div>Loading Movie Detail Page, id: {movieId}</div>;
-  }
-
   return (
     <div>
       <h2>Viewing</h2>
@@ -18,7 +14,7 @@ const MovieDetailPage = ({ getMovieById, movieId, movie, loading }) => {
       <i>{movie ? "Title:  " + movie["title"] : []}</i>
       <br />
       {movie && movie["script"] ? (
-        <div>movie.script</div>
+        <div>{movie.script}</div>
       ) : (
         "There is no Movie Script Scraped Yet"
       )}
@@ -31,12 +27,10 @@ const MovieDetailPage = ({ getMovieById, movieId, movie, loading }) => {
 };
 
 const mapState = (state, ownProps) => {
+  console.log(state.selectedMovie);
+  
   return {
-    loading: state.loading,
-    movies: state.movies,
-    movie: state.movies.find(
-      movie => movie.id === parseInt(ownProps.movieId, 10)
-    )
+    movie: state.selectedMovie.movie
   };
 };
 export default connect(
