@@ -46,7 +46,7 @@ const reducer = produce((draft, action) => {
       console.log("GET_MOVIE_BY_ID_REQUEST");
       return;
     case GET_MOVIE_BY_ID_SUCCESS:
-      console.log("GET_MOVIE_SUCCESS");
+      console.log("GET_MOVIE_BY_ID_SUCCESS");
       draft.selectedMovie = action.json;
       return;
   }

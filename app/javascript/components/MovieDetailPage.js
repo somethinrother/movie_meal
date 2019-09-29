@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 import { Link } from "@reach/router";
 import { getMovieById } from "../actions";
 
-const MovieDetailPage = ({ getMovieById, movieId, movie, loading }) => {
-  getMovieById(movieId);
+const MovieDetailPage = ({ getMovieById, movieId, movie }) => {
+  if (!movie) {
+    getMovieById(movieId);
+  }
 
   return (
     <div>
