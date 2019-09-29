@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { getMovie, getMovies, getMovieIngredients } from "../actions";
+import { getMovie, getMovies } from "../actions";
 import MovieList from "./MovieList";
 
 const MovieForm = ({
@@ -105,5 +105,5 @@ const mapState = state => {
 
 export default connect(
   mapState,
-  { getMovies, getMovie, getMovieIngredients }
+  { getMovies, getMovie }
 )(MovieForm);

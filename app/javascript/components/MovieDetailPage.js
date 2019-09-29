@@ -4,9 +4,7 @@ import { Link } from "@reach/router";
 import { getMovieById } from "../actions";
 
 const MovieDetailPage = ({ getMovieById, movieId, movie, loading }) => {
-  const handleMovieIngredients = () => {
-    getMovieById(movieId);
-  };
+  getMovieById(movieId);
 
   if (loading) {
     return <div>Loading Movie Detail Page, id: {movieId}</div>;
@@ -27,9 +25,6 @@ const MovieDetailPage = ({ getMovieById, movieId, movie, loading }) => {
       <br />
       <button>
         <Link to={`/movies`}>Go Back</Link>
-      </button>
-      <button type="submit" onClick={handleMovieIngredients}>
-        Movie Ingredients
       </button>
     </div>
   );

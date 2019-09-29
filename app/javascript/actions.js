@@ -4,8 +4,6 @@ export const GET_MOVIES_ERROR = "GET_MOVIES_ERROR";
 export const GET_MOVIE_REQUEST = "GET_MOVIE_REQUEST";
 export const GET_MOVIE_SUCCESS = "GET_MOVIE_SUCCESS";
 export const GET_MOVIE_ERROR = "GET_MOVIE_ERROR";
-export const GET_MOVIE_INGREDIENTS = "GET_MOVIE_INGREDIENTS";
-export const GET_MOVIE_INGREDIENTS_SUCCESS = "GET_MOVIE_INGREDIENTS_SUCCESS";
 export const GET_MOVIE_BY_ID_REQUEST = "GET_MOVIE_BY_ID_REQUEST";
 export const GET_MOVIE_BY_ID_SUCCESS = "GET_MOVIE_BY_ID_SUCCESS";
 
@@ -57,20 +55,6 @@ export function getMovieByIdSuccess(json) {
   };
 }
 
-export function getMovieIngredientsRequest(id) {
-  return {
-    type: GET_MOVIE_INGREDIENTS,
-    id
-  };
-}
-
-export function getMovieIngredientsSuccess(json) {
-  return {
-    type: GET_MOVIE_INGREDIENTS_SUCCESS,
-    json
-  };
-}
-
 export function getMovies() {
   console.log("getMovies()");
   return dispatch => {
@@ -110,14 +94,3 @@ export const getMovieById = id => {
     dispatch(getMovieByIdSuccess(json)).catch(error => console.log(error));
   };
 };
-
-export function getMovieIngredients(id) {
-  return dispatch => {
-    dispatch(getMovieIngredientsRequest(id));
-    fetch(`/ingredients`)
-      .catch(error => console.log(error))
-      .then(res => res.json())
-      .then(json => dispatch(getMovieIngredientsSuccess(json)))
-      .catch(error => console.log(error));
-  };
-}

@@ -3,13 +3,13 @@ import {
   GET_MOVIES_REQUEST,
   GET_MOVIES_SUCCESS,
   GET_MOVIES_ERROR,
+  GET_MOVIE_REQUEST,
+  GET_MOVIE_SUCCESS,
   GET_MOVIE_BY_ID_REQUEST,
-  GET_MOVIE_BY_ID_SUCCESS,
-  GET_MOVIE_INGREDIENTS
+  GET_MOVIE_BY_ID_SUCCESS
 } from "../actions";
 
 const initialState = {
-  movieIngredients: [],
   selectedMovie: [],
   movies: [],
   loading: false,
@@ -32,6 +32,16 @@ const reducer = produce((draft, action) => {
       draft.loading = false;
       draft.error = action.error;
       return;
+    case GET_MOVIE_REQUEST:
+      console.log("GET_MOVIE_REQUEST");
+      draft.loading = true;
+      draft.error = action.error;
+      return;
+    case GET_MOVIE_SUCCESS:
+      console.log("GET_MOVIE_SUCCESS");
+      draft.movies = action.json.movies;
+      draft.loading = false;
+      return;
     case GET_MOVIE_BY_ID_REQUEST:
       console.log("GET_MOVIE_BY_ID_REQUEST");
       draft.loading = true;
@@ -39,9 +49,6 @@ const reducer = produce((draft, action) => {
     case GET_MOVIE_BY_ID_SUCCESS:
       console.log("GET_MOVIE_SUCCESS");
       draft.loading = false;
-      return;
-    case GET_MOVIE_INGREDIENTS:
-      console.log("GET_MOVIE_INGREDIENTS");
       return;
   }
 }, initialState);
