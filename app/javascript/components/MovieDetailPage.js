@@ -3,7 +3,13 @@ import { connect } from "react-redux";
 import { Link } from "@reach/router";
 import { getMovieById } from "../actions";
 
-const MovieDetailPage = ({ getMovieById, movieId, movie }) => {
+const MovieDetailPage = ({
+  getMovieById,
+  movieId,
+  movie,
+  ingredients,
+  recipes
+}) => {
   if (!movie) {
     getMovieById(movieId);
   }
@@ -14,19 +20,29 @@ const MovieDetailPage = ({ getMovieById, movieId, movie }) => {
         <Link to={`/movies`}>Go Back</Link>
       </button>
       <h1>{movie ? "Title:  " + movie["title"] : []}</h1>
-      <br />
-      {movie && movie["script"] ? (
-        <p>{movie.script}</p>
-      ) : (
-        "There is no Movie Script Scraped Yet"
-      )}
+      <h3>Ingredients Mentioned:</h3>
+      <ul>
+        {ingredients
+          ? ingredients.map(ingredient => (
+              <li key={Math.random()}>{ingredient.name}</li>
+            ))
+          : []}
+      </ul>
+      <h3>Recipes Mentioned:</h3>
+      <ul>
+        {recipes
+          ? recipes.map(recipe => <li key={Math.random()}>{recipe.name}</li>)
+          : []}
+      </ul>
     </div>
   );
 };
 
 const mapState = state => {
   return {
-    movie: state.selectedMovie.movie
+    movie: state.selectedMovie.movie,
+    ingredients: state.selectedMovie.ingredients,
+    recipes: state.selectedMovie.recipes
   };
 };
 export default connect(
