@@ -12,19 +12,19 @@ module Utility
 
     # too intensive to do all at once
     def associate_all_recipes
-      find_all_recipes_for_movie
+      find_movie_recipes_associations
 
       @recipes.each do |recipe|
         @movie.recipes << recipe
       end
     end
 
-    # step 1, get all recipes with one ingredient mention in the movie
-    def find_all_recipes_for_movie
+    # seeding
+    def find_movie_recipes_associations
       all_recipes = Recipe.all
-      ingredients = @movie.ingredients
+      movie_ingredients = @movie.ingredients
 
-      @recipes = ingredients.each_with_object([]) do |ingredient, recipes|
+      @recipes = movie_ingredients.each_with_object([]) do |ingredient, recipes|
         ingredient_name = ingredient.name
         
         recipes << all_recipes.select do |recipe|
@@ -33,50 +33,58 @@ module Utility
           recipe_ingredients.include?(ingredient_name)
         end
       end.flatten.uniq
-      # creates the association
+      create_movie_recipes_associations
+    end
+
+    def create_movie_recipes_associations
       @recipes.each do |recipe|
         @movie.recipes << recipe if !@movie.recipes.find_by(id: recipe.id)
       end
     end
 
-    def rank_recipes_by_ingredient_mentions
-      find_all_recipes_for_movie if @movie.recipes.length
+    # generates recipe list ranked by ingredient mentions
+    def sort_recipes_by_ingredient_mentions
+      find_movie_recipes_associations if @movie.recipes.length === 0
 
       movie_ingredients = @movie.ingredients
       movie_recipes = @movie.recipes
-      recipe_ranking = []
+      all_recipes_to_be_sorted = []
 
       movie_recipes.each do |recipe|
-        ingredient_store = []
-        recipe.ingredients.each do |ingredient|
-          ingredient_store << ingredient.name if @movie.ingredients.find_by(name: ingredient.name)
-        end
-        recipe_ranking << { ingredient_mentions: ingredient_store.length, name: recipe.name, ingredients: ingredient_store, id: recipe.id, per_ing_to_movie_ing: (( ingredient_store.length.to_f / movie_ingredients.length.to_f) * 100).to_f }
+        create_recipe_object_with_ing_mentions(recipe, movie_ingredients, all_recipes_to_be_sorted)
       end
-      vetted_recipes = recipe_ranking.select do |recipe| 
+      vet_and_sort_recipes(all_recipes_to_be_sorted)
+    end
+    
+    def create_recipe_object_with_ing_mentions(recipe, movie_ingredients, all_recipes_to_be_sorted)
+      found_ingredients = []
+      recipe.ingredients.each do |ingredient|
+        found_ingredients << ingredient.name if movie_ingredients.find_by(name: ingredient.name)
+      end
+      all_recipes_to_be_sorted << { ingredient_mentions: found_ingredients.length, name: recipe.name, ingredients: found_ingredients, id: recipe.id, per_ing_to_movie_ing: (( found_ingredients.length.to_f / movie_ingredients.length.to_f) * 100).to_f }
+    end
+
+    def vet_and_sort_recipes(all_recipes_to_be_sorted)
+      vetted_recipes = all_recipes_to_be_sorted.select do |recipe| 
         recipe[:ingredient_mentions] > 1
       end
-      sorted_recipes = vetted_recipes.sort_by {|recipe| recipe[:ingredient_mentions]}.reverse
-      sorted_recipes
+      vetted_and_sorted_recipes = vetted_recipes.sort_by {|recipe| recipe[:ingredient_mentions]}.reverse
+      vetted_and_sorted_recipes
     end
 
-    def ranking_ingredients_by_ingredient_mentions
-      movie_ingredients = @movie.ingredients
+    # generates list of ingredient objects ranked by mentions
+    def rank_ingredients_by_ingredient_mentions
+      ranked_ingredients_list = @movie.ingredients.each_with_object(Hash.new(0)){ |m,h| h[m] += 1 }.sort_by{ |key,value| -value }
 
-      ranked_ingredients_list = movie_ingredients.each_with_object(Hash.new(0)){ |m,h| h[m] += 1 }.sort_by{ |key,value| -value }
-
-      ranked_ingredients_list
+      prettier_ranked_list = []
+      ranked_ingredients_list.each do |ingredient_object|
+        ingredient_object[0] = "#{ingredient_object[0][:name]}"
+        ingredient_object[1] = "#{ingredient_object[1]} total mentions"
+        percentage_of_all_ingredient_mentions = (ingredient_object[1].to_f / @movie.ingredients.length.to_f) * 100
+        ingredient_object[2] = "#{percentage_of_all_ingredient_mentions}% vs. total" 
+        prettier_ranked_list  << ingredient_object
+      end
     end
-
-    # def calculate_percentage_of_recipe_ingredients_in_movie_ingredients(recipe)
-    #   movie_ingredients = @movie.ingredients
-
-    #   recipe_ingredients = recipe.ingredients.map {|ingredient| 
-    #   ingredient if movie_ingredients.find_by(name: ingredient.name) 
-    #   }
-    #   percentage = (recipe_ingredients.length.to_f / movie_ingredients.length.to_f) * 100
-    #   percentage
-    # end
 
   end
 end
