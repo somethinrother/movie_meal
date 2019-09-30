@@ -7,20 +7,6 @@ export const GET_MOVIE_ERROR = "GET_MOVIE_ERROR";
 export const GET_MOVIE_BY_ID_REQUEST = "GET_MOVIE_BY_ID_REQUEST";
 export const GET_MOVIE_BY_ID_SUCCESS = "GET_MOVIE_BY_ID_SUCCESS";
 
-export function getMovieRequest(title) {
-  return {
-    type: GET_MOVIE_REQUEST,
-    title
-  };
-}
-
-export function getMovieSuccess(title) {
-  return {
-    type: GET_MOVIE_SUCCESS,
-    title
-  };
-}
-
 export function getMoviesRequest() {
   return {
     type: GET_MOVIES_REQUEST
@@ -75,13 +61,6 @@ export function getMovies() {
           error
         })
       );
-  };
-}
-
-export function getMovie(title) {
-  return dispatch => {
-    dispatch(getMovieRequest(title));
-    dispatch(getMovieSuccess(title));
   };
 }
 

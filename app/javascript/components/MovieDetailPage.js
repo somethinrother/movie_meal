@@ -10,6 +10,9 @@ const MovieDetailPage = ({ getMovieById, movieId, movie }) => {
 
   return (
     <div>
+      <button>
+        <Link to={`/movies`}>Go Back</Link>
+      </button>
       <h2>Viewing</h2>
       Movie Id: <i>{movieId}</i>
       <br />
@@ -20,17 +23,11 @@ const MovieDetailPage = ({ getMovieById, movieId, movie }) => {
       ) : (
         "There is no Movie Script Scraped Yet"
       )}
-      <br />
-      <button>
-        <Link to={`/movies`}>Go Back</Link>
-      </button>
     </div>
   );
 };
 
-const mapState = (state, ownProps) => {
-  console.log(state.selectedMovie);
-  
+const mapState = state => {
   return {
     movie: state.selectedMovie.movie
   };
