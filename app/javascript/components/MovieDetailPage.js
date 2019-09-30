@@ -13,13 +13,10 @@ const MovieDetailPage = ({ getMovieById, movieId, movie }) => {
       <button>
         <Link to={`/movies`}>Go Back</Link>
       </button>
-      <h2>Viewing</h2>
-      Movie Id: <i>{movieId}</i>
-      <br />
-      <i>{movie ? "Title:  " + movie["title"] : []}</i>
+      <h1>{movie ? "Title:  " + movie["title"] : []}</h1>
       <br />
       {movie && movie["script"] ? (
-        <div>{movie.script}</div>
+        <p>{movie.script}</p>
       ) : (
         "There is no Movie Script Scraped Yet"
       )}
