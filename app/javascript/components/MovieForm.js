@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { getMovies, getMovieByTitle } from "../actions";
 import MovieList from "./MovieList";
@@ -14,16 +14,18 @@ const MovieForm = ({
 }) => {
   const [movieTitle, setMovieTitle] = useState("");
 
+  useEffect(() => {
+    if (movies && movies.length === 0) {
+      getMovies();
+    }
+  }, []);
+
   if (error) {
     return <div>ERROR!! {error.message}</div>;
   }
 
   if (loading) {
     return <h1>Loading...</h1>;
-  }
-
-  if (movies && movies.length === 0) {
-    getMovies();
   }
 
   const handleSubmit = e => {
