@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "@reach/router";
 import { getMovieById } from "../actions";
@@ -10,9 +10,9 @@ const MovieDetailPage = ({
   ingredients,
   recipes
 }) => {
-  if (!movie) {
+  useEffect(() => {
     getMovieById(movieId);
-  }
+  }, []);
 
   return (
     <div>
