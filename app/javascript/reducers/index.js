@@ -39,8 +39,8 @@ const reducer = produce((draft, action) => {
       return;
     case GET_MOVIE_BY_TITLE_SUCCESS:
       draft.loading = false;
-      draft.selectedMovie = draft.movies.filter(
-        movie => movie.title === action.title
+      draft.selectedMovie = draft.movies.filter(movie =>
+        movie.title.toLowerCase().includes(action.title)
       );
       return;
   }

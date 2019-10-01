@@ -14,7 +14,7 @@ const MovieForm = ({
   selectedMovie
 }) => {
   const [movieTitle, setMovieTitle] = useState("");
-  const delayedQuery = useRef(_.debounce(q => getMovieByTitle(q), 500)).current;
+  const delayedQuery = useRef(_.debounce(e => getMovieByTitle(e), 500)).current;
 
   useEffect(() => {
     if (movies && movies.length === 0) {

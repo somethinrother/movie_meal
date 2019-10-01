@@ -86,7 +86,6 @@ export const getMovieById = id => {
 };
 
 export const getMovieByTitle = title => {
-  console.log(title);
   return dispatch => {
     dispatch(getMovieByTitleRequest(title));
     dispatch(getMovieByTitleSuccess(title));

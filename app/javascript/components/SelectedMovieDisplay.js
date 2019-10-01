@@ -4,10 +4,18 @@ import { Link } from "@reach/router";
 const SelectedMovieDisplay = ({ selectedMovie }) => {
   return (
     <div>
-      Found:
-      <Link to={`/movies/${selectedMovie[0].id}`}>
-        {selectedMovie ? selectedMovie[0].title : []}
-      </Link>
+      <ul>
+        {selectedMovie
+          ? selectedMovie.map(movie => (
+              <li key={movie.id}>
+                <Link to={`/movies/${movie.id}`}>
+                  <i>Found: </i>
+                  {movie.title}
+                </Link>
+              </li>
+            ))
+          : []}
+      </ul>
     </div>
   );
 };
