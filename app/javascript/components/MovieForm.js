@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import { getMovies, getMovieByTitle } from "../actions";
+import _ from "lodash";
 import MovieList from "./MovieList";
 import SelectedMovieDisplay from "./SelectedMovieDisplay";
 
@@ -13,6 +14,7 @@ const MovieForm = ({
   selectedMovie
 }) => {
   const [movieTitle, setMovieTitle] = useState("");
+  const delayedQuery = useRef(_.debounce(q => getMovieByTitle(q), 500)).current;
 
   useEffect(() => {
     if (movies && movies.length === 0) {
@@ -28,6 +30,11 @@ const MovieForm = ({
     return <h1>Loading...</h1>;
   }
 
+  const onChange = e => {
+    setMovieTitle(e.target.value);
+    delayedQuery(e.target.value);
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
     getMovieByTitle(movieTitle);
@@ -42,7 +49,7 @@ const MovieForm = ({
             type="text"
             placeholder="Input Movie Title"
             value={movieTitle}
-            onChange={e => setMovieTitle(e.target.value)}
+            onChange={onChange}
           />
           <button type="submit">Search</button>
         </div>
