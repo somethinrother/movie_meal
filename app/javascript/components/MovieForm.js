@@ -14,9 +14,11 @@ const MovieForm = ({
   selectedMovie
 }) => {
   const [movieTitle, setMovieTitle] = useState("");
+  const inputRef = useRef();
   const delayedQuery = useRef(_.debounce(e => getMovieByTitle(e), 500)).current;
 
   useEffect(() => {
+    inputRef.current.focus();
     if (movies && movies.length === 0) {
       getMovies();
     }
@@ -46,6 +48,7 @@ const MovieForm = ({
         <div>
           <label>Find A Movie: </label>
           <input
+            ref={inputRef}
             type="text"
             placeholder="Input Movie Title"
             value={movieTitle}

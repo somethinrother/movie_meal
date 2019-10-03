@@ -39,10 +39,8 @@ const reducer = produce((draft, action) => {
       return;
     case GET_MOVIE_BY_TITLE_SUCCESS:
       draft.loading = false;
-      if (action.title === " ") {
-        return;
-      } else if (action.title.length === 0) {
-        return;
+      if (action.title === " " || action.title.length === 0) {
+        draft.selectedMovie = null;
       } else {
         const search_movie_title = action.title.replace(/[^0-9A-Za-z]/g, "");
 
