@@ -41,16 +41,16 @@ const reducer = produce((draft, action) => {
       draft.loading = false;
       if (action.title === " " || action.title.length === 0) {
         draft.selectedMovie = null;
-      } else {
-        const search_movie_title = action.title.replace(/[^0-9A-Za-z]/g, "");
-
-        draft.selectedMovie = draft.movies.filter(movie =>
-          movie.title
-            .replace(/[^0-9A-Za-z]/g, "")
-            .toLowerCase()
-            .includes(search_movie_title.toLowerCase())
-        );
+        return;
       }
+      const search_movie_title = action.title.replace(/[^0-9A-Za-z]/g, "");
+
+      draft.selectedMovie = draft.movies.filter(movie =>
+        movie.title
+          .replace(/[^0-9A-Za-z]/g, "")
+          .toLowerCase()
+          .includes(search_movie_title.toLowerCase())
+      );
       return;
   }
 }, initialState);
