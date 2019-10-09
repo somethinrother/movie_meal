@@ -1,0 +1,2 @@
+class MoviesRecipesAssociations < ApplicationRecord
+end
