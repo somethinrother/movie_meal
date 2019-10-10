@@ -8,16 +8,12 @@ const MovieDetailPage = ({
   movieId,
   movie,
   ingredients,
-  recipes
+  recipe_map
 }) => {
   useEffect(() => {
     getMovieById(movieId);
   }, []);
-  {
-    console.log(
-      recipes && recipes.length > 0 ? recipes.map(recipe => recipe) : []
-    );
-  }
+
   return (
     <div>
       <button>
@@ -34,10 +30,12 @@ const MovieDetailPage = ({
       </ul>
       <h3>Recipes Mentioned:</h3>
       <ul>
-        {recipes
-          ? recipes.map(recipe => (
+        {recipe_map
+          ? recipe_map.map(recipe => (
               <li key={Math.random()}>
-                {recipe.id}. Recipe, # Mentions {recipe.ingredient_mentions}
+                <i>{recipe[1].name}</i>, Mentions:{" "}
+                {recipe[0].ingredient_mentions}, Total %{" "}
+                {recipe[0].mentions_percentage}
               </li>
             ))
           : []}
@@ -50,7 +48,7 @@ const mapState = state => {
   return {
     movie: state.selectedMovie.movie,
     ingredients: state.selectedMovie.ingredients,
-    recipes: state.selectedMovie.recipes
+    recipe_map: state.selectedMovie.recipe_map
   };
 };
 export default connect(
