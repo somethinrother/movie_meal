@@ -33,7 +33,8 @@ module Utility
         end
         # if recipe passes vetting, create an entry for the association in M_R_A
         if found_ingredients.length > 1
-          MoviesRecipesAssociations.create(movie_id: @movie.id, recipe_id: recipe.id, mentions: found_ingredients.length, ingredient_mentions: found_ingredients, mentions_percentage: (( found_ingredients.length.to_f / movie_ingredients.length.to_f) * 100))
+          byebug
+          entry = MoviesRecipesAssociations.create(recipe: recipe, movie: movie, mentions: found_ingredients.length, ingredient_mentions: found_ingredients, mentions_percentage: (( found_ingredients.length.to_f / movie_ingredients.length.to_f) * 100))
         end
       end
 

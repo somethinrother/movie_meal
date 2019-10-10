@@ -60,13 +60,15 @@ ActiveRecord::Schema.define(version: 2019_10_09_214025) do
   end
 
   create_table "movies_recipes_associations", force: :cascade do |t|
-    t.integer "movie_id"
-    t.integer "recipe_id"
+    t.bigint "movie_id"
+    t.bigint "recipe_id"
     t.integer "mentions"
     t.string "ingredient_mentions"
     t.decimal "mentions_percentage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["movie_id"], name: "index_movies_recipes_associations_on_movie_id"
+    t.index ["recipe_id"], name: "index_movies_recipes_associations_on_recipe_id"
   end
 
   create_table "recipes", force: :cascade do |t|
