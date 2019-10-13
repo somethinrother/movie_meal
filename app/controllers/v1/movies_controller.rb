@@ -12,11 +12,18 @@ class V1::MoviesController < ApplicationController
       recipe.movie === movie
     end
     sorted_recipes = recipes.sort_by {|recipe| recipe[:mentions_percentage]}.reverse
-    put_both_arrays_together = sorted_recipes.map{ |association| [association, association.recipe] }
+    put_both_mov_rec_together = sorted_recipes.map{ |association| [association, association.recipe] }
+
+    movie_ingredients = MoviesIngredientsAssociations.select do |ingredient|
+      ingredient.movie === movie
+    end
+    sorted_ingredients = movie_ingredients.sort_by {|recipe| recipe[:mentions_percentage]}.reverse
+    put_both_mov_ing_together = sorted_ingredients.map{ |association| [association, association.ingredient] }
+
     render json: {
       movie: movie,
-      ingredients: movie.ingredients,
-      recipe_map: put_both_arrays_together
+      ingredients: put_both_mov_ing_together,
+      recipe_map: put_both_mov_rec_together
     }
   end
 end

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "@reach/router";
 import { getMovieById } from "../actions";
+import "./MovieDetailPage.css";
 
 const MovieDetailPage = ({
   getMovieById,
@@ -13,18 +14,24 @@ const MovieDetailPage = ({
   useEffect(() => {
     getMovieById(movieId);
   }, []);
-
+  console.log(ingredients);
   return (
-    <div>
-      <button>
-        <Link to={`/movies`}>Go Back</Link>
-      </button>
-      <h1>{movie ? "Title:  " + movie["title"] : []}</h1>
-      <h3>Ingredients Mentioned:</h3>
+    <div className="MovieDetailPage">
+      <span>
+        <Link to={`/movies`}>
+          <button>Go Back</button>
+        </Link>
+        <h2 className="movie-title">{movie ? movie["title"] : []}</h2>
+      </span>
+      <h3 className="ingredients-mentioned">Ingredients Mentioned:</h3>
       <ul>
         {ingredients
           ? ingredients.map(ingredient => (
-              <li key={Math.random()}>{ingredient.name}</li>
+              <li key={Math.random()}>
+                <i>{ingredient[1].name}</i>, <i>Mentions:</i>{" "}
+                {ingredient[0].mentions}, Total %{" "}
+                {ingredient[0].mentions_percentage}
+              </li>
             ))
           : []}
       </ul>

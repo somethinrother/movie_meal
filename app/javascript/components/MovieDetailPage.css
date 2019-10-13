@@ -1,0 +1,61 @@
+* {
+  background-color: #972b2b;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.MovieDetailPage button {
+  color: white;
+  background-color: #888888;
+  font-size: 1em;
+  font-weight: 600;
+  padding: 5px;
+  outline: 0px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+  border-bottom: 3px solid black;
+  transition: all 0.2s;
+}
+
+.MovieDetailPage button > a {
+  color: white;
+  width: 100%;
+  outline: none;
+  text-decoration: none;
+}
+
+.MovieDetailPage button:hover {
+  background-color: #afafaf;
+}
+
+.MovieDetailPage button:active {
+  border-bottom: 1px solid black;
+  margin-top: 2px;
+  box-shadow: 0 1px 0 black inset;
+}
+
+.MovieDetailPage h2 {
+  /* display: inline; */
+  margin: 10px;
+  color: white;
+  outline: none;
+  text-decoration: none;
+}
+
+.MovieDetailPage h3 {
+  background-color: #888888;
+  margin: 0px;
+  width: 100%;
+  color: white;
+  padding: 10px;
+  border-bottom: 3px solid black;
+}
+
+.MovieDetailPage ul {
+  color: white;
+}
+
+.MovieDetailPage li {
+  color: #d8d8d8;
+  padding: 5px;
+}
