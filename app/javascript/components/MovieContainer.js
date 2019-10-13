@@ -52,6 +52,7 @@ const MovieContainer = ({
   const handleSubmit = e => {
     e.preventDefault();
     getMovieByTitle(movieTitle);
+    inputRef.current.focus();
   };
 
   return (
@@ -64,6 +65,7 @@ const MovieContainer = ({
           placeholder="Input Movie Title"
           value={movieTitle}
           onChange={onChange}
+          autoFocus={true}
         />
         <button type="submit">Search</button>
       </form>

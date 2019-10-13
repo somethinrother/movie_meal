@@ -34,7 +34,7 @@ const MovieDetailPage = ({
             ))
           : []}
       </ul>
-      <h3>Recipes Mentioned:</h3>
+      <h3>Recipes You Can Make Include...</h3>
       <ul>
         {recipe_map
           ? recipe_map.map(recipe => (
