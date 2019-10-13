@@ -1,0 +1,23 @@
+* {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  color: white;
+}
+
+.movie-container form input {
+  color: darkred;
+  background-color: white;
+}
+
+.movie-container form button {
+  color: black;
+  background-color: lightgray;
+}
+
+.movie-container a {
+  text-decoration: none;
+  letter-spacing: 3px;
+}
+
+.movie-container li {
+  list-style: none;
+}

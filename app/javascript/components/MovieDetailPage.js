@@ -23,14 +23,13 @@ const MovieDetailPage = ({
         </Link>
         <h2 className="movie-title">{movie ? movie["title"] : []}</h2>
       </span>
-      <h3 className="ingredients-mentioned">Ingredients Mentioned:</h3>
+      <h3>Ingredients Mentioned:</h3>
       <ul>
         {ingredients
           ? ingredients.map(ingredient => (
               <li key={Math.random()}>
-                <i>{ingredient[1].name}</i>, <i>Mentions:</i>{" "}
-                {ingredient[0].mentions}, Total %{" "}
-                {ingredient[0].mentions_percentage}
+                <i>{ingredient[1].name}</i>, mentions: {ingredient[0].mentions},
+                total % {ingredient[0].mentions_percentage}
               </li>
             ))
           : []}
@@ -40,8 +39,8 @@ const MovieDetailPage = ({
         {recipe_map
           ? recipe_map.map(recipe => (
               <li key={Math.random()}>
-                <i>{recipe[1].name}</i>, <i>Mentions:</i>{" "}
-                {recipe[0].ingredient_mentions}, Total %{" "}
+                <i>{recipe[1].name}</i>, <i>mentions:</i>{" "}
+                {recipe[0].ingredient_mentions}, total %{" "}
                 {recipe[0].mentions_percentage}
               </li>
             ))

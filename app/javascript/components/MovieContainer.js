@@ -5,6 +5,7 @@ import { getMovies, getMovieByTitle } from "../actions";
 import MovieList from "./MovieList";
 import Pagination from "./Pagination";
 import SelectedMovieDisplay from "./SelectedMovieDisplay";
+import "./MovieContainer.css";
 
 const MovieContainer = ({
   getMovieByTitle,
@@ -54,7 +55,7 @@ const MovieContainer = ({
   };
 
   return (
-    <div>
+    <div className="movie-container">
       <form onSubmit={handleSubmit}>
         <label>Find A Movie: </label>
         <input

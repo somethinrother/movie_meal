@@ -52,10 +52,12 @@
 }
 
 .MovieDetailPage ul {
-  color: white;
+  color: #bebebe;
+  list-style: none;
+  letter-spacing: 1px;
 }
 
-.MovieDetailPage li {
-  color: #d8d8d8;
-  padding: 5px;
+.MovieDetailPage li > i {
+  color: #bebebe;
+  text-transform: uppercase;
 }
