@@ -30,7 +30,8 @@ module Utility
           end
         # if recipe passes vetting, create an entry for the association in M_R_A
         if found_ingredients.length > 1
-          entry = MoviesRecipesAssociations.create(recipe: recipe, movie: movie, mentions: found_ingredients.length, ingredient_mentions: found_ingredients, mentions_percentage: (( found_ingredients.length.to_f / movie_ingredients.length.to_f) * 100))
+          byebug
+          entry = MoviesRecipesAssociations.create(recipe: recipe, movie: movie, mentions: found_ingredients.length, ingredient_mentions: found_ingredients.to_a, mentions_percentage: (( found_ingredients.length.to_f / movie_ingredients.length.to_f) * 100))
         end
       end
     end
@@ -59,10 +60,9 @@ module Utility
             found_ingredients << ingredient.name if movie_ingredients.find_by(name: ingredient.name)
           end
           # if recipe passes vetting, create an entry for the association in M_R_A
-
-        
           if found_ingredients.length > 1
-            entry = MoviesRecipesAssociations.create(recipe: recipe, movie: movie, mentions: found_ingredients.length, ingredient_mentions: found_ingredients, mentions_percentage: (( found_ingredients.length.to_f / movie_ingredients.length.to_f) * 100))
+            ingredients_array = JSON.parse(found_ingredients)
+            entry = MoviesRecipesAssociations.create(recipe: recipe, movie: movie, mentions: found_ingredients.length, ingredient_mentions: ingredients_array, mentions_percentage: (( found_ingredients.length.to_f / movie_ingredients.length.to_f) * 100))
           end
           
         end

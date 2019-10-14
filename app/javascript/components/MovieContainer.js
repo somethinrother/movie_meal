@@ -29,10 +29,10 @@ const MovieContainer = ({
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
   useEffect(() => {
-    inputRef.current.focus();
     if (movies && movies.length === 0) {
       getMovies();
     }
+    inputRef.current.focus();
   }, []);
 
   if (error) {
@@ -40,7 +40,11 @@ const MovieContainer = ({
   }
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return (
+      <center className="loading-text">
+        <h1>Loading...</h1>
+      </center>
+    );
   }
 
   // Form Code
@@ -52,12 +56,12 @@ const MovieContainer = ({
   const handleSubmit = e => {
     e.preventDefault();
     getMovieByTitle(movieTitle);
-    inputRef.current.focus();
   };
 
   return (
     <div className="movie-container">
       <form onSubmit={handleSubmit}>
+        <span className="app-title">movieMeal</span>
         <label>Find A Movie: </label>
         <input
           ref={inputRef}

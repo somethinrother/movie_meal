@@ -1,4 +1,5 @@
 import React from "react";
+import "./MovieContainer.css";
 
 const Pagination = ({ moviesPerPage, totalPosts, paginate }) => {
   const pageNumbers = [];
@@ -8,7 +9,7 @@ const Pagination = ({ moviesPerPage, totalPosts, paginate }) => {
   }
 
   return (
-    <span>
+    <span className="pagination">
       {pageNumbers.map(number => (
         <button key={number} onClick={() => paginate(number)}>
           {number}
