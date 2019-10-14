@@ -42,7 +42,12 @@ const MovieDetailPage = ({
             ? recipe_map.map(recipe => (
                 <li key={Math.random()}>
                   <h4>{recipe[1].name}</h4>{" "}
-                  <span>mentions: {recipe[0].ingredient_mentions}</span>{" "}
+                  <span>
+                    {console.log(
+                      recipe[0].ingredient_mentions.map(i => i.toString())
+                    )}
+                    mentions: {recipe[0].ingredient_mentions.map(i => i + " ")}
+                  </span>{" "}
                   <i>total % {recipe[0].mentions_percentage}</i>
                 </li>
               ))

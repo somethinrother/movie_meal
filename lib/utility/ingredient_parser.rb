@@ -19,7 +19,7 @@ module Utility
       ranked_ingredients_list = movie.ingredients.each_with_object(Hash.new(0)){ |m,h| h[m] += 1 }.sort_by{ |key,value| -value }
       
       ranked_ingredients_list.each do |ingredient_object|
-        MoviesIngredientsAssociations.create(movie: movie, ingredient: ingredient_object[0], mentions: ingredient_object[1], mentions_percentage: ((ingredient_object[1].to_f / movie.ingredients.length.to_f) * 100).toFixed(2))
+        MoviesIngredientsAssociations.create(movie: movie, ingredient: ingredient_object[0], mentions: ingredient_object[1], mentions_percentage: ((ingredient_object[1].to_f / movie.ingredients.length.to_f) * 100).round(3))
       end
     end
 

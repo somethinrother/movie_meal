@@ -10,7 +10,7 @@ module Utility
       @recipes = nil
     end
 
-     def hit_all
+     def create_all_movies_all_recipe_associations
       all_recipes = Recipe.all
       all_movies = Movie.all
       all_movies.each do |movie|
@@ -61,8 +61,7 @@ module Utility
           end
           # if recipe passes vetting, create an entry for the association in M_R_A
           if found_ingredients.length > 1
-            ingredients_array = JSON.parse(found_ingredients)
-            entry = MoviesRecipesAssociations.create(recipe: recipe, movie: movie, mentions: found_ingredients.length, ingredient_mentions: ingredients_array, mentions_percentage: (( found_ingredients.length.to_f / movie_ingredients.length.to_f) * 100))
+            entry = MoviesRecipesAssociations.create(recipe: recipe, movie: movie, mentions: found_ingredients.length, ingredient_mentions: found_ingredients, mentions_percentage: (( found_ingredients.length.to_f / movie_ingredients.length.to_f) * 100))
           end
           
         end
