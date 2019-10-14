@@ -26,7 +26,6 @@
 }
 
 .movie-container form input {
-  font-style: italic;
   color: black;
   background-color: white;
   border: 2px solid darkred;
@@ -34,10 +33,11 @@
   border-radius: 10px;
   padding: 2px;
   padding-left: 7px;
+  outline: none;
 }
 
 .movie-container form button {
-  /* color: white; */
+  outline: none;
   background-color: rgb(226, 226, 226);
   border: 2px solid darkred;
   margin: 5px;
