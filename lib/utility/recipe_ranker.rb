@@ -10,67 +10,67 @@ module Utility
       @recipes = nil
     end
 
-    # too intensive to do all at once
-    def associate_all_recipes
-      find_movie_recipes_associations
-
-      @recipes.each do |recipe|
-        @movie.recipes << recipe
-      end
-    end
-
-    # seeding
-    def find_movie_recipes_associations
+     def create_all_movies_all_recipe_associations
       all_recipes = Recipe.all
-      movie_ingredients = @movie.ingredients
-
-      @recipes = movie_ingredients.each_with_object([]) do |ingredient, recipes|
-        ingredient_name = ingredient.name
-        
+      all_movies = Movie.all
+      all_movies.each do |movie|
+        movie_ingredients = movie.ingredients
+        recipes_array = movie_ingredients.each_with_object([]) do |ingredient, recipes|
         recipes << all_recipes.select do |recipe|
           recipe_ingredients = recipe.ingredients.map { |ingredient| ingredient.name }
     
-          recipe_ingredients.include?(ingredient_name)
+          recipe_ingredients.include?(ingredient.name)
+          end
+        end.flatten.uniq
+
+        all_recipes.each do |recipe|
+          found_ingredients = []
+          recipe.ingredients.each do |ingredient|
+            found_ingredients << ingredient.name if movie_ingredients.find_by(name: ingredient.name)
+          end
+        # if recipe passes vetting, create an entry for the association in M_R_A
+        if found_ingredients.length > 1
+          byebug
+          entry = MoviesRecipesAssociations.create(recipe: recipe, movie: movie, mentions: found_ingredients.length, ingredient_mentions: found_ingredients.to_a, mentions_percentage: (( found_ingredients.length.to_f / movie_ingredients.length.to_f) * 100))
         end
-      end.flatten.uniq
-      create_movie_recipes_associations
+      end
     end
+  end
 
     def create_movie_recipes_associations
-      @recipes.each do |recipe|
-        @movie.recipes << recipe if !@movie.recipes.find_by(id: recipe.id)
+      begin
+        all_recipes = Recipe.all
+        movie_ingredients = @movie.ingredients
+
+      # get the movie's recipes, unvetted
+        @recipes = movie_ingredients.each_with_object([]) do |ingredient, recipes|
+          ingredient_name = ingredient.name
+          
+          recipes << all_recipes.select do |recipe|
+            recipe_ingredients = recipe.ingredients.map { |ingredient| ingredient.name }
+      
+            recipe_ingredients.include?(ingredient_name)
+          end
+        end.flatten.uniq
+        
+      # vet recipes, drop those with only one ingredient mention
+        @recipes.each do |recipe|
+          found_ingredients = []
+          recipe.ingredients.each do |ingredient|
+            found_ingredients << ingredient.name if movie_ingredients.find_by(name: ingredient.name)
+          end
+          # if recipe passes vetting, create an entry for the association in M_R_A
+          if found_ingredients.length > 1
+            entry = MoviesRecipesAssociations.create(recipe: recipe, movie: movie, mentions: found_ingredients.length, ingredient_mentions: found_ingredients, mentions_percentage: (( found_ingredients.length.to_f / movie_ingredients.length.to_f) * 100))
+          end
+          
+        end
+      rescue ValidationError => error
+        puts error
       end
     end
 
-    # generates recipe list ranked by ingredient mentions
-    def sort_recipes_by_ingredient_mentions
-      find_movie_recipes_associations if @movie.recipes.length === 0
 
-      movie_ingredients = @movie.ingredients
-      movie_recipes = @movie.recipes
-      all_recipes_to_be_sorted = []
-
-      movie_recipes.each do |recipe|
-        create_recipe_object_with_ing_mentions(recipe, movie_ingredients, all_recipes_to_be_sorted)
-      end
-      vet_and_sort_recipes(all_recipes_to_be_sorted)
-    end
-    
-    def create_recipe_object_with_ing_mentions(recipe, movie_ingredients, all_recipes_to_be_sorted)
-      found_ingredients = []
-      recipe.ingredients.each do |ingredient|
-        found_ingredients << ingredient.name if movie_ingredients.find_by(name: ingredient.name)
-      end
-      all_recipes_to_be_sorted << { ingredient_mentions: found_ingredients.length, name: recipe.name, ingredients: found_ingredients, id: recipe.id, per_ing_to_movie_ing: (( found_ingredients.length.to_f / movie_ingredients.length.to_f) * 100).to_f }
-    end
-
-    def vet_and_sort_recipes(all_recipes_to_be_sorted)
-      vetted_recipes = all_recipes_to_be_sorted.select do |recipe| 
-        recipe[:ingredient_mentions] > 1
-      end
-      vetted_and_sorted_recipes = vetted_recipes.sort_by {|recipe| recipe[:ingredient_mentions]}.reverse
-      vetted_and_sorted_recipes
-    end
 
   end
 end

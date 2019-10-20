@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import reducer from "../reducers/index";
 import thunk from "redux-thunk";
-import MovieForm from "./MovieForm";
+import MovieContainer from "./MovieContainer";
 import { Router, Redirect } from "@reach/router";
 import MovieDetailPage from "./MovieDetailPage";
 
@@ -13,7 +13,7 @@ class App extends React.Component {
       <Provider store={store}>
         <Router>
           <Redirect noThrow from="/" to="/movies" />
-          <MovieForm path="/movies" />
+          <MovieContainer path="/movies" />
           <MovieDetailPage path="/movies/:movieId" />
         </Router>
       </Provider>

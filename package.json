@@ -8,6 +8,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-polyfill": "^6.26.0",
     "immer": "^4.0.0",
+    "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
@@ -19,7 +20,8 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "thunk": "^0.0.1"
+    "thunk": "^0.0.1",
+    "use-lodash-debounce": "^1.1.0"
   },
   "devDependencies": {
     "redux-devtools-extension": "^2.13.8",

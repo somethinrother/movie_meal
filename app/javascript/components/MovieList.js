@@ -1,6 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Link } from "@reach/router";
+import "./MovieContainer.css";
 
 const MovieList = ({ movies, loading, error }) => {
   if (error) {
@@ -12,24 +12,16 @@ const MovieList = ({ movies, loading, error }) => {
   }
 
   return (
-    <div className="title">
-      {movies.length > 0 && <h3>List of Movies Found</h3>}
-      {movies &&
-        movies.map(movie => (
-          <li key={movie.id}>
-            <Link to={`/movies/${movie.id}`}>
-              <i>Title:</i> {movie.title}
-            </Link>
-          </li>
-        ))}
-    </div>
+    <ul className="title">
+      {movies && movies.length > 0
+        ? movies.map(movie => (
+            <li key={movie.id}>
+              <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+            </li>
+          ))
+        : []}
+    </ul>
   );
 };
 
-const mapStateToProps = state => ({
-  movies: state.movies,
-  error: state.error,
-  loading: state.loading
-});
-
-export default connect(mapStateToProps)(MovieList);
+export default MovieList;
