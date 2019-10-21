@@ -72,8 +72,8 @@
   padding-right: 15px;
 }
 .page-item {
-  align-items: center;
-  font-weight: bold;
+  display: flex;
+  justify-content: center;
   color: darkred;
   cursor: pointer;
   margin: 2px;
@@ -83,6 +83,12 @@
   border-radius: 2px;
   background-color: rgb(212, 80, 80);
 }
+.page-link {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .page-item:hover {
   background-color: rgb(255, 212, 212);
   transition: background-color 0.125s ease-out;
