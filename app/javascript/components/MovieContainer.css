@@ -63,14 +63,17 @@ body {
 
 .selected-movie {
   background-color: white;
-  border-radius: 10px;
-  margin: 10px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  width: 100vw;
+  margin-top: 10px;
+  margin-bottom: 10px;
   padding: 2px;
 }
 
-.selected-movie li {
+/* .selected-movie li {
   padding: 2px;
-}
+} */
 
 .selected-movie li:hover {
   background-color: rgb(255, 226, 226);
