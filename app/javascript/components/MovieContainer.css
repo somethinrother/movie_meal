@@ -8,8 +8,8 @@
   margin-top: 5px;
   margin-right: 30px;
   padding-left: 10px;
-  padding-right: 10px;
   padding-top: 3px;
+  padding-right: 10px;
   padding-bottom: 3px;
   border-radius: 20px;
   letter-spacing: 2px;
@@ -26,23 +26,17 @@
 }
 
 .movie-container form input {
-  color: black;
+  color: rgb(58, 0, 0);
   background-color: white;
   border: 2px solid darkred;
-  margin: 5px;
-  border-radius: 10px;
-  padding: 2px;
+  border-radius: 15px;
+  padding-top: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-bottom: 3px;
   padding-left: 7px;
   outline: none;
-}
-
-.movie-container form button {
-  outline: none;
-  background-color: rgb(226, 226, 226);
-  border: 2px solid darkred;
-  margin: 5px;
-  border-radius: 2px;
-  padding: 2px;
+  letter-spacing: 1px;
 }
 
 .movie-container li {
@@ -67,14 +61,34 @@
   color: rgb(160, 45, 0);
 }
 
-.pagination button {
-  color: darkred;
-  border-right: 1px solid darkred;
+.pagination {
+  display: flex;
+  background-color: darkred;
+  border-radius: 20px;
+  /* color: white; */
   outline: none;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
-
-.pagination button:hover {
-  background-color: white;
+.page-item {
+  align-items: center;
+  font-weight: bold;
+  color: darkred;
+  cursor: pointer;
+  margin: 2px;
+  padding: 2px 3px 3px 3px;
+  width: 100%;
+  border-color: darkred;
+  border-radius: 2px;
+  background-color: rgb(212, 80, 80);
+}
+.page-item:hover {
+  background-color: rgb(255, 212, 212);
+  transition: background-color 0.125s ease-out;
+}
+.page-item.active {
+  background-color: rgb(231, 151, 151);
 }
 
 .loading-text h1 {
