@@ -1,7 +1,9 @@
 * {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
-
+body {
+  background-color: rgb(255, 226, 226);
+}
 .app-title {
   color: white;
   background-color: black;
@@ -39,26 +41,60 @@
   letter-spacing: 1px;
 }
 
+.title-list li a {
+  color: darkred;
+  text-decoration: none;
+  letter-spacing: 1px;
+  width: 100%;
+}
+
+.title-list li a:hover {
+  transition: color 0.125s ease-out;
+  color: rgb(255, 72, 0);
+}
+
+.movie-container {
+  align-items: center;
+}
+
 .movie-container li {
   list-style: none;
 }
 
-.movie-container li > i {
-  background-color: rgb(161, 120, 107);
+.selected-movie {
+  background-color: white;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 2px;
 }
 
-.movie-container a {
+.selected-movie li {
+  padding: 2px;
+}
+
+.selected-movie li:hover {
+  background-color: rgb(255, 226, 226);
+  width: 50%;
+  border-radius: 15px;
+}
+.selected-movie li > a {
   color: darkred;
+  font-style: italic;
   text-decoration: none;
   letter-spacing: 1px;
 }
 
-.movie-container a:visited {
-  font-style: italic;
+.found {
+  color: darkred;
+  letter-spacing: 1px;
+  font-size: 1.5em;
+}
+.movie-container li > i {
+  background-color: rgb(161, 120, 107);
 }
 
-.movie-container li > a:active {
-  color: rgb(160, 45, 0);
+.movie-container a:hover {
+  transition: background-color 0.125s ease-out;
 }
 
 .pagination {
@@ -74,7 +110,7 @@
 .page-item {
   display: flex;
   justify-content: center;
-  color: darkred;
+  color: rgb(255, 226, 226);
   cursor: pointer;
   margin: 2px;
   padding: 2px 3px 3px 3px;
@@ -90,11 +126,12 @@
 }
 
 .page-item:hover {
-  background-color: rgb(255, 212, 212);
+  background-color: rgb(231, 151, 151);
   transition: background-color 0.125s ease-out;
 }
 .page-item.active {
-  background-color: rgb(231, 151, 151);
+  background-color: rgb(63, 0, 0);
+  color: rgb(231, 151, 151) !important;
 }
 
 .loading-text h1 {
