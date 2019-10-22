@@ -14,9 +14,8 @@ end
 
 namespace :ingredient_ranking do
   desc "sort and rank ingredients"
-    task :rank_all_ingredients do
-      u = Utility::IngredientParser.new
-      u.populate_all_movies_ingredients_mentions
-    end
+  task :rank_all_ingredients do
+    u = Utility::IngredientParser.new
+    u.populate_all_movies_ingredients_mentions
   end
 end
