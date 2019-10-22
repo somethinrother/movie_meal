@@ -20,8 +20,8 @@ module Utility
       
       ranked_ingredients_list.each do |ingredient_object|
         MoviesIngredientsAssociations.create(movie: movie, ingredient: ingredient_object[0], mentions: ingredient_object[1], mentions_percentage: ((ingredient_object[1].to_f / movie.ingredients.length.to_f) * 100).round(3))
+        puts "#{ingredient_object} association created :)"
       end
     end
-
   end
 end
