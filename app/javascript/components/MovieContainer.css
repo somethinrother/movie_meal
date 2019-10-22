@@ -41,16 +41,23 @@ body {
   letter-spacing: 1px;
 }
 
+.title-list li {
+  width: 100vw;
+  padding: 2px;
+  padding-left: 10px;
+}
+
+.title-list li:hover {
+  transition: background-color 0.125s ease-out;
+  background-color: white;
+  border-radius: 10px;
+  width: 77%;
+}
 .title-list li a {
+  width: 100%;
   color: darkred;
   text-decoration: none;
   letter-spacing: 1px;
-  width: 100%;
-}
-
-.title-list li a:hover {
-  transition: color 0.125s ease-out;
-  color: rgb(255, 72, 0);
 }
 
 .movie-container {
@@ -71,13 +78,9 @@ body {
   padding: 2px;
 }
 
-/* .selected-movie li {
-  padding: 2px;
-} */
-
 .selected-movie li:hover {
   background-color: rgb(255, 226, 226);
-  width: 50%;
+  width: 75%;
   border-radius: 15px;
 }
 .selected-movie li > a {
@@ -96,9 +99,9 @@ body {
   background-color: rgb(161, 120, 107);
 }
 
-.movie-container a:hover {
+/* .movie-container a:hover {
   transition: background-color 0.125s ease-out;
-}
+} */
 
 .pagination {
   display: flex;

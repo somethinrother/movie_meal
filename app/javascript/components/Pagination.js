@@ -1,6 +1,5 @@
 import React from "react";
 import "./MovieContainer.css";
-import _ from "lodash";
 
 const Pagination = ({ totalPosts, moviesPerPage, paginate, currentPage }) => {
   let startPage = 0;
@@ -9,7 +8,6 @@ const Pagination = ({ totalPosts, moviesPerPage, paginate, currentPage }) => {
 
   const totalPages = Math.ceil(totalPosts / moviesPerPage);
   if (totalPages === 1) return null;
-  const all_pages = _.range(1, totalPages + 1);
 
   if (currentPage <= 6) {
     startPage = 1;
@@ -31,11 +29,28 @@ const Pagination = ({ totalPosts, moviesPerPage, paginate, currentPage }) => {
     i => startPage + i
   );
 
+  const handleTenClick = () => {
+    if (currentPage <= totalPages - 10) {
+      paginate(currentPage + 10);
+    } else if (currentPage <= totalPages - 5) {
+      null;
+    } else {
+      paginate(currentPage + 1);
+    }
+  };
+
   return (
     <nav>
       <ul className="pagination">
-        <li className="page-item">First</li>
-        <li className="page-item">&lt;&lt;</li>
+        <li className="page-item" onClick={() => paginate(1)}>
+          First
+        </li>
+        <li
+          className="page-item"
+          onClick={currentPage > 9 ? () => paginate(currentPage - 10) : null}
+        >
+          &lt;&lt;
+        </li>
         {pages.map(page => (
           <li
             key={page}
@@ -46,8 +61,12 @@ const Pagination = ({ totalPosts, moviesPerPage, paginate, currentPage }) => {
             </a>
           </li>
         ))}
-        <li className="page-item">&gt;&gt;</li>
-        <li className="page-item">Last</li>
+        <li className="page-item" onClick={handleTenClick}>
+          &gt;&gt;
+        </li>
+        <li className="page-item" onClick={() => paginate(totalPages)}>
+          Last
+        </li>
       </ul>
     </nav>
   );
