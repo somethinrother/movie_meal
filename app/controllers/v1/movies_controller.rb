@@ -18,7 +18,7 @@ class V1::MoviesController < ApplicationController
       ingredient.movie === movie
     end
     sorted_ingredients = movie_ingredients.sort_by {|recipe| recipe[:mentions_percentage]}.reverse
-    put_both_mov_ing_together = sorted_ingredients.map{ |association| [association, association.ingredient] }
+    put_both_mov_ing_together = sorted_ingredients.map{ |movie| [movie, movie.ingredient] }
 
     if !movie.is_scraped
       script_scanner = Utility::ScriptScanner.new
