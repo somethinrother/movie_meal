@@ -26,6 +26,7 @@ module Utility
       recipe_name = recipe_data["title"]
       recipe_name.gsub!(/[^0-9A-Za-z]/, ' ')
       recipe = Recipe.find_or_create_by(name: recipe_name, thumbnail: recipe_data["thumbnail"])
+      puts "#{recipe.name} created!"
       associate_ingredients_to_recipe(recipe, ingredients) if recipe
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_14_211725) do
+ActiveRecord::Schema.define(version: 2019_10_13_010845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 2019_10_14_211725) do
     t.index ["movie_id"], name: "index_movies_ingredients_associations_on_movie_id"
   end
 
-  create_table "movies_recipes_associations", force: :cascade do |t|
+  create_table "movies_recipes", force: :cascade do |t|
     t.bigint "movie_id"
     t.bigint "recipe_id"
     t.integer "mentions"
@@ -79,9 +79,9 @@ ActiveRecord::Schema.define(version: 2019_10_14_211725) do
     t.decimal "mentions_percentage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["movie_id", "recipe_id"], name: "index_movies_recipes_associations_on_movie_id_and_recipe_id", unique: true
-    t.index ["movie_id"], name: "index_movies_recipes_associations_on_movie_id"
-    t.index ["recipe_id"], name: "index_movies_recipes_associations_on_recipe_id"
+    t.index ["movie_id", "recipe_id"], name: "index_movies_recipes_on_movie_id_and_recipe_id", unique: true
+    t.index ["movie_id"], name: "index_movies_recipes_on_movie_id"
+    t.index ["recipe_id"], name: "index_movies_recipes_on_recipe_id"
   end
 
   create_table "recipes", force: :cascade do |t|

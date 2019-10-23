@@ -7,7 +7,7 @@ namespace :recipe_ranking do
     movies = Movie.all 
     movies.each do |movie|
       current_movie = Utility::RecipeRanker.new(movie)
-      current_movie.create_all_movies_all_recipe_associations
+      current_movie.create_movie_recipes_associations
     end
   end
 end
