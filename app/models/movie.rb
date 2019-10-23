@@ -5,6 +5,7 @@ class Movie < ApplicationRecord
   has_and_belongs_to_many :ingredients
   has_and_belongs_to_many :recipes
   has_many :movies_recipes_associations
+  has_many :movies_ingredients_associations
 
   def self.save_movie_from_imsdb_node(node)
     parser = Utility::ImsdbParser.new

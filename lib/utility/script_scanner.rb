@@ -5,6 +5,7 @@ module Utility
 		def populate_all_scripts
 			Movie.all.each do |movie|
 				get_script(movie)
+				puts "found script for #{movie}"
 			end
 		end
 
@@ -12,6 +13,7 @@ module Utility
 			movies = Movie.all
 			movies.each do |movie|
 				scan_script(movie)
+				puts "scanned script for #{movie}"
 			end
 		end
 
