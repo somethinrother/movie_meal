@@ -71,14 +71,15 @@ const MovieContainer = ({
           onChange={onChange}
           autoFocus={true}
         />
-        <button type="submit">Search</button>
       </form>
       <SelectedMovieDisplay />
       <MovieList movies={currentMovies} loading={loading} error={error} />
+
       <Pagination
         moviesPerPage={moviesPerPage}
         totalPosts={movies.length}
         paginate={paginate}
+        currentPage={currentPage}
       />
     </div>
   );

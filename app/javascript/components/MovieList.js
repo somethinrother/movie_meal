@@ -12,7 +12,7 @@ const MovieList = ({ movies, loading, error }) => {
   }
 
   return (
-    <ul className="title">
+    <ul className="title-list">
       {movies && movies.length > 0
         ? movies.map(movie => (
             <li key={movie.id}>
