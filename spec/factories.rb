@@ -3,7 +3,7 @@ FactoryBot.define do
     
   end
 
-  factory :movies_recipes_association do
+  factory :movies_recipes do
     
   end
 

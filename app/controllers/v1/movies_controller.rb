@@ -8,7 +8,7 @@ class V1::MoviesController < ApplicationController
 
   def show
     movie = Movie.find(params[:id])
-    recipes = MoviesRecipesAssociation.select do |recipe|
+    recipes = MoviesRecipe.select do |recipe|
       recipe.movie === movie
     end
     sorted_recipes = recipes.sort_by {|recipe| recipe[:mentions_percentage]}.reverse
@@ -26,7 +26,7 @@ class V1::MoviesController < ApplicationController
       script_scanner.scan_script(movie)
     end
 
-    if movie.movies_recipes_associations.empty?
+    if movie.movies_recipes.empty?
       recipe_ranker = Utility::RecipeRanker.new(movie)
       recipe_ranker.create_movie_recipes_associations
     end
