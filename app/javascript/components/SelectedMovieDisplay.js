@@ -5,15 +5,21 @@ import "./MovieContainer.css";
 
 const SelectedMovieDisplay = ({ selectedMovie }) => {
   return (
-    <div className="selected-movie">
+    <div
+      className={
+        selectedMovie && selectedMovie.length > 0 ? "selected-movie" : null
+      }
+    >
       <ul>
+        {selectedMovie && selectedMovie.length > 0 ? (
+          <span className="found">Found...</span>
+        ) : (
+          []
+        )}
         {selectedMovie && selectedMovie.length > 0
           ? selectedMovie.map(movie => (
               <li key={movie.id}>
-                <Link to={`/movies/${movie.id}`}>
-                  <i>Found: </i>
-                  {movie.title}
-                </Link>
+                <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
               </li>
             ))
           : []}

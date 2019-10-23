@@ -1,15 +1,17 @@
 * {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
-
+body {
+  background-color: rgb(255, 226, 226);
+}
 .app-title {
   color: white;
   background-color: black;
   margin-top: 5px;
   margin-right: 30px;
   padding-left: 10px;
-  padding-right: 10px;
   padding-top: 3px;
+  padding-right: 10px;
   padding-bottom: 3px;
   border-radius: 20px;
   letter-spacing: 2px;
@@ -26,55 +28,116 @@
 }
 
 .movie-container form input {
-  color: black;
+  color: rgb(58, 0, 0);
   background-color: white;
   border: 2px solid darkred;
-  margin: 5px;
-  border-radius: 10px;
-  padding: 2px;
+  border-radius: 15px;
+  padding-top: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-bottom: 3px;
   padding-left: 7px;
   outline: none;
+  letter-spacing: 1px;
 }
 
-.movie-container form button {
-  outline: none;
-  background-color: rgb(226, 226, 226);
-  border: 2px solid darkred;
-  margin: 5px;
-  border-radius: 2px;
+.title-list li {
+  width: 100vw;
   padding: 2px;
+  padding-left: 10px;
+}
+
+.title-list li:hover {
+  transition: background-color 0.125s ease-out;
+  background-color: white;
+  border-radius: 10px;
+  width: 77%;
+}
+.title-list li a {
+  width: 100%;
+  color: darkred;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.movie-container {
+  align-items: center;
 }
 
 .movie-container li {
   list-style: none;
 }
 
-.movie-container li > i {
-  background-color: rgb(161, 120, 107);
+.selected-movie {
+  background-color: white;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  width: 100vw;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 2px;
 }
 
-.movie-container a {
+.selected-movie li:hover {
+  background-color: rgb(255, 226, 226);
+  width: 75%;
+  border-radius: 15px;
+}
+.selected-movie li > a {
   color: darkred;
+  font-style: italic;
   text-decoration: none;
   letter-spacing: 1px;
 }
 
-.movie-container a:visited {
-  font-style: italic;
-}
-
-.movie-container li > a:active {
-  color: rgb(160, 45, 0);
-}
-
-.pagination button {
+.found {
   color: darkred;
-  border-right: 1px solid darkred;
-  outline: none;
+  letter-spacing: 1px;
+  font-size: 1.5em;
+}
+.movie-container li > i {
+  background-color: rgb(161, 120, 107);
 }
 
-.pagination button:hover {
-  background-color: white;
+/* .movie-container a:hover {
+  transition: background-color 0.125s ease-out;
+} */
+
+.pagination {
+  display: flex;
+  background-color: darkred;
+  border-radius: 20px;
+  /* color: white; */
+  outline: none;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.page-item {
+  display: flex;
+  justify-content: center;
+  color: rgb(255, 226, 226);
+  cursor: pointer;
+  margin: 2px;
+  padding: 2px 3px 3px 3px;
+  width: 100%;
+  border-color: darkred;
+  border-radius: 2px;
+  background-color: rgb(212, 80, 80);
+}
+.page-link {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.page-item:hover {
+  background-color: rgb(231, 151, 151);
+  transition: background-color 0.125s ease-out;
+}
+.page-item.active {
+  background-color: rgb(63, 0, 0);
+  color: rgb(231, 151, 151) !important;
 }
 
 .loading-text h1 {
