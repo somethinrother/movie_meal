@@ -49,10 +49,12 @@ module Utility
 
       recipes.each do |recipe|
         recipe_ingredients = recipe.ingredients
-        if !(movie_ingredients & recipe_ingredients).empty?
+        
+        if ((movie_ingredients | recipe_ingredients).uniq.length > 2)
+
           # Find out if the recipe shares more than one ingredient with movie.ingredients
           @movie.recipes << recipe unless @movie.recipes.include?(recipe)
-
+          puts "MOVIE ID:#{movie.id}. TITLE:#{movie.title}, RECIPE: #{recipe.name}"
           recipe.ingredients.each do |ingredient|
             if movie.ingredients.include?(ingredient)
               movie_ingredient = MoviesIngredientsAssociation.new({

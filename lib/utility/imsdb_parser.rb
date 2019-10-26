@@ -25,11 +25,21 @@ module Utility
       url_components = movie.url.split('.')
       return if BLACKLISTED_EXTENSIONS.any? {|extension| url_components.include?(extension) }
       script = HTTParty.get(movie.url).body
-      movie.assign_attributes(
-        script: process_raw_script(script),
-        is_scraped: true
-      )
-      movie.save
+      # doesn't save if a PDF
+      if script.nil?
+        puts "#{movie.title} doesn't have readable script. Scraped = #{movie.is_scraped}"
+      end
+
+      if !script.nil?
+        movie.assign_attributes(
+          script: process_raw_script(script),
+          is_scraped: true
+        )
+        movie.save
+        puts "#{movie.title} has been created. Scraped = #{movie.is_scraped}"
+      end
+      
+
     end
 
     private
