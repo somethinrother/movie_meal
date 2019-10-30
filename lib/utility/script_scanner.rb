@@ -8,15 +8,7 @@ module Utility
 			end
 		end
 
-		def scan_all_scripts
-			movies = Movie.all
-			movies.each do |movie|
-				scan_script(movie)
-				
-			end
-		end
-
-		def	scan_script(movie)
+		def	get_ingredients_from_script(movie)
 			get_script(movie) if !movie.is_scraped
 			puts "#{movie.title} has no script." if movie.script.nil?
 
@@ -27,13 +19,14 @@ module Utility
 					movie.ingredients << ingredient unless ingredient.nil?
 					print "#{ingredient.name} " if movie.ingredients.include?(ingredient)
 				end
+
+				# elaborate puts statement for debug, delete later
 				puts "#{movie.title}"
 				if movie.ingredients
 					movie.ingredients.uniq.each do |i|
 						print "#{i.name} "
 					end
 				end
-				# puts "scanned script for #{movie.title}"
 			end
 
 		end

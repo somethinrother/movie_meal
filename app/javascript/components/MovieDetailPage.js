@@ -8,7 +8,7 @@ const MovieDetailPage = ({
   getMovieById,
   movieId,
   movie,
-  ingredients,
+  ingredient_map,
   recipe_map
 }) => {
   useEffect(() => {
@@ -17,23 +17,26 @@ const MovieDetailPage = ({
 
   return (
     <div className="MovieDetailPage">
-      <h2 className="movie-title">{movie ? movie["title"] : []}</h2>
+      {console.log(ingredient_map)}
+      <h2 className="movie-title">{movie ? movie.title : []}</h2>
       <Link to={`/movies`}>
         <button>Go Back</button>
       </Link>
       <div className="ingredients-mentioned">
         <h3>Ingredients Mentioned:</h3>
         <ul>
-          {ingredients
-            ? ingredients.map(ingredient => (
+          {ingredient_map
+            ? ingredient_map.map(ingredient => (
                 <li key={Math.random()}>
                   <h4>{ingredient[1].name}</h4>
-                  <span> {ingredient[0].mentions} mentions </span>
-                  <i>total % {ingredient[0].mentions_percentage}</i>
+                  {/* <span> {ingredient[0].mentions} mentions </span> */}
                 </li>
               ))
             : []}
         </ul>
+        {/* {ingredients
+            ? ingredients.map(ingredient => <h4>{ingredient.name}</h4>)
+            : []} */}
       </div>
       <div className="recipes-mentioned">
         <h3>Recipes You Can Make Include...</h3>
@@ -41,14 +44,7 @@ const MovieDetailPage = ({
           {recipe_map
             ? recipe_map.map(recipe => (
                 <li key={Math.random()}>
-                  <h4>{recipe[1].name}</h4>{" "}
-                  <span>
-                    {console.log(
-                      recipe[0].ingredient_mentions.map(i => i.toString())
-                    )}
-                    mentions: {recipe[0].ingredient_mentions.map(i => i + " ")}
-                  </span>{" "}
-                  <i>total % {recipe[0].mentions_percentage}</i>
+                  <h4>{recipe[1].name}</h4> <span></span> <i></i>
                 </li>
               ))
             : []}
@@ -61,7 +57,7 @@ const MovieDetailPage = ({
 const mapState = state => {
   return {
     movie: state.selectedMovie.movie,
-    ingredients: state.selectedMovie.ingredients,
+    ingredient_map: state.selectedMovie.ingredient_map,
     recipe_map: state.selectedMovie.recipe_map
   };
 };
