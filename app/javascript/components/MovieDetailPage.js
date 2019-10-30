@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "@reach/router";
 import { getMovieById } from "../actions";
@@ -13,8 +13,19 @@ const MovieDetailPage = ({
 }) => {
   useEffect(() => {
     getMovieById(movieId);
-  }, []);
 
+    if (recipe_map && ingredient_map) {
+      setRecipes(recipe_map);
+      setIngredients(ingredient_map);
+    } else {
+      setDataCheckCounter(dataCheckCounter + 1);
+    }
+  }, [dataCheckCounter]);
+
+  const [ingredients, setIngredients] = React.useState(null);
+  const [recipes, setRecipes] = React.useState(null);
+  const [dataCheckCounter, setDataCheckCounter] = React.useState(0);
+  console.log(recipes);
   return (
     <div className="MovieDetailPage">
       {console.log(ingredient_map)}
@@ -25,8 +36,8 @@ const MovieDetailPage = ({
       <div className="ingredients-mentioned">
         <h3>Ingredients Mentioned:</h3>
         <ul>
-          {ingredient_map
-            ? ingredient_map.map(ingredient => (
+          {ingredients
+            ? ingredients.map(ingredient => (
                 <li key={Math.random()}>
                   <h4>{ingredient[1].name}</h4>
                   {/* <span> {ingredient[0].mentions} mentions </span> */}
@@ -41,10 +52,11 @@ const MovieDetailPage = ({
       <div className="recipes-mentioned">
         <h3>Recipes You Can Make Include...</h3>
         <ul>
-          {recipe_map
-            ? recipe_map.map(recipe => (
+          {recipes
+            ? recipes.map(recipe => (
                 <li key={Math.random()}>
-                  <h4>{recipe[1].name}</h4> <span></span> <i></i>
+                  <h4>{recipe[1].name}</h4> <span></span>{" "}
+                  {/* <i>{recipe[1].mentions}</i> */}
                 </li>
               ))
             : []}
