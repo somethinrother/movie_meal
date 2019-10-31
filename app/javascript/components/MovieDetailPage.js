@@ -3,20 +3,24 @@ import { connect } from "react-redux";
 import { Link } from "@reach/router";
 import { getMovieById } from "../actions";
 import "./MovieDetailPage.css";
+import Loader from "./Loader";
 
 const MovieDetailPage = ({
   getMovieById,
   movieId,
   movie,
   ingredient_map,
-  recipe_map
+  recipe_map,
+  loading,
+  error
 }) => {
   useEffect(() => {
     getMovieById(movieId);
 
-    if (recipe_map && ingredient_map) {
-      setRecipes(recipe_map);
+    if (!ingredient_map) {
       setIngredients(ingredient_map);
+    } else if (!recipe_map) {
+      setRecipes(recipe_map);
     } else {
       setDataCheckCounter(dataCheckCounter + 1);
     }
@@ -25,10 +29,21 @@ const MovieDetailPage = ({
   const [ingredients, setIngredients] = React.useState(null);
   const [recipes, setRecipes] = React.useState(null);
   const [dataCheckCounter, setDataCheckCounter] = React.useState(0);
-  console.log(recipes);
+
+  if (error) {
+    return <div>ERROR!! {error.message}</div>;
+  }
+
+  if (loading) {
+    return (
+      <center className="loading-text">
+        <Loader />
+      </center>
+    );
+  }
+
   return (
     <div className="MovieDetailPage">
-      {console.log(ingredient_map)}
       <h2 className="movie-title">{movie ? movie.title : []}</h2>
       <Link to={`/movies`}>
         <button>Go Back</button>
@@ -36,27 +51,24 @@ const MovieDetailPage = ({
       <div className="ingredients-mentioned">
         <h3>Ingredients Mentioned:</h3>
         <ul>
-          {ingredients
-            ? ingredients.map(ingredient => (
+          {ingredient_map
+            ? ingredient_map.map(ingredient => (
                 <li key={Math.random()}>
-                  <h4>{ingredient[1].name}</h4>
-                  {/* <span> {ingredient[0].mentions} mentions </span> */}
+                  <h4>{ingredient[1]}</h4>
+                  <span> {ingredient[0].mentions} mentions </span>
                 </li>
               ))
             : []}
         </ul>
-        {/* {ingredients
-            ? ingredients.map(ingredient => <h4>{ingredient.name}</h4>)
-            : []} */}
       </div>
       <div className="recipes-mentioned">
         <h3>Recipes You Can Make Include...</h3>
         <ul>
-          {recipes
-            ? recipes.map(recipe => (
+          {recipe_map
+            ? recipe_map.map(recipe => (
                 <li key={Math.random()}>
-                  <h4>{recipe[1].name}</h4> <span></span>{" "}
-                  {/* <i>{recipe[1].mentions}</i> */}
+                  <h4>{recipe[1]}</h4> <span>Ingredient Mentions:</span>{" "}
+                  <i>{recipe[0].mentions.map(mention => mention + " ")}</i>
                 </li>
               ))
             : []}
@@ -70,7 +82,9 @@ const mapState = state => {
   return {
     movie: state.selectedMovie.movie,
     ingredient_map: state.selectedMovie.ingredient_map,
-    recipe_map: state.selectedMovie.recipe_map
+    recipe_map: state.selectedMovie.recipe_map,
+    loading: state.loading,
+    error: state.error
   };
 };
 export default connect(

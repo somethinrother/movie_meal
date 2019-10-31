@@ -4,7 +4,7 @@ class CreateMoviesRecipesAssociations < ActiveRecord::Migration[5.2]
     create_table :movies_recipes_associations do |t|
       t.belongs_to :movie
       t.belongs_to :recipe
-      t.text :mentions, array: true, default: []
+      t.text :mentions, array: true, default: [], using: "(string_to_array(mentions, ','))"
       t.decimal :mentions_percentage
 
       t.timestamps
@@ -15,6 +15,4 @@ class CreateMoviesRecipesAssociations < ActiveRecord::Migration[5.2]
     drop_table :movies_recipes_associations do |t|
     end
   end
-
-
 end

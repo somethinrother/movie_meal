@@ -30,8 +30,10 @@ const reducer = produce((draft, action) => {
       draft.error = action.error;
       return;
     case GET_MOVIE_BY_ID_REQUEST:
+      draft.loading = true;
       return;
     case GET_MOVIE_BY_ID_SUCCESS:
+      draft.loading = false;
       draft.selectedMovie = action.json;
       return;
     case GET_MOVIE_BY_TITLE_REQUEST:

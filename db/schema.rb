@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 2019_10_30_012700) do
   create_table "movies_ingredients_associations", force: :cascade do |t|
     t.bigint "movie_id"
     t.bigint "ingredient_id"
-    t.text "mentions", default: [], array: true
+    t.decimal "mentions"
     t.decimal "mentions_percentage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
