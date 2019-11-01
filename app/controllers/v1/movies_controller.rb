@@ -36,6 +36,7 @@ class V1::MoviesController < ApplicationController
       recipe_ranker = Utility::RecipeRanker.new(movie)
       recipe_ranker.create_movie_recipes_associations
     end
+    movie_recipes = MoviesRecipesAssociation.all.select { |association| association.movie === movie }
 
     # sort for output
     sorted_movie_recipes = movie_recipes.sort_by {|recipe_association| recipe_association.mentions.length}.reverse

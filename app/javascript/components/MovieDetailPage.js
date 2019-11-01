@@ -31,7 +31,11 @@ const MovieDetailPage = ({
   const [dataCheckCounter, setDataCheckCounter] = React.useState(0);
 
   if (error) {
-    return <div>ERROR!! {error.message}</div>;
+    return (
+      <div>
+        <h1>ERROR!! {error.message}</h1>
+      </div>
+    );
   }
 
   if (loading) {
