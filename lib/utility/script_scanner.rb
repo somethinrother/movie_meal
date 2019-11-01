@@ -25,7 +25,8 @@ module Utility
 		def	get_ingredients_from_script(movie)
 			get_script(movie) if !movie.is_scraped
 			puts "#{movie.title} has no script." if movie.script.nil?
-
+			puts "#{movie.title}" if movie.script
+			
 			if movie.is_scraped
 				words = movie.script.split(' ')
 				words.each do |word|
