@@ -27,7 +27,6 @@ module Utility
     end
 
     def populate_script(movie)
-      if !movie.is_scraped
         url_components = movie.url.split('.')
         return if BLACKLISTED_EXTENSIONS.any? {|extension| url_components.include?(extension) }
       
@@ -38,21 +37,7 @@ module Utility
         )
         movie.save
         puts "#{movie.title} script has been created. Scraped = #{movie.is_scraped}"
-      end
       # if script is empty after scrape, delete entry
-      delete_movie_with_no_script(movie)
-      
-    end
-
-    def delete_movie_with_no_script(movie)
-      if movie.script.nil?
-        puts "#{movie.title} has no script It will be destroyed."
-        byebug
-        movie_to_delete = Movie.find(movie.id)
-        # could change to slightly less safe .delete which is faster
-        movie_to_delete.destroy
-        puts "#{movie.title} doesn't have readable script. It is destroyed."
-      end
     end
 
     private
