@@ -13,9 +13,9 @@ namespace :script_scanner do
     end
   end
 
-  desc "Populate scripts for movies_with_character, split up into multiple arrays"
+  desc "Populate scripts for movies_with_character"
   task :populate_scripts_for_movies_with_character, [:character] do |task, args|
-    puts "task: #{args[:character]}"
+    puts "task}"
     scanner = Utility::ScriptScanner.new
     movies_by_character = scanner.get_movies_by_character(args[:character])
     movies_by_character.each_slice(20) do |array_slice|
@@ -25,7 +25,6 @@ namespace :script_scanner do
   end
 
   task :get_scripts_for_movies_array, [:array] do |task, args|
-    puts "in get_scripts_for_movies_array #{task}"
     scanner = Utility::ScriptScanner.new
     scanner.get_scripts_for_movies_array(args[:array])
   end
@@ -49,7 +48,6 @@ namespace :script_scanner do
     movies.each do |movie|
       scanner.get_ingredients_from_script(movie)
     end
-    
   end
   
   task :get_movie_ingredient_associations, [:array] do |task, args| 

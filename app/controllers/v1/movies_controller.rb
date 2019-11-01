@@ -1,6 +1,8 @@
 class V1::MoviesController < ApplicationController
   def index
     movies = Movie.all
+    movies.select {|movie| !movie.script.nil? }
+
     render json: {
       movies: movies
     }.to_json
@@ -35,6 +37,7 @@ class V1::MoviesController < ApplicationController
       recipe_ranker.create_movie_recipes_associations
     end
 
+    # sort for output
     sorted_movie_recipes = movie_recipes.sort_by {|recipe_association| recipe_association.mentions.length}.reverse
     shape_movie_recipes_data = sorted_movie_recipes.map{ |association| [association, association.recipe.name] }
     
