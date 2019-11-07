@@ -7,8 +7,6 @@ namespace :recipe_parser do
     parser = Utility::RecipePuppyParser.new
     parser.save_all_recipes_to_database
   end
-<<<<<<< Updated upstream
-=======
 
   desc "Get Movie Recipe Associations"
   task :get_movies_recipes_associations do
@@ -28,6 +26,4 @@ namespace :recipe_parser do
       parser.create_movie_recipes_associations(movie)
     end
   end
-
->>>>>>> Stashed changes
 end
