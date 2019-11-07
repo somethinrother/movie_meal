@@ -2,14 +2,64 @@ require 'utility/script_scanner'
 
 namespace :script_scanner do
   desc "Populate scripts for all movies"
-  task :populate_all_scripts do
-    scanner = Utility::ScriptScanner.new
-    scanner.populate_all_scripts
+  task :populate_all_scripts do |task, args|
+    all_numbers = (1..9).to_a
+    all_letters = ('a'..'z').to_a
+    all_characters = all_numbers.concat(all_letters) 
+
+    all_characters.each do |character|
+      Rake::Task["script_scanner:populate_scripts_for_movies_with_character"].invoke(character) 
+      Rake::Task["script_scanner:populate_scripts_for_movies_with_character"].reenable 
+    end
   end
 
-  desc "find all ingredients in all movie scripts"
-  task :rank_all_ingredients do
+  desc "Populate scripts for movies_with_character"
+  task :populate_scripts_for_movies_with_character, [:character] do |task, args|
+    puts "task}"
     scanner = Utility::ScriptScanner.new
-    scanner.scan_all_scripts
+    movies_by_character = scanner.get_movies_by_character(args[:character])
+    movies_by_character.each_slice(20) do |array_slice|
+      Rake::Task["script_scanner:get_scripts_for_movies_array"].invoke(array_slice)
+      Rake::Task["script_scanner:get_scripts_for_movies_array"].reenable
+    end
   end
+
+  task :get_scripts_for_movies_array, [:array] do |task, args|
+    scanner = Utility::ScriptScanner.new
+    scanner.get_scripts_for_movies_array(args[:array])
+  end
+
+  desc "Scrape Movie Script For Ingredients"
+  task :get_all_ingredients, [:character] do |task, args|
+    all_numbers = (1..9).to_a
+    all_letters = ('a'..'z').to_a
+    all_characters = all_numbers.concat(all_letters)
+    movies = Movie.all
+    movies.each_slice(5) do |array_slice|
+      Rake::Task["script_scanner:get_movie_ingredient_associations"].invoke(array_slice) 
+      Rake::Task["script_scanner:get_movie_ingredient_associations"].reenable 
+    end
+  end
+
+  task :get_ingredients_from_scripts, [:array] do |task, args|
+    puts "#{task}"
+    scanner = Utility::ScriptScanner.new
+    movies = args[:array]
+    movies.each do |movie|
+      scanner.get_ingredients_from_script(movie)
+    end
+  end
+  
+  task :get_movie_ingredient_associations, [:array] do |task, args| 
+    puts "#{task}"
+    slice_of_movies = args[:array]
+    scanner = Utility::ScriptScanner.new
+    slice_of_movies.each do |movie|
+      scanner.get_ingredients_from_script(movie)
+    end
+  end
+
 end
+
+
+

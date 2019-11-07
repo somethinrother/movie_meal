@@ -4,7 +4,7 @@ class CreateMoviesRecipes < ActiveRecord::Migration[5.2]
       t.belongs_to :movie
       t.belongs_to :recipe
       t.integer :mentions
-      t.string :ingredient_mentions, array: true, default: [], using: "(string_to_array(ingredient_mentions, ','))"
+      t.text :ingredient_mentions, array: true, default: [], using: "(string_to_array(ingredient_mentions, ','))"
       t.decimal :mentions_percentage
 
       t.timestamps

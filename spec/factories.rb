@@ -1,4 +1,8 @@
 FactoryBot.define do
+  factory :movies_recipes_association do
+    
+  end
+
   factory :movies_ingredients_association do
     
   end
