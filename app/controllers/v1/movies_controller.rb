@@ -1,6 +1,8 @@
 class V1::MoviesController < ApplicationController
   def index
     movies = Movie.all
+    movies.select {|movie| !movie.script.nil? }
+
     render json: {
       movies: movies
     }.to_json
@@ -8,33 +10,42 @@ class V1::MoviesController < ApplicationController
 
   def show
     movie = Movie.find(params[:id])
-    recipes = MoviesRecipe.select do |recipe|
-      recipe.movie === movie
-    end
-    sorted_recipes = recipes.sort_by {|recipe| recipe[:mentions_percentage]}.reverse
-    put_both_mov_rec_together = sorted_recipes.map{ |association| [association, association.recipe] }
+    movie_ingredients = movie.ingredients
+    movie_associations = MoviesIngredientsAssociation.all.select { |association| association.movie === movie }
 
-    movie_ingredients = MoviesIngredientsAssociation.select do |ingredient|
-      ingredient.movie === movie
-    end
-    sorted_ingredients = movie_ingredients.sort_by {|recipe| recipe[:mentions_percentage]}.reverse
-    put_both_mov_ing_together = sorted_ingredients.map{ |movie| [movie, movie.ingredient] }
-
-    if !movie.is_scraped
+    if movie_ingredients.empty?
       script_scanner = Utility::ScriptScanner.new
-      script_scanner.get_script(movie)
-      script_scanner.scan_script(movie)
+      script_scanner.get_ingredients_from_script(movie)
+    end
+    
+    if movie_associations.empty?
+      ingredient_ranker = Utility::IngredientParser.new(movie)
+      ingredient_ranker.create_movie_ingredients_associations
     end
 
-    if movie.movies_recipes.empty?
+    # select ingredient mentions
+    movie_ingredients_associations = MoviesIngredientsAssociation.all.select { |association| association.movie === movie }
+    
+    # sort ingredient mentions
+    sorted_movie_ingredients = movie_ingredients_associations.sort_by {|association| association.mentions}.reverse
+    shape_movie_ingredients_data = sorted_movie_ingredients.map{ |association| [association, association.ingredient.name] }
+
+    # select recipe mentions
+    movie_recipes = MoviesRecipesAssociation.all.select { |association| association.movie === movie }
+    if movie_recipes.empty?
       recipe_ranker = Utility::RecipeRanker.new(movie)
       recipe_ranker.create_movie_recipes_associations
     end
+    movie_recipes = MoviesRecipesAssociation.all.select { |association| association.movie === movie }
 
+    # sort for output
+    sorted_movie_recipes = movie_recipes.sort_by {|recipe_association| recipe_association.mentions.length}.reverse
+    shape_movie_recipes_data = sorted_movie_recipes.map{ |association| [association, association.recipe.name] }
+    
     render json: {
       movie: movie,
-      ingredients: put_both_mov_ing_together,
-      recipe_map: put_both_mov_rec_together
+      ingredient_map: shape_movie_ingredients_data,
+      recipe_map: shape_movie_recipes_data
     }
   end
 end

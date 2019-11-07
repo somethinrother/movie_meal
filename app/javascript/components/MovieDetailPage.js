@@ -1,35 +1,65 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "@reach/router";
 import { getMovieById } from "../actions";
 import "./MovieDetailPage.css";
+import Loader from "./Loader";
 
 const MovieDetailPage = ({
   getMovieById,
   movieId,
   movie,
-  ingredients,
-  recipe_map
+  ingredient_map,
+  recipe_map,
+  loading,
+  error
 }) => {
   useEffect(() => {
     getMovieById(movieId);
-  }, []);
+
+    if (!ingredient_map) {
+      setIngredients(ingredient_map);
+    } else if (!recipe_map) {
+      setRecipes(recipe_map);
+    } else {
+      setDataCheckCounter(dataCheckCounter + 1);
+    }
+  }, [dataCheckCounter]);
+
+  const [ingredients, setIngredients] = React.useState(null);
+  const [recipes, setRecipes] = React.useState(null);
+  const [dataCheckCounter, setDataCheckCounter] = React.useState(0);
+
+  if (error) {
+    return (
+      <div>
+        <h1>ERROR!! {error.message}</h1>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <center className="loading-text">
+        <Loader />
+      </center>
+    );
+  }
 
   return (
     <div className="MovieDetailPage">
-      <h2 className="movie-title">{movie ? movie["title"] : []}</h2>
+      <h2 className="movie-title">{movie ? movie.title : []}</h2>
       <Link to={`/movies`}>
         <button>Go Back</button>
       </Link>
       <div className="ingredients-mentioned">
         <h3>Ingredients Mentioned:</h3>
         <ul>
-          {ingredients
-            ? ingredients.map(ingredient => (
+          {ingredient_map
+            ? ingredient_map.map(ingredient => (
                 <li key={Math.random()}>
-                  <h4>{ingredient[1].name}</h4>
+                  <h4>{ingredient[1]}</h4>
                   <span> {ingredient[0].mentions} mentions </span>
-                  <i>total % {ingredient[0].mentions_percentage}</i>
                 </li>
               ))
             : []}
@@ -41,14 +71,8 @@ const MovieDetailPage = ({
           {recipe_map
             ? recipe_map.map(recipe => (
                 <li key={Math.random()}>
-                  <h4>{recipe[1].name}</h4>{" "}
-                  <span>
-                    {console.log(
-                      recipe[0].ingredient_mentions.map(i => i.toString())
-                    )}
-                    mentions: {recipe[0].ingredient_mentions.map(i => i + " ")}
-                  </span>{" "}
-                  <i>total % {recipe[0].mentions_percentage}</i>
+                  <h4>{recipe[1]}</h4> <span>Ingredient Mentions:</span>{" "}
+                  <i>{recipe[0].mentions.map(mention => mention + " ")}</i>
                 </li>
               ))
             : []}
@@ -61,8 +85,10 @@ const MovieDetailPage = ({
 const mapState = state => {
   return {
     movie: state.selectedMovie.movie,
-    ingredients: state.selectedMovie.ingredients,
-    recipe_map: state.selectedMovie.recipe_map
+    ingredient_map: state.selectedMovie.ingredient_map,
+    recipe_map: state.selectedMovie.recipe_map,
+    loading: state.loading,
+    error: state.error
   };
 };
 export default connect(

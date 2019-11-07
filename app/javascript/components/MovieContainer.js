@@ -6,6 +6,7 @@ import MovieList from "./MovieList";
 import Pagination from "./Pagination";
 import SelectedMovieDisplay from "./SelectedMovieDisplay";
 import "./MovieContainer.css";
+import Loader from "./Loader";
 
 const MovieContainer = ({
   getMovieByTitle,
@@ -42,7 +43,7 @@ const MovieContainer = ({
   if (loading) {
     return (
       <center className="loading-text">
-        <h1>Loading...</h1>
+        <Loader />
       </center>
     );
   }
