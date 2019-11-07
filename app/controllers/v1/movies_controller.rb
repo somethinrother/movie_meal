@@ -11,20 +11,12 @@ class V1::MoviesController < ApplicationController
   def show
     movie = Movie.find(params[:id])
     movie_ingredients = movie.ingredients
-    movie_associations = MoviesIngredientsAssociation.all.select { |association| association.movie === movie }
+    movie_ingredients_associations = find_or_populate_movie_ingredients_associations(movie)
 
     if movie_ingredients.empty?
       script_scanner = Utility::ScriptScanner.new
       script_scanner.get_ingredients_from_script(movie)
     end
-    
-    if movie_associations.empty?
-      ingredient_ranker = Utility::IngredientParser.new(movie)
-      ingredient_ranker.create_movie_ingredients_associations
-    end
-
-    # select ingredient mentions
-    movie_ingredients_associations = MoviesIngredientsAssociation.all.select { |association| association.movie === movie }
     
     # sort ingredient mentions
     sorted_movie_ingredients = movie_ingredients_associations.sort_by {|association| association.mentions}.reverse
@@ -47,5 +39,18 @@ class V1::MoviesController < ApplicationController
       ingredient_map: shape_movie_ingredients_data,
       recipe_map: shape_movie_recipes_data
     }
+  end
+
+  private
+
+  def find_or_populate_movie_ingredients_associations(movie)
+    movie_associations = MoviesIngredientsAssociation.where(movie: movie)
+
+    if movie_associations.empty?
+      ingredient_ranker = Utility::IngredientParser.new(movie)
+      ingredient_ranker.create_movie_ingredients_associations
+    end
+
+    MoviesIngredientsAssociation.where(movie: movie)
   end
 end
