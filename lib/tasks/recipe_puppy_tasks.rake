@@ -38,7 +38,7 @@ namespace :recipe_parser do
     end
   end
 
-  task :scrape_slice_of_movies_array_for_ingredients, [:array] do |task, args|
+  task :scrape_slice_of_movies_array_for_ingredients, [:array] do |_task, args|
     slice_of_movies_array = args[:array]
     slice_of_movies_array.each do |movie|
       puts "scraping ingredients for #{movie.title}"
@@ -46,5 +46,4 @@ namespace :recipe_parser do
       parser.create_movie_ingredients_associations
     end
   end
-
 end
