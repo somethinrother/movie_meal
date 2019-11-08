@@ -12,7 +12,7 @@ module Utility
 
     def create_movie_ingredients_associations
       movie_ingredients = @movie.ingredients
-      movie_ingredients.group_by(&:name).each do |_ingredient, mentions|
+      movie_ingredients.group_by(&:name).values.each do |mentions|
         metadata = parse_metadata_for_assocation(mentions, movie_ingredients)
         save_movie_ingredient_association_from_metadata(metadata)
       end
