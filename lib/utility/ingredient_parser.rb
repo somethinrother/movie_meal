@@ -12,24 +12,27 @@ module Utility
 
     def create_movie_ingredients_associations
       movie_ingredients = @movie.ingredients
-      movie_ingredients.each do |ingredient|
-        generate_ingredient_metadata_for_movie(ingredient)
+      movie_ingredients.group_by(&:name).each do |_ingredient, mentions|
+        metadata = parse_metadata_for_assocation(mentions, movie_ingredients)
+        save_movie_ingredient_association_from_metadata(metadata)
       end
-    rescue StandardError => e
-      puts e
     end
 
     private
 
-    def generate_ingredient_metadata_for_movie(ingredient)
-      mentions_count = movie_ingredients.where(name: ingredient.name).length
+    def parse_metadata_for_assocation(mentions, movie_ingredients)
+      mentions_count = mentions.length
       mentions_percentage = (mentions_count.to_f / movie_ingredients.length.to_f * 100).round(2)
-      movie_ingredient_association = MoviesIngredientsAssociation.new(
+      {
         movie: @movie,
-        ingredient: ingredient,
+        ingredient: mentions[0],
         mentions: mentions_count,
         mentions_percentage: mentions_percentage
-      )
+      }
+    end
+
+    def save_movie_ingredient_association_from_metadata(metadata)
+      movie_ingredient_association = MoviesIngredientsAssociation.new(metadata)
       movie_ingredient_association.save if movie_ingredient_association.valid?
     end
   end
