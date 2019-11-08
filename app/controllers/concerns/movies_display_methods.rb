@@ -41,7 +41,7 @@ module MoviesDisplayMethods
   end
 
   def prepare_movie_recipes_for_display(movie_recipes)
-    sorted_movie_recipes = movie_recipes.sort_by(&:mentions).reverse
+    sorted_movie_recipes = movie_recipes.sort_by { |movie_recipe| movie_recipe.mentions.length  }.reverse
     sorted_movie_recipes.map { |association| [association, association.recipe.name] }
   end
 end
