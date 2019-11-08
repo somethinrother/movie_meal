@@ -1,19 +1,19 @@
 import React from "react";
-import "./MovieDetailPage.css";
 
-const IngredientList = ({ ingredients }) => {
+export const IngredientList = ({ ingredients }) => {
   return (
     <div className="ingredients-mentioned">
-      <h3>Ingredients Mentioned:</h3>
-      <ul>
-        {ingredients
-          ? ingredients.map(ingredient => (
-              <li key={Math.random()}>{ingredient.name}</li>
-            ))
-          : []}
-      </ul>
-    </div>
+        <h3>Ingredients Mentioned:</h3>
+        <ul>
+          {ingredients
+            ? ingredients.map(ingredient => (
+                <li key={Math.random()}>
+                  <h4>{ingredient[1]}</h4>
+                  <span> {ingredient[0].mentions} mentions </span>
+                </li>
+              ))
+            : []}
+        </ul>
+      </div>
   );
 };
-
-export default IngredientList;

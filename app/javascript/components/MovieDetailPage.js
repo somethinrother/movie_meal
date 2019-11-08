@@ -4,6 +4,8 @@ import { Link } from "@reach/router";
 import { getMovieById } from "../actions";
 import "./MovieDetailPage.css";
 import Loader from "./Loader";
+import { IngredientList } from './IngredientList';
+import { RecipesList } from './RecipesList';
 
 const MovieDetailPage = ({
   getMovieById,
@@ -16,19 +18,9 @@ const MovieDetailPage = ({
 }) => {
   useEffect(() => {
     getMovieById(movieId);
-
-    if (!ingredient_map) {
-      setIngredients(ingredient_map);
-    } else if (!recipe_map) {
-      setRecipes(recipe_map);
-    } else {
-      setDataCheckCounter(dataCheckCounter + 1);
-    }
   }, [dataCheckCounter]);
 
-  const [ingredients, setIngredients] = React.useState(null);
-  const [recipes, setRecipes] = React.useState(null);
-  const [dataCheckCounter, setDataCheckCounter] = React.useState(0);
+  const [dataCheckCounter] = React.useState(0);
 
   if (error) {
     return (
@@ -52,32 +44,8 @@ const MovieDetailPage = ({
       <Link to={`/movies`}>
         <button>Go Back</button>
       </Link>
-      <div className="ingredients-mentioned">
-        <h3>Ingredients Mentioned:</h3>
-        <ul>
-          {ingredient_map
-            ? ingredient_map.map(ingredient => (
-                <li key={Math.random()}>
-                  <h4>{ingredient[1]}</h4>
-                  <span> {ingredient[0].mentions} mentions </span>
-                </li>
-              ))
-            : []}
-        </ul>
-      </div>
-      <div className="recipes-mentioned">
-        <h3>Recipes You Can Make Include...</h3>
-        <ul>
-          {recipe_map
-            ? recipe_map.map(recipe => (
-                <li key={Math.random()}>
-                  <h4>{recipe[1]}</h4> <span>Ingredient Mentions:</span>{" "}
-                  <i>{recipe[0].mentions.map(mention => mention + " ")}</i>
-                </li>
-              ))
-            : []}
-        </ul>
-      </div>
+      <IngredientList ingredients={ingredient_map} />
+      <RecipesList recipes={recipe_map} />
     </div>
   );
 };
