@@ -4,6 +4,13 @@ require 'utility/imsdb_parser'
 
 module Utility
   class ScriptScanner
+    attr_accessor :non_ingredient_words, :searched_ingredients
+
+    def initialize
+      @non_ingredient_words = []
+      @searched_ingredients = {}
+    end
+
     def get_scripts_for_movies_array(movies_by_character)
       movies_by_character.each do |movie|
         puts "got script for: #{movie.title}" if movie.is_scraped
@@ -35,9 +42,24 @@ module Utility
     def extract_all_ingredients_from_script(movie)
       words = movie.script.split(' ')
       words.each do |word|
-        ingredient = Ingredient.find_by(name: word)
-        movie.ingredients << ingredient unless ingredient.nil?
-        print "#{ingredient.name} " if movie.ingredients.include?(ingredient)
+        next if @non_ingredient_words.include?(word)
+
+        ingredient = @searched_ingredients[word]
+        if ingredient
+          movie.ingredients << ingredient
+          puts "#{ingredient.name} associated to #{movie.title} from cache"
+        else
+          ingredient = Ingredient.find_by(name: word)
+
+          if ingredient
+            movie.ingredients << ingredient
+            @searched_ingredients[ingredient.name] = ingredient 
+            puts "#{ingredient.name} associated to #{movie.title} and added to cache"
+          else
+            @non_ingredient_words << word
+            puts "#{word} is not an ingredient and has been blacklisted for the duration of this task"
+          end
+        end
       end
     end
   end
