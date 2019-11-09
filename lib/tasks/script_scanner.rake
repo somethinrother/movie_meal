@@ -33,13 +33,10 @@ namespace :script_scanner do
 
   desc 'Scrape Movie Script For Ingredients'
   task :get_all_ingredients, [:character] do |_task, _args|
-    all_numbers = (1..9).to_a
-    all_letters = ('a'..'z').to_a
-    all_characters = all_numbers.concat(all_letters)
     movies = Movie.all
-    movies.each_slice(5) do |array_slice|
-      Rake::Task['script_scanner:get_movie_ingredient_associations'].invoke(array_slice)
-      Rake::Task['script_scanner:get_movie_ingredient_associations'].reenable
+    scanner = Utility::ScriptScanner.new
+    movies.each do |movie|
+      scanner.get_ingredients_from_script(movie)
     end
   end
 
