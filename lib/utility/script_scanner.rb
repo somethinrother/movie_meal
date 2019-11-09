@@ -4,10 +4,14 @@ require 'utility/imsdb_parser'
 
 module Utility
   class ScriptScanner
-    attr_accessor :non_ingredient_words, :searched_ingredients
+    BLACKLISTED_WORDS_PATH = 'lib/utility/fixtures/blacklisted_words.json'
+    OLD_PATH = BLACKLISTED_WORDS_PATH + '.old'
+    NEW_PATH = BLACKLISTED_WORDS_PATH + '.new'
+
+    attr_accessor :blacklisted_words, :searched_ingredients
 
     def initialize
-      @non_ingredient_words = []
+      @blacklisted_words = []
       @searched_ingredients = {}
     end
 
@@ -32,7 +36,7 @@ module Utility
       extract_all_ingredients_from_script(movie)
     end
 
-    private
+    # private
 
     def get_script(movie)
       parser = Utility::ImsdbParser.new
@@ -42,7 +46,7 @@ module Utility
     def extract_all_ingredients_from_script(movie)
       words = movie.script.split(' ')
       words.each do |word|
-        next if @non_ingredient_words.include?(word)
+        next if @blacklisted_words.include?(word)
 
         ingredient = @searched_ingredients[word]
         if ingredient
@@ -56,11 +60,25 @@ module Utility
             @searched_ingredients[ingredient.name] = ingredient 
             puts "#{ingredient.name} associated to #{movie.title} and added to cache"
           else
-            @non_ingredient_words << word
+            @blacklisted_words << word
             puts "#{word} is not an ingredient and has been blacklisted for the duration of this task"
           end
         end
       end
+
+      update_blacklisted_words(@blacklisted_words)
+    end
+
+    def fetch_blacklisted_words
+      data = File.read(BLACKLISTED_WORDS_PATH)
+      JSON.parse(data)
+    end
+
+    def update_blacklisted_words(blacklisted_words)
+      File.rename(BLACKLISTED_WORDS_PATH, OLD_PATH)
+      File.write(NEW_PATH, blacklisted_words)
+      File.rename(NEW_PATH, BLACKLISTED_WORDS_PATH)
+      File.delete(OLD_PATH)
     end
   end
 end
