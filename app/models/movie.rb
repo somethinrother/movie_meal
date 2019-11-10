@@ -12,11 +12,11 @@ class Movie < ApplicationRecord
     parser = Utility::ImsdbParser.new
     attributes = parser.extract_movie_data_from_node(node)
 
-    movie = Movie.new({
+    movie = Movie.new(
       title: attributes[:title],
       url: attributes[:url],
       is_scraped: false
-    })
+    )
 
     if movie.save
       puts "#{movie.title} was successfully saved"

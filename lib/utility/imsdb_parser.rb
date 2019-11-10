@@ -1,15 +1,12 @@
+# frozen_string_literal: true
+
 module Utility
   class ImsdbParser
-    IMSDB_BASE_URL='https://www.imsdb.com'.freeze
-    ALL_SCRIPT_URL = "#{IMSDB_BASE_URL}/all%20scripts/".freeze
-    SCRIPT_LINK_CSS_PATH='table td p a'.freeze
-    LANDING_PAGE_CSS_PATH='.script-details td a'.freeze
+    IMSDB_BASE_URL = 'https://www.imsdb.com'
+    ALL_SCRIPT_URL = "#{IMSDB_BASE_URL}/all%20scripts/"
+    SCRIPT_LINK_CSS_PATH = 'table td p a'
+    LANDING_PAGE_CSS_PATH = '.script-details td a'
     BLACKLISTED_EXTENSIONS = ['pdf'].freeze
-
-    def populate_and_vet(movie)
-      populate_script(movie)
-      delete_movie_with_no_script(movie)
-    end
 
     def scrape_all
       movie_links = all_movie_page_links
@@ -27,17 +24,16 @@ module Utility
     end
 
     def populate_script(movie)
-        url_components = movie.url.split('.')
-        return if BLACKLISTED_EXTENSIONS.any? {|extension| url_components.include?(extension) }
-      
-        script = HTTParty.get(movie.url).body
-        movie.assign_attributes(
-          script: process_raw_script(script),
-          is_scraped: true
-        )
-        movie.save
-        puts "#{movie.title} script has been created. Scraped = #{movie.is_scraped}"
-      # if script is empty after scrape, delete entry
+      url_components = movie.url.split('.')
+      return if BLACKLISTED_EXTENSIONS.any? { |extension| url_components.include?(extension) }
+
+      script = HTTParty.get(movie.url).body
+      movie.assign_attributes(
+        script: process_raw_script(script),
+        is_scraped: true
+      )
+      movie.save
+      puts "#{movie.title} script has been created. Scraped = #{movie.is_scraped}"
     end
 
     private
@@ -49,8 +45,7 @@ module Utility
     def extract_title_from_node(node)
       attributes = node.attributes
       title = attributes['title'].value
-      # Regex to remove final word (Script)
-      title[/(.*)\s/,1]
+      title[/(.*)\s/, 1]
     end
 
     def extract_script_url_from_node(node)
@@ -74,9 +69,9 @@ module Utility
 
     def process_raw_script(script)
       ActionController::Base.helpers.strip_tags(script)
-        .gsub(/[^a-zA-Z]/, ' ')
-        .squish
-        .downcase
+                            .gsub(/[^a-zA-Z]/, ' ')
+                            .squish
+                            .downcase
     end
   end
 end
