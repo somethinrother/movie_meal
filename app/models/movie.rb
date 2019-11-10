@@ -21,7 +21,7 @@ class Movie < ApplicationRecord
     if movie.save
       puts "#{movie.title} was successfully saved"
     else
-      puts "#{movie.title} could not be saved: #{movie.errors.full_messages} wut wut wut"
+      puts "#{movie.title} could not be saved: #{movie.errors.full_messages}"
     end
   end
 end
