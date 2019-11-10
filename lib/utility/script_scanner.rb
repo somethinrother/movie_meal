@@ -45,26 +45,19 @@ module Utility
 
     def extract_all_ingredients_from_script(movie)
       words = movie.script.split(' ')
-      words.each do |word|
-        next if @blacklisted_words.include?(word)
-
-        ingredient = @searched_ingredients[word]
+      filtered_words = words.reject { |word| @blacklisted_words.include?(word) }
+      filtered_words.each do |word|
+        ingredient = @searched_ingredients[word] || Ingredient.find_by(name: word)
 
         if ingredient
           movie.ingredients << ingredient
-          puts "#{ingredient.name} associated to #{movie.title} from cache"
-        else
-          ingredient = Ingredient.find_by(name: word)
 
-          if ingredient
-            movie.ingredients << ingredient
-            @searched_ingredients[ingredient.name] = ingredient 
-            puts "#{ingredient.name} associated to #{movie.title} and added to cache"
-          else
-            @blacklisted_words << word
-            puts "#{word} is not an ingredient and has been blacklisted"
+          if !@searched_ingredients[word]
+            @searched_ingredients[ingredient.name] = ingredient
           end
         end
+
+        puts "#{ingredient.name} associated to #{movie.title}"
       end
 
       update_blacklisted_words(@blacklisted_words)
