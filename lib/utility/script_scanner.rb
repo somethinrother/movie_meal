@@ -33,7 +33,7 @@ module Utility
       return unless movie.is_scraped
 
       puts movie.title.to_s if movie.script
-      extract_all_ingredients_from_script(movie)
+      extract_all_ingredients_from_filtered_script(movie)
     end
 
     # private
@@ -43,24 +43,25 @@ module Utility
       parser.populate_script(movie) unless movie.is_scraped
     end
 
-    def extract_all_ingredients_from_script(movie)
-      words = movie.script.split(' ')
-      filtered_words = words.reject { |word| @blacklisted_words.include?(word) }
-      filtered_words.each do |word|
+    def extract_all_ingredients_from_filtered_script(movie)
+      words = JSON.parse(movie.filtered_script)
+      words.each do |word|
         ingredient = @searched_ingredients[word] || Ingredient.find_by(name: word)
+        next unless ingredient
 
-        if ingredient
-          movie.ingredients << ingredient
-
-          if !@searched_ingredients[word]
-            @searched_ingredients[ingredient.name] = ingredient
-          end
+        movie.ingredients << ingredient
+        unless @searched_ingredients[word]
+          @searched_ingredients[ingredient.name] = ingredient
         end
-
         puts "#{ingredient.name} associated to #{movie.title}"
       end
+    end
 
-      update_blacklisted_words(@blacklisted_words)
+    def filter_movie_script(movie)
+      script = movie.script.split(' ')
+      filtered_script = script.reject { |word| @blacklisted_words.include?(word) }
+      movie.filtered_script = filtered_script
+      movie.save
     end
 
     def fetch_blacklisted_words
