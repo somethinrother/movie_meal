@@ -11,7 +11,7 @@ module Utility
     attr_accessor :blacklisted_words, :searched_ingredients
 
     def initialize
-      @blacklisted_words = []
+      @blacklisted_words = fetch_blacklisted_words
       @searched_ingredients = {}
     end
 
@@ -49,6 +49,7 @@ module Utility
         next if @blacklisted_words.include?(word)
 
         ingredient = @searched_ingredients[word]
+
         if ingredient
           movie.ingredients << ingredient
           puts "#{ingredient.name} associated to #{movie.title} from cache"
@@ -61,7 +62,7 @@ module Utility
             puts "#{ingredient.name} associated to #{movie.title} and added to cache"
           else
             @blacklisted_words << word
-            puts "#{word} is not an ingredient and has been blacklisted for the duration of this task"
+            puts "#{word} is not an ingredient and has been blacklisted"
           end
         end
       end
