@@ -62,6 +62,8 @@ namespace :script_scanner do
     scanner = Utility::ScriptScanner.new
     Movie.all.each do |movie|
       next unless movie.script
+      next if movie.filtered_script
+
       scanner.filter_movie_script(movie)
       puts "script filtered for #{movie.title}"
     end
