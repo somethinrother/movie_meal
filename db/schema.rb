@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_30_012700) do
+ActiveRecord::Schema.define(version: 2019_11_10_220501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,12 +57,13 @@ ActiveRecord::Schema.define(version: 2019_10_30_012700) do
     t.boolean "is_scraped"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "filtered_script"
   end
 
   create_table "movies_ingredients_associations", force: :cascade do |t|
     t.bigint "movie_id"
     t.bigint "ingredient_id"
-    t.decimal "mentions"
+    t.integer "mentions"
     t.decimal "mentions_percentage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -75,7 +76,7 @@ ActiveRecord::Schema.define(version: 2019_10_30_012700) do
     t.bigint "movie_id"
     t.bigint "recipe_id"
     t.integer "mentions"
-    t.text "ingredient_mentions", default: [], array: true
+    t.string "ingredient_mentions", default: [], array: true
     t.decimal "mentions_percentage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
