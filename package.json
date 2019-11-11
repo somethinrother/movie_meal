@@ -27,6 +27,6 @@
   },
   "devDependencies": {
     "redux-devtools-extension": "^2.13.8",
-    "webpack-dev-server": "^3.8.0"
+    "webpack-dev-server": "^3.9.0"
   }
 }

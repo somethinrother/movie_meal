@@ -57,4 +57,15 @@ namespace :script_scanner do
       scanner.get_ingredients_from_script(movie)
     end
   end
+
+  task :filter_all_movie_scripts do
+    scanner = Utility::ScriptScanner.new
+    Movie.all.each do |movie|
+      next unless movie.script
+      next if movie.filtered_script
+
+      scanner.filter_movie_script(movie)
+      puts "script filtered for #{movie.title}"
+    end
+  end
 end
