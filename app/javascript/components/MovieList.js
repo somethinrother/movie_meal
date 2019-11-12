@@ -11,6 +11,8 @@ const MovieList = ({ movies, loading, error }) => {
     return <h1>Loading...</h1>;
   }
 
+  console.log(movies)
+
   return (
     <ul className="title-list">
       {movies && movies.length > 0
