@@ -36,7 +36,7 @@ module Utility
       extract_all_ingredients_from_filtered_script(movie)
     end
 
-    # private
+    private
 
     def get_script(movie)
       parser = Utility::ImsdbParser.new
