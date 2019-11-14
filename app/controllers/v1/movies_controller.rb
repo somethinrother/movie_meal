@@ -12,6 +12,6 @@ class V1::MoviesController < ApplicationController
 
   def show
     movie = Movie.find(params[:id])
-    render json: prepare_json_response(movie)
+    render json: { movie }.to_json
   end
 end
