@@ -6,6 +6,7 @@ import thunk from "redux-thunk";
 import MovieContainer from "../MovieContainer";
 import { Router, Redirect } from "@reach/router";
 import MovieDetailPage from "../MovieDetailPage";
+import './style.scss'
 
 class App extends React.Component {
   render() {
