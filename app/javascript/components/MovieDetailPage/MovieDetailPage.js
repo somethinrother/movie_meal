@@ -4,8 +4,8 @@ import { Link } from "@reach/router";
 import { getMovieById } from "../../actions";
 import "./style.scss";
 import Loader from "../Loader";
-import { IngredientList } from '../IngredientList';
-import { RecipesList } from '../RecipesList';
+import IngredientList from '../IngredientList';
+import RecipesList from '../RecipesList';
 
 const MovieDetailPage = ({
   getMovieById,

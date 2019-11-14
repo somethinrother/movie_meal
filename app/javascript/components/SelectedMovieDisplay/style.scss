@@ -1,0 +1,27 @@
+.selected-movie {
+  background-color: white;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  width: 100vw;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 2px;
+}
+
+.selected-movie li:hover {
+  background-color: rgb(255, 226, 226);
+  width: 75%;
+  border-radius: 15px;
+}
+.selected-movie li > a {
+  color: darkred;
+  font-style: italic;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.found {
+  color: darkred;
+  letter-spacing: 1px;
+  font-size: 1.5em;
+}

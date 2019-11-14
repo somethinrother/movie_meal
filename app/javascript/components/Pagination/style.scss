@@ -1,0 +1,35 @@
+.pagination {
+  display: flex;
+  background-color: darkred;
+  border-radius: 20px;
+  outline: none;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.page-item {
+  display: flex;
+  justify-content: center;
+  color: rgb(255, 226, 226);
+  cursor: pointer;
+  margin: 2px;
+  padding: 2px 3px 3px 3px;
+  width: 100%;
+  border-color: darkred;
+  border-radius: 2px;
+  background-color: rgb(212, 80, 80);
+}
+.page-link {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.page-item:hover {
+  background-color: rgb(231, 151, 151);
+  transition: background-color 0.125s ease-out;
+}
+.page-item.active {
+  background-color: rgb(63, 0, 0);
+  color: rgb(231, 151, 151) !important;
+}
