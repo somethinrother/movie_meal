@@ -17,9 +17,7 @@ module MoviesDisplayMethods
     {
       movie: movie,
       ingredients: prepare_ingredients(movie.movies_ingredients_associations),
-      recipes: movie.movies_recipes_associations.map(&:recipe),
-      ingredient_metadata: movie.movies_ingredients_associations,
-      recipe_metadata: movie.movies_recipes_associations
+      recipes: prepare_recipes(movie.movies_recipes_associations)
     }.to_json
   end
 
@@ -41,10 +39,19 @@ module MoviesDisplayMethods
 
   def prepare_ingredients(ingredients_metadata)
     ingredients_metadata.as_json.map do |ingredient_metadata|
-      id = ingredient_metadata['id']
+      id = ingredient_metadata['ingredient_id']
       ingredient = Ingredient.find(id)
       ingredient_metadata['name'] = ingredient.name
       ingredient_metadata
+    end
+  end
+
+  def prepare_recipes(recipes_metadata)
+    recipes_metadata.as_json.map do |recipe_metadata|
+      id = recipe_metadata['recipe_id']
+      recipe = Recipe.find(id)
+      recipe_metadata['name'] = recipe.name
+      recipe_metadata
     end
   end
 
