@@ -1,6 +1,9 @@
 # Methods to prep movie data for display in React
 
 module MoviesDisplayMethods
+  require 'utility/ingredient_parser'
+  require 'utility/recipe_ranker'
+
   MOVIE_EXCLUDE_COLUMNS = %w[url script filtered_script created_at updated_at].freeze
 
   def index_page_json
