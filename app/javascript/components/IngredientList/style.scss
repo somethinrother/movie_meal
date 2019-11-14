@@ -8,3 +8,19 @@
   border-bottom-left-radius: 20px;
   border-bottom: 3px solid black;
 }
+
+.ingredients-mentioned li > i {
+  overflow: hidden;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 1.25em;
+  padding: 2px;
+}
+
+.ingredients-mentioned li {
+  text-align: center;
+  display: inline-block;
+  width: 230px;
+  border-radius: 20px;
+  margin-bottom: -2px;
+}

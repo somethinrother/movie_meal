@@ -65,27 +65,6 @@
   font-weight: bold;
 }
 
-.recipes-mentioned li {
-  display: block;
-  border-radius: 20px;
-  text-transform: capitalize;
-  margin-bottom: 5px;
-}
-
-.recipes-mentioned li > div {
-  color: white;
-  text-align: right;
-  padding: 2px;
-}
-
-.ingredients-mentioned li {
-  text-align: center;
-  display: inline-block;
-  width: 230px;
-  border-radius: 20px;
-  margin-bottom: -2px;
-}
-
 .MovieDetailPage li > span {
   border-radius: 20px;
   color: white;
@@ -96,12 +75,4 @@
   padding-top: 2px;
   padding-bottom: 3px;
   font-size: 0.75em;
-}
-
-.ingredients-mentioned li > i {
-  overflow: hidden;
-  font-style: italic;
-  font-weight: bold;
-  font-size: 1.25em;
-  padding: 2px;
 }
