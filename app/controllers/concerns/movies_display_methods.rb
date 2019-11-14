@@ -1,7 +1,15 @@
 # Methods to prep movie data for display in React
 
 module MoviesDisplayMethods
-  def prepare_json_response(id)
+  MOVIE_EXCLUDE_COLUMNS = %w[url script filtered_script created_at updated_at].freeze
+
+  def index_page_json
+    {
+      movies: fetch_all_movies
+    }.to_json
+  end
+
+  def show_page_json(id)
     movie = fetch_movie(id)
     {
       movie: fetch_movie(id),
@@ -12,12 +20,17 @@ module MoviesDisplayMethods
     }.to_json
   end
 
+  private
+
+  def fetch_all_movies
+    columns = Movie.attribute_names - MOVIE_EXCLUDE_COLUMNS
+
+    Movie.select(columns).select(&:is_scraped)
+  end
+
   def fetch_movie(id)
-    exclude_columns = %w[url script filtered_script created_at updated_at is_scraped]
-    columns = Movie.attribute_names - exclude_columns
+    columns = Movie.attribute_names - MOVIE_EXCLUDE_COLUMNS
 
     Movie.select(columns).find(id)
   end
-
-  private
-end 
+end

@@ -2,15 +2,10 @@ class V1::MoviesController < ApplicationController
   include MoviesDisplayMethods
 
   def index
-    movies = Movie.all
-    movies.reject { |movie| movie.script.nil? }
-
-    render json: {
-      movies: movies
-    }.to_json
+    render json: index_page_json
   end
 
   def show
-    render json: prepare_json_response(params[:id])
+    render json: show_page_json(params[:id])
   end
 end
