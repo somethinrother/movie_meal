@@ -20,21 +20,21 @@ module MoviesDisplayMethods
     }.to_json
   end
 
-  private
-
-  def populate_ingredients(movie)
-    if movie.movies_ingredients_associations.empty?
-      ingredient_ranker = Utility::IngredientParser.new(movie)
+  def populate_ingredients
+    if @movie.movies_ingredients_associations.empty?
+      ingredient_ranker = Utility::IngredientParser.new(@movie)
       ingredient_ranker.create_movie_ingredients_associations
     end
   end
 
-  def populate_recipes(movie)
-    if movie.movies_recipes_associations.empty?
-      recipe_ranker = Utility::RecipeRanker.new(movie)
+  def populate_recipes
+    if @movie.movies_recipes_associations.empty?
+      recipe_ranker = Utility::RecipeRanker.new(@movie)
       recipe_ranker.create_movie_recipes_associations
     end
   end
+
+  private
 
   def prepare_ingredients(ingredients_metadata)
     ingredients_metadata.as_json.map do |ingredient_metadata|
@@ -54,9 +54,6 @@ module MoviesDisplayMethods
   def fetch_movie(id)
     columns = Movie.attribute_names - MOVIE_EXCLUDE_COLUMNS
 
-    movie = Movie.select(columns).find(id)
-    populate_ingredients(movie)
-    populate_recipes(movie)
-    movie
+    Movie.select(columns).find(id)
   end
 end
