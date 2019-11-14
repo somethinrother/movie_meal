@@ -1,5 +1,5 @@
 import React from "react";
-import "./MovieContainer.scss";
+import "./MovieContainer/MovieContainer.scss";
 
 const Loader = () => {
   return (

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
-import { getMovies, getMovieByTitle } from "../actions";
-import MovieList from "./MovieList";
-import Pagination from "./Pagination";
-import SelectedMovieDisplay from "./SelectedMovieDisplay";
+import { getMovies, getMovieByTitle } from "../../actions";
+import MovieList from "../MovieList";
+import Pagination from "../Pagination";
+import SelectedMovieDisplay from "../SelectedMovieDisplay";
 import "./MovieContainer.scss";
-import Loader from "./Loader";
+import Loader from "../Loader";
 
 const MovieContainer = ({
   getMovieByTitle,

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "@reach/router";
-import "./MovieContainer.scss";
+import "./MovieContainer/MovieContainer.scss";
 
 const MovieList = ({ movies, loading, error }) => {
   if (error) {
