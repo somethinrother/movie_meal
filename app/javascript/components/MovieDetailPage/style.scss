@@ -1,6 +1,7 @@
-.MovieDetailPage h2 {
-  text-align: center;
+.movie-title {
   display: inline;
+  margin: 10px;
+  color: rgb(60, 0, 0);
 }
 
 .MovieDetailPage button {
@@ -34,23 +35,6 @@
   border-bottom: 1px solid black;
   margin-top: 2px;
   box-shadow: 0 1px 0 black inset;
-}
-
-.MovieDetailPage h2 {
-  margin: 10px;
-  color: rgb(60, 0, 0);
-  outline: none;
-}
-
-.MovieDetailPage h3 {
-  background-color: #850000;
-  color: rgb(230, 230, 230);
-  margin: 0px;
-  width: 100%;
-  padding: 10px;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
-  border-bottom: 3px solid black;
 }
 
 .MovieDetailPage ul {

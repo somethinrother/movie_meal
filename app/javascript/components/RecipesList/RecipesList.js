@@ -1,9 +1,10 @@
 import React from "react";
+import './style.scss';
 
 const RecipesList = ({ recipes }) => {
   return (
     <div className="recipes-mentioned">
-      <h3>Recipes You Can Make Include...</h3>
+      <h3 className='recipe-list-header'>Recipes You Can Make Include...</h3>
       <ul>
         {recipes
           ? recipes.map(recipe => (
