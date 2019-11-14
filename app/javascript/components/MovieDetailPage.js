@@ -50,17 +50,6 @@ const MovieDetailPage = ({
   );
 };
 
-console.log('this is the movie')
-console.log(movie)
-console.log('this is the ingredient map')
-console.log(ingredient_map)
-console.log('this is the recipe map')
-console.log(recipe_map)
-console.log('this is the loading')
-console.log(loading)
-console.log('this is the error')
-console.log(error)
-
 const mapState = state => {
   return {
     movie: state.selectedMovie.movie,

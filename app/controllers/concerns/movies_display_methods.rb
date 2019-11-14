@@ -4,9 +4,11 @@ module MoviesDisplayMethods
   def prepare_json_response(movie)
     {
       movie: movie,
-      ingredient_map: find_or_populate_movie_ingredients(movie),
-      recipe_map: find_or_populate_movie_recipes(movie)
-    }
+      ingredients: movie.ingredients.uniq,
+      recipes: movie.movies_recipes_associations.map { |association| association.recipe },
+      ingredient_metadata: movie.movies_ingredients_associations,
+      recipe_metadata: movie.movies_recipes_associations
+    }.to_json
   end
 
   private
