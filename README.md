@@ -1,7 +1,12 @@
 # README
 
 STEPS TO SET UP
-1. Run `bundle exec rails db:setup` to populate the database with movies, recipes, and ingredients. Expect this to take a little while.
+1. bundle exec rails db:setup
+1. rails script_scanner:populate_all_scripts
+1. rails script_scanner:get_all_ingredients
+1. rails recipe_parser:get_movies_recipes_associations
+1. rails recipe_parser:get_movies_ingredients_associations
+1. Expect all the above steps to take quite some time. Over time this will hopefully be lessened.
 1. Run `bundle exec rspec` to ensure the test suite passes
 1. Ensure you have installed both the react & redux chrome extensions
 
