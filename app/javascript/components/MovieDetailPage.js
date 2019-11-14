@@ -11,7 +11,7 @@ const MovieDetailPage = ({
   getMovieById,
   movieId,
   movie,
-  ingredient_map,
+  ingredients,
   recipe_map,
   loading,
   error
@@ -44,7 +44,7 @@ const MovieDetailPage = ({
       <Link to={`/movies`}>
         <button>Go Back</button>
       </Link>
-      <IngredientList ingredients={ingredient_map} />
+      <IngredientList ingredients={ingredients} />
       <RecipesList recipes={recipe_map} />
     </div>
   );
@@ -53,7 +53,7 @@ const MovieDetailPage = ({
 const mapState = state => {
   return {
     movie: state.selectedMovie.movie,
-    ingredient_map: state.selectedMovie.ingredient_map,
+    ingredients: state.selectedMovie.ingredients,
     recipe_map: state.selectedMovie.recipe_map,
     loading: state.loading,
     error: state.error

@@ -8,8 +8,8 @@ export const IngredientList = ({ ingredients }) => {
           {ingredients
             ? ingredients.map(ingredient => (
                 <li key={Math.random()}>
-                  <h4>{ingredient[1]}</h4>
-                  <span> {ingredient[0].mentions} mentions </span>
+                  <h4>{ingredient.name}</h4>
+                  <span> {ingredient.mentions} mentions </span>
                 </li>
               ))
             : []}
