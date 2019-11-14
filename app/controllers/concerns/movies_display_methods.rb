@@ -11,8 +11,6 @@ module MoviesDisplayMethods
 
   def show_page_json(id)
     movie = fetch_movie(id)
-    # populate_ingredients(movie)
-    # populate_recipes(movie)
     {
       movie: movie,
       ingredients: prepare_ingredients(movie.movies_ingredients_associations),
@@ -56,6 +54,9 @@ module MoviesDisplayMethods
   def fetch_movie(id)
     columns = Movie.attribute_names - MOVIE_EXCLUDE_COLUMNS
 
-    Movie.select(columns).find(id)
+    movie = Movie.select(columns).find(id)
+    populate_ingredients(movie)
+    populate_recipes(movie)
+    movie
   end
 end
