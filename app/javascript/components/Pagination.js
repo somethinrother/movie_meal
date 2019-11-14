@@ -1,5 +1,5 @@
 import React from "react";
-import "./MovieContainer.css";
+import "./MovieContainer.scss";
 
 const Pagination = ({ totalPosts, moviesPerPage, paginate, currentPage }) => {
   let startPage = 0;
