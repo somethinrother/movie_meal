@@ -1,11 +1,11 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
-import reducer from "../reducers/index";
+import reducer from "../../reducers/index";
 import thunk from "redux-thunk";
-import MovieContainer from "./MovieContainer";
+import MovieContainer from "../MovieContainer";
 import { Router, Redirect } from "@reach/router";
-import MovieDetailPage from "./MovieDetailPage";
+import MovieDetailPage from "../MovieDetailPage";
 
 class App extends React.Component {
   render() {
