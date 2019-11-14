@@ -11,10 +11,10 @@ module MoviesDisplayMethods
 
   def show_page_json(id)
     movie = fetch_movie(id)
-    populate_ingredients(movie)
-    populate_recipes(movie)
+    # populate_ingredients(movie)
+    # populate_recipes(movie)
     {
-      movie: fetch_movie(id),
+      movie: movie,
       ingredients: prepare_ingredients(movie.movies_ingredients_associations),
       recipes: movie.movies_recipes_associations.map(&:recipe),
       ingredient_metadata: movie.movies_ingredients_associations,
