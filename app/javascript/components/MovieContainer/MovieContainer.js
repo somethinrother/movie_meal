@@ -5,8 +5,8 @@ import { getMovies, getMovieByTitle } from "../../actions";
 import MovieList from "../MovieList";
 import Pagination from "../Pagination";
 import SelectedMovieDisplay from "../SelectedMovieDisplay";
-import "./MovieContainer.scss";
-import Loader from "../Loader";
+import "./style.scss";
+import Loader from "../Loader/Loader";
 
 const MovieContainer = ({
   getMovieByTitle,

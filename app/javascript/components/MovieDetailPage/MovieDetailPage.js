@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "@reach/router";
 import { getMovieById } from "../../actions";
-import "./MovieDetailPage.scss";
+import "./style.scss";
 import Loader from "../Loader";
 import { IngredientList } from '../IngredientList';
 import { RecipesList } from '../RecipesList';

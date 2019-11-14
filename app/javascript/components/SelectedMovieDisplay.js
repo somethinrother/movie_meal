@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "@reach/router";
-import "./MovieContainer/MovieContainer.scss";
+import "./MovieContainer/style.scss";
 
 const SelectedMovieDisplay = ({ selectedMovie }) => {
   return (
