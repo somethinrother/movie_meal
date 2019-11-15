@@ -9,15 +9,9 @@
   border-bottom: 3px solid black;
 }
 
-.recipes-mentioned li {
+.recipe {
   display: block;
   border-radius: 20px;
   text-transform: capitalize;
   margin-bottom: 5px;
-}
-
-.recipes-mentioned li > div {
-  color: white;
-  text-align: right;
-  padding: 2px;
 }

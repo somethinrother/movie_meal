@@ -8,7 +8,7 @@ const IngredientList = ({ ingredients }) => {
         <ul>
           {ingredients
             ? ingredients.map(ingredient => (
-                <li key={Math.random()}>
+                <li className='ingredient' key={Math.random()}>
                   <h4>{ingredient.name}</h4>
                   <span> {parseInt(ingredient.mentions)} mentions </span>
                 </li>
