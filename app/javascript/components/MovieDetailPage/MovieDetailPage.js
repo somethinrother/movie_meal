@@ -39,7 +39,7 @@ const MovieDetailPage = ({
   }
 
   return (
-    <div className="MovieDetailPage">
+    <div>
       <h2 className="movie-title">{movie ? movie.title : []}</h2>
       <Link to={`/movies`}>
         <button className='button'>Go Back</button>
