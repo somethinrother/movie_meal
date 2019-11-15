@@ -42,7 +42,7 @@ const MovieDetailPage = ({
     <div className="MovieDetailPage">
       <h2 className="movie-title">{movie ? movie.title : []}</h2>
       <Link to={`/movies`}>
-        <button>Go Back</button>
+        <button className='button'>Go Back</button>
       </Link>
       <IngredientList ingredients={ingredients} />
       <RecipesList recipes={recipes} />
