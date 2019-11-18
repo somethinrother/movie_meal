@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
-import { getMovieByTitle } from "../actions";
-import SelectedMovieDisplay from "./SelectedMovieDisplay";
+import { getMovieByTitle } from "../../actions";
+import SelectedMovieDisplay from "../SelectedMovieDisplay";
 
 const MovieSearchForm = ({ getMovieByTitle }) => {
   const [movieTitle, setMovieTitle] = useState("");

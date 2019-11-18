@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
-import { getMovies, getMovieByTitle } from "../actions";
-import MovieList from "./MovieList";
-import Pagination from "./Pagination";
-import SelectedMovieDisplay from "./SelectedMovieDisplay";
-import "./MovieContainer.css";
-import Loader from "./Loader";
+import { getMovies, getMovieByTitle } from "../../actions";
+import MovieList from "../MovieList";
+import Pagination from "../Pagination";
+import SelectedMovieDisplay from "../SelectedMovieDisplay";
+import "./style.scss";
+import Loader from "../Loader/Loader";
 
 const MovieContainer = ({
   getMovieByTitle,
@@ -61,9 +61,9 @@ const MovieContainer = ({
 
   return (
     <div className="movie-container">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='search-bar'>
         <span className="app-title">movieMeal</span>
-        <label>Find A Movie: </label>
+        <label className='search-text'>Find A Movie: </label>
         <input
           ref={inputRef}
           type="text"
@@ -71,6 +71,7 @@ const MovieContainer = ({
           value={movieTitle}
           onChange={onChange}
           autoFocus={true}
+          className='search-input'
         />
       </form>
       <SelectedMovieDisplay />

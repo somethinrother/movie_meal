@@ -1,0 +1,29 @@
+.movie-title {
+  display: inline;
+  margin: 10px;
+  color: rgb(60, 0, 0);
+}
+
+.button {
+  float: right;
+  color: white;
+  background-color: #850000;
+  font-size: 1em;
+  font-weight: 600;
+  padding: 2px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+  border-bottom: 3px solid black;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: rgb(201, 15, 15);
+  }
+
+  &:active {
+    border-bottom: 1px solid black;
+    margin-top: 2px;
+    box-shadow: 0 1px 0 black inset;
+  }
+}

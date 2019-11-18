@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "@reach/router";
-import { getMovieById } from "../actions";
-import "./MovieDetailPage.css";
-import Loader from "./Loader";
-import { IngredientList } from './IngredientList';
-import { RecipesList } from './RecipesList';
+import { getMovieById } from "../../actions";
+import "./style.scss";
+import Loader from "../Loader";
+import IngredientList from '../IngredientList';
+import RecipesList from '../RecipesList';
 
 const MovieDetailPage = ({
   getMovieById,
@@ -39,10 +39,10 @@ const MovieDetailPage = ({
   }
 
   return (
-    <div className="MovieDetailPage">
+    <div>
       <h2 className="movie-title">{movie ? movie.title : []}</h2>
       <Link to={`/movies`}>
-        <button>Go Back</button>
+        <button className='button'>Go Back</button>
       </Link>
       <IngredientList ingredients={ingredients} />
       <RecipesList recipes={recipes} />

@@ -1,0 +1,18 @@
+.title-list li {
+  width: 100vw;
+  padding: 2px;
+  padding-left: 10px;
+}
+
+.title-list li:hover {
+  transition: background-color 0.125s ease-out;
+  background-color: white;
+  border-radius: 10px;
+  width: 77%;
+}
+.title-list li a {
+  width: 100%;
+  color: darkred;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
