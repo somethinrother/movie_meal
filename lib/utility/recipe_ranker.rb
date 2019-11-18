@@ -12,7 +12,6 @@ module Utility
       movie_ingredients = @movie.ingredients
       recipes = Recipe.all
       recipes.each do |recipe|
-        puts 'stuff'
         metadata = parse_metadata_for_assocation(recipe, movie_ingredients)
         next unless metadata
 

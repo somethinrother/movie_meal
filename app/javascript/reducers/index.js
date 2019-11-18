@@ -22,7 +22,7 @@ const reducer = produce((draft, action) => {
       draft.error = action.error;
       return;
     case GET_MOVIES_SUCCESS:
-      draft.movies = action.json.movies.filter(movie => movie.script);
+      draft.movies = action.json.movies;
       draft.loading = false;
       return;
     case GET_MOVIES_ERROR:

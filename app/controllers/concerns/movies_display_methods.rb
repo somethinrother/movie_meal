@@ -1,47 +1,69 @@
 # Methods to prep movie data for display in React
 
 module MoviesDisplayMethods
-  def prepare_json_response(movie)
+  require 'utility/ingredient_parser'
+  require 'utility/recipe_ranker'
+
+  MOVIE_EXCLUDE_COLUMNS = %w[url script filtered_script created_at updated_at].freeze
+
+  def index_page_json
+    {
+      movies: fetch_all_movies
+    }.to_json
+  end
+
+  def show_page_json(id)
+    movie = fetch_movie(id)
     {
       movie: movie,
-      ingredient_map: find_or_populate_movie_ingredients(movie),
-      recipe_map: find_or_populate_movie_recipes(movie)
-    }
+      ingredients: prepare_ingredients(movie.movies_ingredients_associations),
+      recipes: prepare_recipes(movie.movies_recipes_associations)
+    }.to_json
+  end
+
+  def populate_ingredients
+    if @movie.movies_ingredients_associations.empty?
+      ingredient_ranker = Utility::IngredientParser.new(@movie)
+      ingredient_ranker.create_movie_ingredients_associations
+    end
+  end
+
+  def populate_recipes
+    if @movie.movies_recipes_associations.empty?
+      recipe_ranker = Utility::RecipeRanker.new(@movie)
+      recipe_ranker.create_movie_recipes_associations
+    end
   end
 
   private
 
-  def find_or_populate_movie_ingredients(movie)
-    movie_ingredients = MoviesIngredientsAssociation.where(movie: movie)
-
-    if movie_ingredients.empty?
-      ingredient_ranker = Utility::IngredientParser.new(movie)
-      ingredient_ranker.create_movie_ingredients_associations
-      movie_ingredients = MoviesIngredientsAssociation.where(movie: movie)
+  def prepare_ingredients(ingredients_metadata)
+    ingredients_metadata.as_json.map do |ingredient_metadata|
+      id = ingredient_metadata['ingredient_id']
+      ingredient = Ingredient.find(id)
+      ingredient_metadata['name'] = ingredient.name
+      ingredient_metadata
     end
-
-    prepare_movie_ingredients_for_display(movie_ingredients)
   end
 
-  def prepare_movie_ingredients_for_display(movie_ingredients)
-    sorted_movie_ingredients = movie_ingredients.sort_by(&:mentions).reverse
-    sorted_movie_ingredients.map { |association| [association, association.ingredient.name] }
-  end
-
-  def find_or_populate_movie_recipes(movie)
-    movie_recipes = MoviesRecipesAssociation.where(movie: movie)
-
-    if movie_recipes.empty?
-      recipe_ranker = Utility::RecipeRanker.new(movie)
-      recipe_ranker.create_movie_recipes_associations
-      movie_recipes = MoviesRecipesAssociation.where(movie: movie)
+  def prepare_recipes(recipes_metadata)
+    recipes_metadata.as_json.map do |recipe_metadata|
+      id = recipe_metadata['recipe_id']
+      recipe = Recipe.find(id)
+      recipe_metadata['name'] = recipe.name
+      recipe_metadata
     end
-
-    prepare_movie_recipes_for_display(movie_recipes)
   end
 
-  def prepare_movie_recipes_for_display(movie_recipes)
-    sorted_movie_recipes = movie_recipes.sort_by { |movie_recipe| movie_recipe.mentions.length  }.reverse
-    sorted_movie_recipes.map { |association| [association, association.recipe.name] }
+  def fetch_all_movies
+    columns = Movie.attribute_names - MOVIE_EXCLUDE_COLUMNS
+
+    Movie.select(columns).select(&:is_scraped)
+  end
+
+  def fetch_movie(id)
+    columns = Movie.attribute_names - MOVIE_EXCLUDE_COLUMNS
+
+    Movie.select(columns).find(id)
   end
 end
